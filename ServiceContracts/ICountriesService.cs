@@ -12,5 +12,11 @@ public interface ICountriesService
     /// </summary>
     /// <param name="country">Country object to add</param>
     /// <returns>Returns the country object after adding it (including newly generated country id)</returns>
-    CountryResponse AddCountry(CountryAddRequest? countryAddRequest);
+    CountryResponse AddCountry(CountryRequest? countryAddRequest);
+
+    /// <summary>
+    /// Returns all countries from the country list
+    /// </summary>
+    /// <returns>All countries from the list as list of CountryResponse</returns>
+    List<CountryResponse> GetAllCountries();
 }

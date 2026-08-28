@@ -13,7 +13,7 @@ public class CountriesService : ICountriesService
         _countries = new List<Country>();
     }
 
-    public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
+    public CountryResponse AddCountry(CountryRequest? countryAddRequest)
     { 
         if(countryAddRequest == null) 
             throw new ArgumentNullException(nameof(countryAddRequest)); 
@@ -29,5 +29,10 @@ public class CountriesService : ICountriesService
         _countries.Add(country);
 
         return country.ToCountryResponse();
+    }
+
+    public List<CountryResponse> GetAllCountries()
+    {
+        throw new NotImplementedException();
     }
 }

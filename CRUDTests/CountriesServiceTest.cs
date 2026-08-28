@@ -17,8 +17,8 @@ public class CountriesServiceTest
     public void AddCountry_CountryNameIsNull()
     {
         //Arrange
-        CountryAddRequest? request = new CountryAddRequest() { CountryName = null };
-          
+        CountryRequest? request = new CountryRequest() { CountryName = null };
+
         //Assert
         Assert.Throws<ArgumentException>(() => _countriesService.AddCountry(request));
     }
@@ -27,8 +27,8 @@ public class CountriesServiceTest
     public void AddCountry_NullCountry()
     {
         //Arrange
-        CountryAddRequest? request = null;
-          
+        CountryRequest? request = null;
+
         //Assert
         Assert.Throws<ArgumentNullException>(() => _countriesService.AddCountry(request));
     }
@@ -37,8 +37,8 @@ public class CountriesServiceTest
     public void AddCountry_DublicatedCountryName()
     {
         //Arrange
-        CountryAddRequest? request1 = new CountryAddRequest() { CountryName = "USA" };
-        CountryAddRequest? request2 = new CountryAddRequest() { CountryName = "USA" };
+        CountryRequest? request1 = new CountryRequest() { CountryName = "USA" };
+        CountryRequest? request2 = new CountryRequest() { CountryName = "USA" };
 
         //Assert
         Assert.Throws<ArgumentException>(() =>
@@ -54,12 +54,47 @@ public class CountriesServiceTest
     public void AddCountry_ProperCountryDetails()
     {
         //Arrange
-        CountryAddRequest? request = new CountryAddRequest() { CountryName = "Japan" };
+        CountryRequest? request = new CountryRequest() { CountryName = "Japan" };
 
         //Act
         CountryResponse response = _countriesService.AddCountry(request);
+        List<CountryResponse> countries_from_GetAllCountries = _countriesService.GetAllCountries();
 
         //Assert
         Assert.True(response.CountryID != Guid.Empty);
+        Assert.Contains(response, countries_from_GetAllCountries);
+    }
+
+    [Fact]
+    //The list of countries should be empty by default (before adding any countries) 
+    public void GetCountryList_EmptyList()
+    {   
+        //Act
+        List<CountryResponse> actualCountry = _countriesService.GetAllCountries();
+
+        //Assert
+        Assert.Empty(actualCountry);
+    }
+    
+    [Fact] 
+    public void GetCountryList_AddFewCountries()
+    {   
+        //Arrange
+        List<CountryRequest> country_request_list =[ new CountryRequest() { CountryName = "USA"},new CountryRequest() { CountryName = "Germany"},new CountryRequest() { CountryName = "Belgium"}]; 
+        List<CountryResponse> countries_list_from_add_country = new List<CountryResponse>();
+
+        //Assert
+        foreach (var country_request in country_request_list)
+        {
+            countries_list_from_add_country.Add(_countriesService.AddCountry(country_request));
+        } 
+
+        List<CountryResponse> actualCountryResponseList = _countriesService.GetAllCountries();
+
+        //Assert
+        foreach(var expected_country in countries_list_from_add_country)
+        {
+            Assert.Contains(expected_country, actualCountryResponseList);
+        }
     }
 }
