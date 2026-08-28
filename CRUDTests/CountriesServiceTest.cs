@@ -18,10 +18,7 @@ public class CountriesServiceTest
     {
         //Arrange
         CountryAddRequest? request = new CountryAddRequest() { CountryName = null };
-
-        //Act
-        _countriesService.AddCountry(request);
-
+          
         //Assert
         Assert.Throws<ArgumentException>(() => _countriesService.AddCountry(request));
     }
@@ -31,12 +28,9 @@ public class CountriesServiceTest
     {
         //Arrange
         CountryAddRequest? request = null;
-
-        //Act
-        _countriesService.AddCountry(request);
-
+          
         //Assert
-        Assert.Throws<ArgumentException>(() => _countriesService.AddCountry(request));
+        Assert.Throws<ArgumentNullException>(() => _countriesService.AddCountry(request));
     }
 
     [Fact]

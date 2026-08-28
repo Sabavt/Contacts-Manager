@@ -15,8 +15,14 @@ public class CountriesService : ICountriesService
 
     public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
     { 
-        if(countryAddRequest == null)
+        if(countryAddRequest == null) 
             throw new ArgumentNullException(nameof(countryAddRequest)); 
+
+        if(countryAddRequest.CountryName == null)
+            throw new ArgumentException(nameof(countryAddRequest.CountryName));
+
+        if (_countries.Where(c => c.CountryName == countryAddRequest.CountryName).Count() > 0)
+            throw new ArgumentException("Given country name alredy exists");
 
         Country country = countryAddRequest.ToCountry();  
 
