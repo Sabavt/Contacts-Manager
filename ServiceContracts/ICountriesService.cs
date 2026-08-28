@@ -25,5 +25,5 @@ public interface ICountriesService
     /// </summary>
     /// <param name="countryID">Country id to search</param>
     /// <returns>Matching object</returns>
-    CountryResponse GetCountryByCountryID(Guid? countryID);
+    CountryResponse? GetCountryByCountryID(Guid? countryID);
 }
