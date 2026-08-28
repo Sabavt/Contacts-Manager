@@ -5,7 +5,7 @@
     /// </summary>
     public class Country
     {
-        public Guid CountryID {  get; set; }
+        public Guid CountryID {  get; set; } = Guid.NewGuid();
         public string? CountryName { get; set; }
     }
 }

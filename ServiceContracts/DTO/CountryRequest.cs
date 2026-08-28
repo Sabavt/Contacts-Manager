@@ -11,6 +11,6 @@ public class CountryRequest
 
     public Country ToCountry()
     {
-        return new Country() { CountryName = CountryName , CountryID = Guid.NewGuid()};
+        return new Country() { CountryName = CountryName };
     }
 }
