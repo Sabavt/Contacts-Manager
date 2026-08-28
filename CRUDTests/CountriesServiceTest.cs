@@ -97,4 +97,28 @@ public class CountriesServiceTest
             Assert.Contains(expected_country, actualCountryResponseList);
         }
     }
+
+    [Fact]
+    public void GetCountryByCountryID_NullCountryID()
+    {
+        //Arrange
+        Guid? guid = null;
+
+        //Act
+        _countriesService.GetCountryByCountryID(guid);
+    } 
+      
+    [Fact]
+    public void GetCountryByCountryID_ValidCountyID()
+    {
+        //Arrange
+        CountryRequest? country_add_request = new CountryRequest() { CountryName = "Egypt"}; 
+        CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
+
+        //Act
+        CountryResponse? county_response_from_get = _countriesService.GetCountryByCountryID(country_response_from_add.CountryID);
+
+        //Assert
+        Assert.Equal(country_response_from_add, county_response_from_get);
+    }
 }
