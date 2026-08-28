@@ -5,7 +5,7 @@ namespace ServiceContracts.DTO;
 /// <summary>
 /// DTO class for adding a new Country
 /// </summary>
-public class CountryRequest
+public class CountryAddRequest
 {
     public string? CountryName { get; set; }
 

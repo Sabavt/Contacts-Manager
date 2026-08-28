@@ -17,7 +17,7 @@ public class CountriesServiceTest
     public void AddCountry_CountryNameIsNull()
     {
         //Arrange
-        CountryRequest? request = new CountryRequest() { CountryName = null };
+        CountryAddRequest? request = new CountryAddRequest() { CountryName = null };
 
         //Assert
         Assert.Throws<ArgumentException>(() => _countriesService.AddCountry(request));
@@ -27,7 +27,7 @@ public class CountriesServiceTest
     public void AddCountry_NullCountry()
     {
         //Arrange
-        CountryRequest? request = null;
+        CountryAddRequest? request = null;
 
         //Assert
         Assert.Throws<ArgumentNullException>(() => _countriesService.AddCountry(request));
@@ -37,8 +37,8 @@ public class CountriesServiceTest
     public void AddCountry_DublicatedCountryName()
     {
         //Arrange
-        CountryRequest? request1 = new CountryRequest() { CountryName = "USA" };
-        CountryRequest? request2 = new CountryRequest() { CountryName = "USA" };
+        CountryAddRequest? request1 = new CountryAddRequest() { CountryName = "USA" };
+        CountryAddRequest? request2 = new CountryAddRequest() { CountryName = "USA" };
 
         //Assert
         Assert.Throws<ArgumentException>(() =>
@@ -54,7 +54,7 @@ public class CountriesServiceTest
     public void AddCountry_ProperCountryDetails()
     {
         //Arrange
-        CountryRequest? request = new CountryRequest() { CountryName = "Japan" };
+        CountryAddRequest? request = new CountryAddRequest() { CountryName = "Japan" };
 
         //Act
         CountryResponse response = _countriesService.AddCountry(request);
@@ -80,7 +80,7 @@ public class CountriesServiceTest
     public void GetCountryList_AddFewCountries()
     {   
         //Arrange
-        List<CountryRequest> country_request_list =[ new CountryRequest() { CountryName = "USA"},new CountryRequest() { CountryName = "Germany"},new CountryRequest() { CountryName = "Belgium"}]; 
+        List<CountryAddRequest> country_request_list =[ new CountryAddRequest() { CountryName = "USA"},new CountryAddRequest() { CountryName = "Germany"},new CountryAddRequest() { CountryName = "Belgium"}]; 
         List<CountryResponse> countries_list_from_add_country = new List<CountryResponse>();
 
         //Assert
@@ -112,7 +112,7 @@ public class CountriesServiceTest
     public void GetCountryByCountryID_ValidCountyID()
     {
         //Arrange
-        CountryRequest? country_add_request = new CountryRequest() { CountryName = "Egypt"}; 
+        CountryAddRequest? country_add_request = new CountryAddRequest() { CountryName = "Egypt"}; 
         CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
 
         //Act

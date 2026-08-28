@@ -13,7 +13,7 @@ public class CountriesService : ICountriesService
         _countries = new List<Country>();
     }
 
-    public CountryResponse AddCountry(CountryRequest? countryAddRequest)
+    public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
     { 
         if(countryAddRequest == null) 
             throw new ArgumentNullException(nameof(countryAddRequest)); 
