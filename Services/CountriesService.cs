@@ -41,6 +41,6 @@ public class CountriesService : ICountriesService
         if (countryID == null)
             return null;
 
-        return _countries.Where((c) => c.CountryID == countryID).FirstOrDefault()?.ToCountryResponse();
+        return _countries.FirstOrDefault((c) => c.CountryID == countryID)?.ToCountryResponse();
     }
 }
