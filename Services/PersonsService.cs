@@ -1,6 +1,8 @@
 ﻿using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using Services.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace Services;
 
@@ -27,6 +29,8 @@ public class PersonsService : IPersonsService
     {
         if(personAddRequest == null)
             throw new ArgumentNullException(nameof(personAddRequest));
+
+        ValidationHelper.ValidateModel(personAddRequest);
 
         if(string.IsNullOrEmpty(personAddRequest.PersonName))
             throw new ArgumentException(nameof(personAddRequest.PersonName));
