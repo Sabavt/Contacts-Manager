@@ -1,8 +1,7 @@
 ﻿using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
-using Services.Helpers;
-using System.ComponentModel.DataAnnotations;
+using Services.Helpers; 
 
 namespace Services;
 
@@ -44,6 +43,11 @@ public class PersonsService : IPersonsService
     }
 
     public List<PersonResponse> GetAllPerson()
+    {
+        throw new NotImplementedException();
+    }
+
+    public PersonResponse? GetPersonByPersonID(Guid? personID)
     {
         throw new NotImplementedException();
     }
