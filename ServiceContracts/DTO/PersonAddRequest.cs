@@ -1,7 +1,11 @@
-﻿using ServiceContracts.Enums;
+﻿using Entities;
+using ServiceContracts.Enums;
 
 namespace ServiceContracts.DTO;
 
+/// <summary>
+/// Acts as a DTO for inserting a new person
+/// </summary>
 public class PersonAddRequest
 {
     public string? PersonName { get; set; }
@@ -11,4 +15,13 @@ public class PersonAddRequest
     public Guid? CountryID { get; set; }
     public string? Address { get; set; }
     public bool ReceiveNewsLetters { get; set; }
+
+    /// <summary>
+    /// Coverts the current object of PersonAddRequest into new object of Person type
+    /// </summary>
+    /// <returns></returns>
+    public Person ToPerson()
+    {
+        return new Person() { PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth, Address = Address , CountryID = CountryID, Gender = Gender.ToString(), ReceiveNewsLetters = ReceiveNewsLetters};
+    }
 }
