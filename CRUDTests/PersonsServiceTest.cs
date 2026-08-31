@@ -86,8 +86,8 @@ public class PersonsServiceTest
 
         PersonResponse response_from_add = _personsService.AddPerson(add_request);
 
-        _outputHelper.WriteLine($"{response_from_add.ToString()}");
-        _outputHelper.WriteLine($"{_personsService.GetAllPerson()}");
+        _outputHelper.WriteLine(response_from_add.ToString());
+        _personsService.GetAllPerson().ForEach(person => { _outputHelper.WriteLine(person.ToString()); } );
 
         Assert.Contains(response_from_add, _personsService.GetAllPerson());
     }
