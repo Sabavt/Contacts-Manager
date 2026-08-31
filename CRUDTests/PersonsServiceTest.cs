@@ -247,9 +247,21 @@ public class PersonsServiceTest
     }
     
     [Fact]
-    public void UpdatePerson_NullPersonName()
+    public void UpdatePerson_InvalidPersonID()
     {
-        PersonUpdateRequest? person_update_request = null;
-        Assert.Throws<ArgumentNullException>(() => _personsService.UpdatePerson(person_update_request));
+        PersonUpdateRequest? person_update_request = new() { PersonID = Guid.NewGuid() };
+        Assert.Throws<ArgumentException>(() => _personsService.UpdatePerson(person_update_request));
+    }
+
+    [Fact]
+    public void UpdatePerson_PersonNameIsNull()
+    {
+        CountryAddRequest? country_add_request = new() { CountryName = "UK"};
+        CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
+
+        PersonAddRequest person_add_request = new() { PersonName = "test", CountryID = country_response_from_add.CountryID };
+        PersonResponse? person_response_from_add = _personsService.AddPerson(person_add_request);
+
+        PersonUpdateRequest? person_update_request = person_response_from_add.ToPersonUpdateRequest();
     }
 }
