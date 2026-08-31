@@ -40,6 +40,11 @@ public class PersonResponse
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        return $"{PersonID} - {PersonName} - {DateOfBirth}";
+    }
 }
 
 public static class PersonExtensions

@@ -2,6 +2,7 @@
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using Services;
+using Xunit.Abstractions;
 
 namespace CRUDTests;
 
@@ -9,11 +10,13 @@ public class PersonsServiceTest
 {
     private readonly IPersonsService _personsService;
     private readonly ICountriesService _countriesService;
+    private readonly ITestOutputHelper _outputHelper;
 
-    public PersonsServiceTest()
+    public PersonsServiceTest(ITestOutputHelper testOutputHelper)
     {
         _personsService = new PersonsService();
         _countriesService = new CountriesService();
+        _outputHelper = testOutputHelper;
     }
 
     [Fact]
@@ -82,6 +85,9 @@ public class PersonsServiceTest
         PersonAddRequest add_request = new PersonAddRequest() {PersonName = "D", Address = "S", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
 
         PersonResponse response_from_add =_personsService.AddPerson(add_request);
+
+        _outputHelper.WriteLine($"{response_from_add.ToString()}");
+        _outputHelper.WriteLine($"{_personsService.GetAllPerson().ToString()}");
 
         Assert.Contains(response_from_add, _personsService.GetAllPerson());
     }
