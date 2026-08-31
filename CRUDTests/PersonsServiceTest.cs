@@ -24,26 +24,26 @@ public class PersonsServiceTest
     {
         PersonAddRequest? request = null;
 
-        Assert.Throws<ArgumentNullException>(() => _personsService.AddPerson(request)); 
+        Assert.Throws<ArgumentNullException>(() => _personsService.AddPerson(request));
     }
-    
+
     [Fact]
     public void AddPerson_PersonNameIsNull()
     {
-        PersonAddRequest? request = new PersonAddRequest() { PersonName = null};
+        PersonAddRequest? request = new PersonAddRequest() { PersonName = null };
 
-        Assert.Throws<ArgumentException>(() => _personsService.AddPerson(request)); 
+        Assert.Throws<ArgumentException>(() => _personsService.AddPerson(request));
     }
 
     [Fact]
     public void AddPerson_ProperPersonDetails()
     {
-        PersonAddRequest request = new PersonAddRequest() { PersonName = "Test", Address = "Test", CountryID = Guid.NewGuid(), Email = "test", Gender = ServiceContracts.Enums.GenderOptions.Female, ReceiveNewsLetters = true};
+        PersonAddRequest request = new PersonAddRequest() { PersonName = "Test", Address = "Test", CountryID = Guid.NewGuid(), Email = "test", Gender = ServiceContracts.Enums.GenderOptions.Female, ReceiveNewsLetters = true };
 
         PersonResponse person_response_from_add = _personsService.AddPerson(request);
 
 
-        Assert.Contains(person_response_from_add, _personsService.GetAllPerson()); 
+        Assert.Contains(person_response_from_add, _personsService.GetAllPerson());
         Assert.True(person_response_from_add.PersonID != Guid.Empty);
     }
 
@@ -51,7 +51,7 @@ public class PersonsServiceTest
     public void GetPersonByPersonID_NullPersonID()
     {
         Guid? guid = null;
-          
+
         Assert.Throws<ArgumentNullException>(() => _personsService.GetPersonByPersonID(guid));
     }
 
@@ -66,7 +66,7 @@ public class PersonsServiceTest
         PersonResponse person_response_from_add = _personsService.AddPerson(person_request);
 
         PersonResponse? person_response_from_get = _personsService.GetPersonByPersonID(person_response_from_add.PersonID);
-         
+
         Assert.Equal(person_response_from_add, person_response_from_get);
     }
 
@@ -82,12 +82,12 @@ public class PersonsServiceTest
     {
         CountryAddRequest country_request = new CountryAddRequest() { CountryName = "Canada" };
         CountryResponse country_response = _countriesService.AddCountry(country_request);
-        PersonAddRequest add_request = new PersonAddRequest() {PersonName = "D", Address = "S", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
+        PersonAddRequest add_request = new PersonAddRequest() { PersonName = "D", Address = "S", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
 
-        PersonResponse response_from_add =_personsService.AddPerson(add_request);
+        PersonResponse response_from_add = _personsService.AddPerson(add_request);
 
         _outputHelper.WriteLine($"{response_from_add.ToString()}");
-        _outputHelper.WriteLine($"{_personsService.GetAllPerson().ToString()}");
+        _outputHelper.WriteLine($"{_personsService.GetAllPerson()}");
 
         Assert.Contains(response_from_add, _personsService.GetAllPerson());
     }
