@@ -20,7 +20,7 @@ public class PersonUpdateRequest
     public string? Email { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
-    public GenderOptions? Gender { get; set; }
+    public GenderOptions Gender { get; set; }
     public Guid? CountryID { get; set; } 
     public string? Address { get; set; }
     public bool ReceiveNewsLetters { get; set; }
@@ -31,6 +31,6 @@ public class PersonUpdateRequest
     /// <returns></returns>
     public Person ToPerson()
     {
-        return new Person() { PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth,  CountryID = CountryID, Gender = Gender.ToString() };
+        return new Person() { PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth,  CountryID = CountryID, Gender = Gender.ToString() , PersonID = PersonID, Address = Address, ReceiveNewsLetters = ReceiveNewsLetters};
     }
 }

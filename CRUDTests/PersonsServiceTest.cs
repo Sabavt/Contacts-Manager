@@ -243,6 +243,13 @@ public class PersonsServiceTest
     public void UpdatePerson_NullPerson()
     {
         PersonUpdateRequest? person_update_request = null;
-
+        Assert.Throws<ArgumentNullException>(() => _personsService.UpdatePerson(person_update_request));
+    }
+    
+    [Fact]
+    public void UpdatePerson_NullPersonName()
+    {
+        PersonUpdateRequest? person_update_request = null;
+        Assert.Throws<ArgumentNullException>(() => _personsService.UpdatePerson(person_update_request));
     }
 }
