@@ -263,5 +263,26 @@ public class PersonsServiceTest
         PersonResponse? person_response_from_add = _personsService.AddPerson(person_add_request);
 
         PersonUpdateRequest? person_update_request = person_response_from_add.ToPersonUpdateRequest();
+        person_update_request.PersonName = null;
+
+        Assert.Throws<ArgumentException>(() => _personsService.UpdatePerson(person_update_request)); 
+    }
+    
+    [Fact]
+    public void UpdatePerson_ProperDetails()
+    {
+        CountryAddRequest? country_add_request = new() { CountryName = "UK"};
+        CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
+
+        PersonAddRequest person_add_request = new() { PersonName = "test", CountryID = country_response_from_add.CountryID };
+        PersonResponse? person_response_from_add = _personsService.AddPerson(person_add_request);
+
+        PersonUpdateRequest? person_update_request = person_response_from_add.ToPersonUpdateRequest(); 
+        person_update_request.PersonName = "Larry";
+
+        PersonResponse person_response_from_update = _personsService.UpdatePerson(person_update_request);
+        PersonResponse? person_response_from_get = _personsService.GetPersonByPersonID(person_response_from_update.PersonID);
+
+        Assert.Equal(person_response_from_update, person_response_from_get);
     }
 }
