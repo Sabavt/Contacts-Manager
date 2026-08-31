@@ -82,7 +82,7 @@ public class PersonsServiceTest
     {
         CountryAddRequest country_request = new CountryAddRequest() { CountryName = "Canada" };
         CountryResponse country_response = _countriesService.AddCountry(country_request);
-        PersonAddRequest add_request = new PersonAddRequest() { PersonName = "D", Address = "S", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
+        PersonAddRequest add_request = new PersonAddRequest() { PersonName = "TestName", Address = "TestAddress", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
 
         PersonResponse response_from_add = _personsService.AddPerson(add_request);
 
@@ -90,5 +90,36 @@ public class PersonsServiceTest
         _personsService.GetAllPerson().ForEach(person => { _outputHelper.WriteLine(person.ToString()); } );
 
         Assert.Contains(response_from_add, _personsService.GetAllPerson());
+    }
+
+    [Fact]
+    public void GetFilteredPersons_EmptySearchText()
+    {
+        CountryAddRequest country_request = new CountryAddRequest() { CountryName = "Canada" };
+        CountryResponse country_response = _countriesService.AddCountry(country_request);
+        PersonAddRequest add_request = new PersonAddRequest() { PersonName = "TestName", Address = "TestAddress", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
+
+        PersonResponse response_from_add = _personsService.AddPerson(add_request);
+
+        _outputHelper.WriteLine(response_from_add.ToString()); 
+        _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName),"").ForEach(p => { _outputHelper.WriteLine(p.ToString()); } );
+
+        Assert.Contains(response_from_add, _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName),""));
+
+    }
+
+    [Fact]
+    public void GetFilteredPersons_SearchByPersonName()
+    {
+        CountryAddRequest country_request = new CountryAddRequest() { CountryName = "Canada" };
+        CountryResponse country_response = _countriesService.AddCountry(country_request);
+        PersonAddRequest add_request = new PersonAddRequest() { PersonName = "TestName", Address = "TestAddress", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
+
+        PersonResponse response_from_add = _personsService.AddPerson(add_request);
+
+        _outputHelper.WriteLine(response_from_add.ToString());
+        _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName), "TestName").ForEach(s => { _outputHelper.WriteLine(s.ToString()); } );
+
+        Assert.Contains(response_from_add, _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName), "TestName"));
     }
 }
