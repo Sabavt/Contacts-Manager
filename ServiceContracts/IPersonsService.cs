@@ -26,4 +26,6 @@ public interface IPersonsService
     /// <param name="personID">Person id to search</param>
     /// <returns>Returns matching person object</returns>
     PersonResponse? GetPersonByPersonID(Guid? personID);
+
+    PersonResponse GetFilteredPersons(string searchBy, string? searchString);
 }

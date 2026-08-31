@@ -43,7 +43,7 @@ public class PersonResponse
 
     public override string ToString()
     {
-        return $"{PersonID} - {PersonName} - {DateOfBirth}";
+        return $"{PersonID} - {PersonName} - {DateOfBirth?.ToString("dd MMM yyyy")}";
     }
 }
 
