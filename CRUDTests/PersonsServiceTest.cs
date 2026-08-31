@@ -238,4 +238,11 @@ public class PersonsServiceTest
             Assert.Equal(person_response_list_from_add[i], persons_list_from_sort[i]);
         }
     }
+
+    [Fact]
+    public void UpdatePerson_NullPerson()
+    {
+        PersonUpdateRequest? person_update_request = null;
+
+    }
 }

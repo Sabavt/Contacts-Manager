@@ -1,4 +1,5 @@
 ﻿using Entities;
+using ServiceContracts.Enums;
 
 namespace ServiceContracts.DTO;
 
@@ -11,7 +12,7 @@ public class PersonResponse
     public string? PersonName { get; set; }
     public string? Email { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public string? Gender { get; set; }
+    public string Gender { get; set; } = null!;
     public Guid? CountryID { get; set; }
     public string? Country { get; set; }
     public string? Address { get; set; }
@@ -44,6 +45,11 @@ public class PersonResponse
     public override string ToString()
     {
         return $"{PersonID} - {PersonName} - {DateOfBirth?.ToString("dd MMM yyyy")}";
+    }
+
+    public PersonUpdateRequest ToPersonUpdateRequest()
+    {
+        return new PersonUpdateRequest() { PersonID = PersonID, PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth, Gender = Enum.Parse<GenderOptions>(Gender, true), Address = Address, CountryID = CountryID, ReceiveNewsLetters = ReceiveNewsLetters };
     }
 }
 
