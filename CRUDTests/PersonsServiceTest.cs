@@ -77,7 +77,9 @@ public class PersonsServiceTest
     [Fact]
     public void GetAllPerson_AfterFewPerson()
     {
-        PersonAddRequest add_request = new PersonAddRequest() {PersonName = "D", Address = "S", CountryID = Guid.NewGuid(), DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
+        CountryAddRequest country_request = new CountryAddRequest() { CountryName = "Canada" };
+        CountryResponse country_response = _countriesService.AddCountry(country_request);
+        PersonAddRequest add_request = new PersonAddRequest() {PersonName = "D", Address = "S", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
 
         PersonResponse response_from_add =_personsService.AddPerson(add_request);
 
