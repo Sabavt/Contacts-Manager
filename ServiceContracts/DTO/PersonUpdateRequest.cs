@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations;
 namespace ServiceContracts.DTO;
 
 /// <summary>
-/// Acts as a DTO for inserting a new person
+/// Acts as a DTO class that contains person details to update
 /// </summary>
-public class PersonAddRequest
-{  
+public class PersonUpdateRequest
+{
+    [Required(ErrorMessage = "Person ID can't be blank")]
+    public Guid PersonID { get; set; }
+
     [Required(ErrorMessage = "Person Name can't be blank")]
     public string? PersonName { get; set; }
 
@@ -18,9 +21,7 @@ public class PersonAddRequest
 
     public DateTime? DateOfBirth { get; set; }
     public GenderOptions? Gender { get; set; }
-    public Guid? CountryID { get; set; }
-    public string? Address { get; set; }
-    public bool ReceiveNewsLetters { get; set; }
+    public Guid? CountryID { get; set; } 
 
     /// <summary>
     /// Coverts the current object of PersonAddRequest into new object of Person type
@@ -28,6 +29,6 @@ public class PersonAddRequest
     /// <returns></returns>
     public Person ToPerson()
     {
-        return new Person() { PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth, Address = Address , CountryID = CountryID, Gender = Gender.ToString(), ReceiveNewsLetters = ReceiveNewsLetters};
+        return new Person() { PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth,  CountryID = CountryID, Gender = Gender.ToString() };
     }
 }
