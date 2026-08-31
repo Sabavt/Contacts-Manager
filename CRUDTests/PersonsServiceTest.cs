@@ -39,7 +39,7 @@ public class PersonsServiceTest
     [Fact]
     public void AddPerson_ProperPersonDetails()
     {
-        PersonAddRequest request = new PersonAddRequest() { PersonName = "Test", Address = "Test", CountryID = Guid.NewGuid(), Email = "test", Gender =  GenderOptions.Female, ReceiveNewsLetters = true };
+        PersonAddRequest request = new PersonAddRequest() { PersonName = "Test", Address = "Test", CountryID = Guid.NewGuid(), Email = "test@gmail.com", Gender =  GenderOptions.Female, ReceiveNewsLetters = true };
 
         PersonResponse person_response_from_add = _personsService.AddPerson(request);
 
@@ -83,7 +83,7 @@ public class PersonsServiceTest
     {
         CountryAddRequest country_request = new CountryAddRequest() { CountryName = "Canada" };
         CountryResponse country_response = _countriesService.AddCountry(country_request);
-        PersonAddRequest add_request = new PersonAddRequest() { PersonName = "TestName", Address = "TestAddress", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
+        PersonAddRequest add_request = new PersonAddRequest() { PersonName = "TestName", Address = "TestAddress", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Email = "test@gmail.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
 
         PersonResponse response_from_add = _personsService.AddPerson(add_request);
 
@@ -259,7 +259,7 @@ public class PersonsServiceTest
         CountryAddRequest? country_add_request = new() { CountryName = "UK"};
         CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
 
-        PersonAddRequest person_add_request = new() { PersonName = "test", CountryID = country_response_from_add.CountryID };
+        PersonAddRequest person_add_request = new() { PersonName = "test", Email = "test@gmail.com", CountryID = country_response_from_add.CountryID };
         PersonResponse? person_response_from_add = _personsService.AddPerson(person_add_request);
 
         PersonUpdateRequest? person_update_request = person_response_from_add.ToPersonUpdateRequest();
@@ -274,7 +274,7 @@ public class PersonsServiceTest
         CountryAddRequest? country_add_request = new() { CountryName = "UK"};
         CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
 
-        PersonAddRequest person_add_request = new() { PersonName = "test", CountryID = country_response_from_add.CountryID };
+        PersonAddRequest person_add_request = new() { PersonName = "test", Email = "test@gmail.com", CountryID = country_response_from_add.CountryID };
         PersonResponse? person_response_from_add = _personsService.AddPerson(person_add_request);
 
         PersonUpdateRequest? person_update_request = person_response_from_add.ToPersonUpdateRequest(); 
@@ -284,5 +284,25 @@ public class PersonsServiceTest
         PersonResponse? person_response_from_get = _personsService.GetPersonByPersonID(person_response_from_update.PersonID);
 
         Assert.Equal(person_response_from_update, person_response_from_get);
+    }
+
+    [Fact]
+    public void DeletePerson_ValidPersonID()
+    {
+        CountryAddRequest? country_add_request = new() { CountryName = "UK" };
+        CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
+
+        PersonAddRequest person_add_request = new() { PersonName = "test", Email = "test@gmail.com", CountryID = country_response_from_add.CountryID };
+        PersonResponse? person_response_from_add = _personsService.AddPerson(person_add_request);
+
+        Assert.True(_personsService.DeletePerson(person_response_from_add.PersonID));
+    }
+    [Fact]
+    public void DeletePerson_InvalidPersonID()
+    {
+        CountryAddRequest? country_add_request = new() { CountryName = "UK" };
+        CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
+
+        Assert.False(_personsService.DeletePerson(Guid.NewGuid()));
     }
 }
