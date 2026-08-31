@@ -3,8 +3,7 @@ using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using Services;
-using Xunit.Abstractions;
-using Xunit.Sdk;
+using Xunit.Abstractions; 
 
 namespace CRUDTests;
 
@@ -40,7 +39,7 @@ public class PersonsServiceTest
     [Fact]
     public void AddPerson_ProperPersonDetails()
     {
-        PersonAddRequest request = new PersonAddRequest() { PersonName = "Test", Address = "Test", CountryID = Guid.NewGuid(), Email = "test", Gender = ServiceContracts.Enums.GenderOptions.Female, ReceiveNewsLetters = true };
+        PersonAddRequest request = new PersonAddRequest() { PersonName = "Test", Address = "Test", CountryID = Guid.NewGuid(), Email = "test", Gender =  GenderOptions.Female, ReceiveNewsLetters = true };
 
         PersonResponse person_response_from_add = _personsService.AddPerson(request);
 
@@ -96,8 +95,7 @@ public class PersonsServiceTest
 
     [Fact] 
     public void GetFilteredPersons_EmptySearchText()
-    {
-        //Arrange
+    { 
         CountryAddRequest country_request_1 = new CountryAddRequest() { CountryName = "USA" };
         CountryAddRequest country_request_2 = new CountryAddRequest() { CountryName = "India" };
 

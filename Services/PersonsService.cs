@@ -1,6 +1,7 @@
 ﻿using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using ServiceContracts.Enums;
 using Services.Helpers; 
 
 namespace Services;
@@ -105,5 +106,10 @@ public class PersonsService : IPersonsService
             default: matchingPersons = allPersons; break;
         }
         return matchingPersons;
+    }
+
+    public List<PersonResponse> GetSortedPerson(List<PersonResponse> allperson, string sortBy, SortOrderOptions sortOrder)
+    {
+        throw new NotImplementedException();
     }
 }
