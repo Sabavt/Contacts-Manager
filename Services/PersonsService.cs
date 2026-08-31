@@ -57,6 +57,10 @@ public class PersonsService : IPersonsService
 
     public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
     {
-        throw new NotImplementedException();
+        List<PersonResponse> allPersons = GetAllPerson();
+        List<PersonResponse> matchingPersons = allPersons;
+
+        if (string.IsNullOrEmpty(searchBy))
+            return matchingPersons;
     }
 }

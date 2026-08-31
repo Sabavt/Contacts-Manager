@@ -118,8 +118,8 @@ public class PersonsServiceTest
         PersonResponse response_from_add = _personsService.AddPerson(add_request);
 
         _outputHelper.WriteLine(response_from_add.ToString());
-        _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName), "TestName").ForEach(s => { _outputHelper.WriteLine(s.ToString()); } );
+        _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName), "name").ForEach(s => { _outputHelper.WriteLine(s.ToString()); } );
 
-        Assert.Contains(response_from_add, _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName), "TestName"));
+        Assert.Contains(response_from_add, _personsService.GetFilteredPersons(nameof(PersonResponse.PersonName), "name"));
     }
 }
