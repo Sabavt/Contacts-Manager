@@ -45,13 +45,11 @@ public class PersonsServiceTest
     }
 
     [Fact]
-    public void GetPersonByPersonID_NullPerson()
+    public void GetPersonByPersonID_NullPersonID()
     {
         Guid? guid = null;
-
-        PersonResponse? person_response_from_get = _personsService.GetPersonByPersonID(guid);
-
-        Assert.Null(person_response_from_get);
+          
+        Assert.Throws<ArgumentNullException>(() => _personsService.GetPersonByPersonID(guid));
     }
 
     [Fact]
@@ -60,7 +58,7 @@ public class PersonsServiceTest
         CountryAddRequest country_request = new CountryAddRequest() { CountryName = "Canada" };
         CountryResponse country_response = _countriesService.AddCountry(country_request);
 
-        PersonAddRequest person_request = new PersonAddRequest() { PersonName = "person name...", Email = "email@sample.com", Address = "address", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2000-01-01"), Gender = GenderOptions.Male, ReceiveNewsLetters = false };
+        PersonAddRequest person_request = new PersonAddRequest() { PersonName = "person", Email = "email@sample.com", Address = "address", CountryID = country_response.CountryID, DateOfBirth = DateTime.Parse("2020-01-01"), Gender = GenderOptions.Male, ReceiveNewsLetters = false };
 
         PersonResponse person_response_from_add = _personsService.AddPerson(person_request);
 
@@ -79,6 +77,10 @@ public class PersonsServiceTest
     [Fact]
     public void GetAllPerson_AfterFewPerson()
     {
+        PersonAddRequest add_request = new PersonAddRequest() {PersonName = "D", Address = "S", CountryID = Guid.NewGuid(), DateOfBirth = DateTime.Parse("2000-01-01"), Email = "email.com", Gender = GenderOptions.Male, ReceiveNewsLetters = true };
 
+        PersonResponse response_from_add =_personsService.AddPerson(add_request);
+
+        Assert.Contains(response_from_add, _personsService.GetAllPerson());
     }
 }

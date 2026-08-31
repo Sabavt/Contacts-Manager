@@ -44,11 +44,14 @@ public class PersonsService : IPersonsService
 
     public List<PersonResponse> GetAllPerson()
     {
-        throw new NotImplementedException();
+        return _people.Select((p) => p.ToPersonResponse()).ToList();
     }
 
     public PersonResponse? GetPersonByPersonID(Guid? personID)
     {
-        throw new NotImplementedException();
+        if (personID == null)
+            throw new ArgumentNullException(nameof(personID));
+
+        return _people.FirstOrDefault((p) => p.PersonID == personID)?.ToPersonResponse();
     }
 }
