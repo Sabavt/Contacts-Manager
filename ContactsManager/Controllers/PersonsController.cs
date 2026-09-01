@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using ServiceContracts.Enums;
 
 namespace ContactsManager.Controllers
 {
@@ -17,7 +18,7 @@ namespace ContactsManager.Controllers
 
         [Route("persons/index")]
         [Route("/")]
-        public IActionResult Index(string searchBy, string? searchString)
+        public IActionResult Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOptions = SortOrderOptions.ASC)
         {
             ViewBag.SearchFields = new Dictionary<string, string>()
             {
@@ -32,6 +33,11 @@ namespace ContactsManager.Controllers
 
             ViewBag.CurrectSearchBy = searchBy;
             ViewBag.CurrectSearchString = searchString;
+
+            List<PersonResponse> sorted_persons = _personsService.GetSortedPerson(persons, sortBy, sortOptions);
+
+            ViewBag.CurrentSortBy = sortBy;
+            ViewBag.CurrentSortOptions = sortOptions.ToString();
 
             return View(persons);
         }
