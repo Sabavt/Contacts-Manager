@@ -57,6 +57,7 @@ namespace ContactsManager.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Countries = _countriesService.GetAllCountries();
+                ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).ToList().Select(e => e.ErrorMessage).ToList();
                 return View();
             }
             PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
