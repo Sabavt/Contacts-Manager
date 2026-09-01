@@ -49,5 +49,18 @@ namespace ContactsManager.Controllers
             ViewBag.Countries = _countriesService.GetAllCountries();
             return View();
         }
+
+        [HttpPost]
+        [Route("persons/create")]
+        public IActionResult Create(PersonAddRequest personAddRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Countries = _countriesService.GetAllCountries();
+                return View();
+            }
+            PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
+            return RedirectToAction("Index");
+        }
     }
 }
