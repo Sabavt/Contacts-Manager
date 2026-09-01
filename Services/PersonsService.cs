@@ -125,7 +125,11 @@ public class PersonsService : IPersonsService
 
     public List<PersonResponse> GetAllPerson()
     {
-        return _people.Select((p) => p.ToPersonResponse()).ToList();
+        return _people.Select((p) => {
+            var person_response_from_to = p.ToPersonResponse();
+            person_response_from_to.Country = _countries.GetCountryByCountryID(p.CountryID)?.CountryName;
+            return person_response_from_to;
+        }).ToList();
     }
 
     public PersonResponse? GetPersonByPersonID(Guid? personID)
