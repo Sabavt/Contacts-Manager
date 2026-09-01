@@ -46,6 +46,7 @@ namespace ContactsManager.Controllers
         [Route("persons/create")]
         public IActionResult Create()
         {
+            ViewBag.Countries = _countriesService.GetAllCountries();
             return View();
         }
     }
