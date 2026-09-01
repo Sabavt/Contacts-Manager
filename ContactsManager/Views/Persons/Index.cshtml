@@ -37,6 +37,7 @@
                             &sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.DESC)">
                             Person Name
                         </a>
+                        <i class="fa-solid fa-sort-up"></i>
                     </th>
                 }
                 else if (ViewBag.CurrentSortBy == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOptions == SortOrderOptions.DESC.ToString())
@@ -47,6 +48,7 @@
                             &sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.ASC)">
                             Person Name
                         </a>
+                        <i class="fa-solid fa-sort-down"></i> 
                     </th> 
                 }
                 else
@@ -56,7 +58,7 @@
                             &searchString=@ViewBag.CurrectSearchString
                             &sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.ASC)">
                             Person Name
-                        </a>
+                        </a> 
                     </th> 
                 }
                 <th>
