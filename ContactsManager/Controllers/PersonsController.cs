@@ -39,7 +39,7 @@ namespace ContactsManager.Controllers
             ViewBag.CurrentSortBy = sortBy;
             ViewBag.CurrentSortOptions = sortOptions.ToString();
 
-            return View(persons);
+            return View(sorted_persons);
         }
     }
 }

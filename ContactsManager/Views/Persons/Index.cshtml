@@ -32,9 +32,7 @@
                 @if (ViewBag.CurrentSortBy == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOptions == SortOrderOptions.ASC.ToString())
                 {
                     <th>
-                        <a href="~/persons/index?searchBy=@ViewBag.CurrectSearchBy
-                            &searchString=@ViewBag.CurrectSearchString
-                            &sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.DESC)">
+                        <a href="~/persons/index?searchBy=@ViewBag.CurrectSearchBy&searchString=@ViewBag.CurrectSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOptions=@nameof(SortOrderOptions.DESC)">
                             Person Name
                         </a>
                         <i class="fa-solid fa-sort-up"></i>
@@ -43,9 +41,7 @@
                 else if (ViewBag.CurrentSortBy == nameof(PersonResponse.PersonName) && ViewBag.CurrentSortOptions == SortOrderOptions.DESC.ToString())
                 {
                     <th>
-                        <a href="~/persons/index?searchBy=@ViewBag.CurrectSearchBy
-                            &searchString=@ViewBag.CurrectSearchString
-                            &sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.ASC)">
+                        <a href="~/persons/index?searchBy=@ViewBag.CurrectSearchBy&searchString=@ViewBag.CurrectSearchString &sortBy=@nameof(PersonResponse.PersonName)&sortOptions=@nameof(SortOrderOptions.ASC)">
                             Person Name
                         </a>
                         <i class="fa-solid fa-sort-down"></i> 
@@ -54,9 +50,7 @@
                 else
                 {
                     <th>
-                        <a href="~/persons/index?searchBy=@ViewBag.CurrectSearchBy
-                            &searchString=@ViewBag.CurrectSearchString
-                            &sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@nameof(SortOrderOptions.ASC)">
+                        <a href="~/persons/index?searchBy=@ViewBag.CurrectSearchBy&searchString=@ViewBag.CurrectSearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOptions=@nameof(SortOrderOptions.ASC)">
                             Person Name
                         </a> 
                     </th> 
