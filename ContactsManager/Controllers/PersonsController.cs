@@ -17,7 +17,7 @@ namespace ContactsManager.Controllers
 
         [Route("persons/index")]
         [Route("/")]
-        public IActionResult Index()
+        public IActionResult Index(string seachBy, string? searchString)
         {
             ViewBag.SearchFields = new Dictionary<string, string>()
             {

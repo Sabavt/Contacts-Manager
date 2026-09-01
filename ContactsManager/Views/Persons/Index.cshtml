@@ -2,21 +2,22 @@
 @{
     ViewBag.Title = "Persons";
 }
+<form action="~/person/index" method="get">
 
 <h1>Persons</h1>
 
 <div class="box flex">
     <div class="flex-1"> 
-        <select class="form-input">
+        <select class="form-input" name="searchBy">
             @foreach(var item in ViewBag.SearchFields)
             { 
                 <option value="@item.Key">@item.Value</option>
-            }
+            } 
         </select>
     </div>
    
     <div class="flex-1">
-        <input type="search" id="Search" class="form-input" placeholder="Search" />
+        <input type="search" id="Search" class="form-input" placeholder="Search" name="seachString"/>
     </div>
 
     <div class="flex-1">
@@ -72,4 +73,6 @@
 
         </tr>
     </tbody>
-</table>
+    </table>
+    
+</form>
