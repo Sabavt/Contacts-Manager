@@ -41,5 +41,12 @@ namespace ContactsManager.Controllers
 
             return View(sorted_persons);
         }
+
+        [HttpGet]
+        [Route("persons/create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
