@@ -30,6 +30,9 @@ namespace ContactsManager.Controllers
             };
             List<PersonResponse> persons = _personsService.GetFilteredPersons(searchBy, searchString);
 
+            ViewBag.CurrectSearchBy = searchBy;
+            ViewBag.CurrectSearchString = searchString;
+
             return View(persons);
         }
     }

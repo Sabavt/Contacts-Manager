@@ -8,7 +8,7 @@
 
 <div class="box flex">
     <div class="flex-1"> 
-        <select class="form-input" name="searchBy">
+        <select class="form-input" name="searchBy" value="@ViewBag.CurrectSearchBy">
             @foreach(var item in ViewBag.SearchFields)
             { 
                 <option value="@item.Key">@item.Value</option>
@@ -17,7 +17,7 @@
     </div>
    
     <div class="flex-1">
-        <input type="search" id="Search" class="form-input" placeholder="Search" name="searchString"/>
+        <input type="search" id="Search" class="form-input" placeholder="Search" name="searchString" value="@ViewBag.CurrectSearchString"/>
     </div>
 
     <div class="flex-1">
