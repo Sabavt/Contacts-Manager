@@ -1,3 +1,67 @@
 ﻿@{
     ViewBag.Title = "Create Person";
 }
+
+<a href="~/persons/index">Back to the Persons List</a>
+<h2>Create Person</h2>
+
+<div class="w-50">
+    <form action="~/persons/create" method="post">
+        <button>Submit</button>
+
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="PersonName" class="form-label pt">Person Name</label>
+            </div>
+            <div class="flex">
+                <input type="text" id="PersonName" name="Name" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="Email" class="form-label pt">Email</label>
+            </div>
+            <div class="flex">
+                <input type="email" id="Email" name="Email" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="DateOfBirth" class="form-label pt">Date of Birth</label>
+            </div>
+            <div class="flex">
+                <input type="date" id="DateOfBirth" name="DateOfBirth" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="Gender" class="form-label pt">Gender</label>
+            </div>
+            <div class="flex">
+                <input type="radio" id="Male" name="Gender" value="Male" class="form-input" />
+                <label for="Male" class="form-label">Male</label>
+                <input type="radio" id="Female" name="Gender" value="Female" class="form-input" />
+                <label for="Female" class="form-label">Female</label>
+                <input type="radio" id="Other" name="Gender" value="Other" class="form-input" />
+                <label for="Other" class="form-label">Other</label>
+            </div>
+        </div>
+
+        <div class="form-field flex">
+            <div class="w-25">
+                <label for="CountryID" class="form-label pt">Country</label>
+            </div>
+            <div class="flex">
+                <select name="CountryID">
+                    <option value="">Select a Country</option>
+                    <option value="1">United States</option>
+                    <option value="2">Canada</option>
+                    <option value="3">United Kingdom</option>   
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
