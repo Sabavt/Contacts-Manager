@@ -5,6 +5,7 @@ using ServiceContracts.Enums;
 
 namespace ContactsManager.Controllers
 {
+    [Route("[controller]")]
     public class PersonsController : Controller
     {
         private readonly ICountriesService _countriesService;
@@ -16,7 +17,7 @@ namespace ContactsManager.Controllers
             _personsService = personsService;
         }
 
-        [Route("persons/index")]
+        [Route("[action]")] 
         [Route("/")]
         public IActionResult Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOptions = SortOrderOptions.ASC)
         {
@@ -43,7 +44,7 @@ namespace ContactsManager.Controllers
         }
 
         [HttpGet]
-        [Route("persons/create")]
+        [Route("[action]")] 
         public IActionResult Create()
         {
             ViewBag.Countries = _countriesService.GetAllCountries();
@@ -51,7 +52,7 @@ namespace ContactsManager.Controllers
         }
 
         [HttpPost]
-        [Route("persons/create")]
+        [Route("[action]")]
         public IActionResult Create(PersonAddRequest personAddRequest)
         {
             if (!ModelState.IsValid)
