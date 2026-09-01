@@ -72,7 +72,7 @@ public static class PersonExtensions
             Address = person.Address,
             CountryID = person.CountryID,
             Gender = person.Gender,
-            Age = (person.DateOfBirth != null) ? Math.Round((DateTime.Now - person.DateOfBirth.Value).TotalDays / 365.25) : null
+            Age = (person.DateOfBirth != null && person.DateOfBirth.Value.Year != DateTime.Today.Year) ? Math.Round((DateTime.Now - person.DateOfBirth.Value).TotalDays / 365.25) : null
         };
     }
 }
