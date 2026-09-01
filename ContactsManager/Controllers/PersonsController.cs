@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
+using ServiceContracts.DTO;
 
 namespace ContactsManager.Controllers
 {
@@ -18,8 +19,9 @@ namespace ContactsManager.Controllers
         [Route("/")]
         public IActionResult Index()
         {
+            List<PersonResponse> persons = _personsService.GetAllPerson();
 
-            return View();
+            return View(persons);
         }
     }
 }
