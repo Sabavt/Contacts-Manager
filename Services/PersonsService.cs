@@ -253,7 +253,7 @@ public class PersonsService : IPersonsService
         matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
         matchingPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
 
-        return matchingPerson.ToPersonResponse();
+        return ConvertPerson(matchingPerson);
     }
 
     public bool DeletePerson(Guid? personID)
