@@ -172,7 +172,7 @@ public class PersonsService : IPersonsService
             case nameof(PersonResponse.Gender):
                 matchingPersons = allPersons.Where(temp =>
                 (!string.IsNullOrEmpty(temp.Gender) ?
-                temp.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                temp.Gender.Equals(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
                 break;
 
             case nameof(PersonResponse.Country):
