@@ -62,7 +62,7 @@ namespace ContactsManager.Controllers
                 return View();
             }
             PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
-            return RedirectToAction("Index");
+            return RedirectToActionPermanent("Index");
         }
     }
 }
