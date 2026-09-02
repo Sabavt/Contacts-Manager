@@ -13,7 +13,14 @@
             <select class="form-input" name="searchBy">
                 @foreach (var item in ViewBag.SearchFields)
                 {
-                    <option value="@item.Key" @if(ViewBag.CurrectSearchBy == item.Key){@Html.Raw("selected")}>@item.Value</option>
+                    if (item.Key == ViewBag.CurrentSearchBy)
+                    {
+                        <option value="@item.Key" selected="selected">@item.Value</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Key">@item.Value</option>
+                    }
                 }
             </select>
         </div>
