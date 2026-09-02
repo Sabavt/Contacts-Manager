@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -47,7 +48,7 @@ namespace ContactsManager.Controllers
         [Route("[action]")] 
         public IActionResult Create()
         {
-            ViewBag.Countries = _countriesService.GetAllCountries();
+            ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString()}).ToList(); 
             return View();
         }
 
