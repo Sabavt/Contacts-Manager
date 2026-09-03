@@ -69,5 +69,15 @@ namespace ContactsManager.Controllers
             PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
             return RedirectToActionPermanent("Index");
         }
+
+        [Route("[action]/{personID:Guid}")]
+        public IActionResult Edit(Guid personID)
+        {
+            PersonResponse? personResponse = _personsService.GetPersonByPersonID(personID);
+            if (personResponse == null)
+                return NotFound();
+            ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+            return View(personResponse);
+        }
     }
 }
