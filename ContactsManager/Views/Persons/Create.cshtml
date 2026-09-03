@@ -92,9 +92,21 @@
             <div class="w-25">
             </div>
             <div class="flex-1">
-                <button class="button button-green-back">Create</button>
-                <div asp-validation-summary="All" class="text-red"></div> 
-            </div>
+                <button class="button button-green-back">Create</button> 
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="text-red ml">
+                        <ul>
+                            @foreach (string error in ViewBag.ErrorMessages)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+
+                    </div>
+                }
+            </div> 
+            
         </div>
 
     </form>

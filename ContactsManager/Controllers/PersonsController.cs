@@ -63,7 +63,8 @@ namespace ContactsManager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() }); 
+                ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+                ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList(); 
                 return View();
             }
             PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
@@ -89,6 +90,7 @@ namespace ContactsManager.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+                ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 return View();
             }
             PersonResponse? person_response = _personsService.UpdatePerson(personUpdateRequest);
