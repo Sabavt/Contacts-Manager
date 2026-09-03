@@ -10,8 +10,8 @@
 <body>
     <div class="container">
         <div class="navbar">
-            <div class="navbar-brand">CRUD Demo</div>
-            <ul>
+            <div class="navbar-brand"><img src="~/logo.png" style="width:35px;" asp-append-version="true"/></div>
+               <ul>
                 <li>
                     <a asp-controller="Persons" asp-action="Index">Persons</a>
                 </li>
@@ -21,6 +21,8 @@
         <div class="page-content">
             @RenderBody()
         </div>
+         @RenderSection("scripts", required: false);
     </div>
 </body>
 </html>
+
