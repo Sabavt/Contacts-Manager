@@ -73,7 +73,7 @@ namespace ContactsManager.Controllers
         [Route("[action]/{personID:Guid}")]
         public IActionResult Edit(Guid personID)
         {
-            PersonResponse? personResponse = _personsService.GetPersonByPersonID(personID);
+            PersonUpdateRequest? personResponse = _personsService.GetPersonByPersonID(personID)?.ToPersonUpdateRequest();
             if (personResponse == null)
                 return NotFound();
             ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
