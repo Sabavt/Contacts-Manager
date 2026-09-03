@@ -70,14 +70,32 @@ namespace ContactsManager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
+        [HttpGet]
         [Route("[action]/{personID:Guid}")]
-        public IActionResult Edit(Guid personID)
+        public IActionResult Edit(Guid? personID)
         {
-            PersonUpdateRequest? personResponse = _personsService.GetPersonByPersonID(personID)?.ToPersonUpdateRequest();
-            if (personResponse == null)
-                return NotFound();
+            PersonUpdateRequest? person_update_get = _personsService.GetPersonByPersonID(personID)?.ToPersonUpdateRequest(); 
+            if (person_update_get == null)
+                return RedirectToActionPermanent("Index");
+
             ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
-            return View(personResponse);
+            return View(person_update_get);
+        }
+
+        [HttpPost]
+        [Route("[action]/{personID:guid}")]
+        public IActionResult Edit(PersonUpdateRequest personUpdateRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+                return View();
+            }
+            PersonResponse? person_response = _personsService.UpdatePerson(personUpdateRequest);
+            if (person_response == null)
+                return RedirectToActionPermanent("Index");
+
+            return RedirectToActionPermanent("Index");
         }
     }
 }

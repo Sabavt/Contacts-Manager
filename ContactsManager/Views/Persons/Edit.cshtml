@@ -9,6 +9,8 @@
 <div class="center-box">
     <form asp-controller="Persons" asp-action="Edit" method="post">
 
+        <input type="hidden" asp-for="PersonID" />
+
         <div class="form-field flex">
             <div class="w-25">
                 <label for="PersonName" class="form-label pt">Person Name</label>
@@ -25,7 +27,7 @@
             </div>
             <div class="flex-1">
                 <input asp-for="Email" class="form-input" />
-                <span asp-validation-for="Email" class="text-red"></span>  
+                <span asp-validation-for="Email" class="text-red"></span>
             </div>
         </div>
 
@@ -35,7 +37,7 @@
             </div>
             <div class="flex-1">
                 <input asp-for="DateOfBirth" class="form-input" />
-                <span asp-validation-for="DateOfBirth" class="text-red"></span> 
+                <span asp-validation-for="DateOfBirth" class="text-red"></span>
             </div>
         </div>
 
@@ -44,15 +46,15 @@
                 <label class="form-label">Gender</label>
             </div>
             <div class="flex-1">
-                @{ 
-                        string[] genders = Enum.GetNames(typeof(GenderOptions));
+                @{
+                    string[] genders = Enum.GetNames(typeof(GenderOptions));
                 }
                 @foreach (string gender in genders)
                 {
                     <input type="radio" asp-for="Gender" value="@(Enum.Parse(typeof(GenderOptions), gender))" />
                     <label for="@gender">@gender</label>
                 }
-                <span asp-validation-for="Gender" class="text-red"></span> 
+                <span asp-validation-for="Gender" class="text-red"></span>
             </div>
         </div>
 
@@ -64,17 +66,17 @@
                 <select asp-for="CountryID" class="form-input" asp-items="@ViewBag.Countries">
                     <option value="">Please Select</option>
                 </select>
-                <span asp-validation-for="CountryID" class="text-red"></span> 
+                <span asp-validation-for="CountryID" class="text-red"></span>
             </div>
         </div>
 
         <div class="form-field flex">
             <div class="w-25">
-                <label asp-for="Address" class="form-label pt">Address</label>  
+                <label asp-for="Address" class="form-label pt">Address</label>
             </div>
             <div class="flex-1">
                 <textarea asp-for="Address" class="form-input"></textarea>
-                <span asp-validation-for="Address" class="text-red"></span> 
+                <span asp-validation-for="Address" class="text-red"></span>
             </div>
         </div>
 
@@ -84,7 +86,7 @@
             <div class="flex-1">
                 <input type="checkbox" name="ReceiveNewsLetters" id="ReceiveNewsLetters" value="true" />
                 <label asp-for="ReceiveNewsLetters" class="form-label">Receive News Letters</label>
-                <span asp-validation-for="ReceiveNewsLetters" class="text-red"></span> 
+                <span asp-validation-for="ReceiveNewsLetters" class="text-red"></span>
             </div>
         </div>
 
@@ -93,14 +95,27 @@
             </div>
             <div class="flex-1">
                 <button class="button button-green-back">Update</button>
-                <div asp-validation-summary="All" class="text-red"></div> 
+                <div asp-validation-summary="All" class="text-red"></div>
+
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="text-red ml">
+                        <ul>
+                            @foreach (string error in ViewBag.ErrorMessages)
+                            {
+                                <li class="ml">@error</li>
+                            }
+                        </ul>
+
+                    </div>
+                }
             </div>
         </div>
 
     </form>
-</div> 
+</div>
 
-@section scripts{
+@section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/4.0.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jQuery.min.json" integrity="sha512-7IYBYIG34uE+dM4Q0Dr+4GhLUkLAXSskKvsXtKEEPFFAJHLLEzRVvJb0n5x7r9bZVaJDDOeviIXsLjfI9rUvOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.22.1/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js" integrity="sha512-qu7dMuIm2f0KcKZ3BOoP4c+Hn+r4E8PbD2Ro4rmKsOyheCxcwhzQpf6SojA76dn+owqfANzfTFUTkGA+HpHjOA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
