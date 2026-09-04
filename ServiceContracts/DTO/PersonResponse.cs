@@ -12,11 +12,11 @@ public class PersonResponse
     public string? PersonName { get; set; }
     public string? Email { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public string Gender { get; set; } = null!;
+    public string? Gender { get; set; }
     public Guid? CountryID { get; set; }
     public string? Country { get; set; }
     public string? Address { get; set; }
-    public bool ReceiveNewsLetters { get; set; }
+    public bool? ReceiveNewsLetters { get; set; }
     public double? Age { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class PersonResponse
 
     public PersonUpdateRequest ToPersonUpdateRequest()
     {
-        return new PersonUpdateRequest() { PersonID = PersonID, PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth, Gender = Enum.Parse<GenderOptions>(Gender, true), Address = Address, CountryID = CountryID, ReceiveNewsLetters = ReceiveNewsLetters };
+        return new PersonUpdateRequest() { PersonID = PersonID, PersonName = PersonName, Email = Email, DateOfBirth = DateOfBirth, Gender = Enum.TryParse<GenderOptions>(Gender, true,out var gender) ? gender : null, Address = Address, CountryID = CountryID, ReceiveNewsLetters = ReceiveNewsLetters };
     }
 }
 
@@ -59,7 +59,7 @@ public static class PersonExtensions
     /// An extension method to convert an object of Person class into PersonResponse class
     /// </summary>
     /// <param name="person">The Person object to convert</param>
-    /// /// <returns>Returns the converted PersonResponse object</returns>
+    /// <returns>Returns the converted PersonResponse object</returns>
     public static PersonResponse ToPersonResponse(this Person person)
     { 
         return new PersonResponse()

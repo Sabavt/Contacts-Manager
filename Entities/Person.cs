@@ -9,8 +9,8 @@ public class Person
     public string? PersonName { get; set; } 
     public string? Email { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public string Gender { get; set; } = null!;
+    public string? Gender { get; set; } = null!;
     public Guid? CountryID { get; set; }
     public string? Address { get; set; }
-    public bool ReceiveNewsLetters { get; set; }
+    public bool? ReceiveNewsLetters { get; set; }
 }

@@ -71,6 +71,7 @@
                                 {"DisplayName", "Receive News Letters"},
                     })
                    <th>Options</th>
+                   <th></th>
             </tr>
         </thead>
         <tbody>
@@ -87,6 +88,9 @@
                     <td style="width:19%">@person.ReceiveNewsLetters</td>
                     <td style="width:20%">
                         <a asp-controller="Persons" asp-action="Edit" asp-route-personID="@person.PersonID">Edit</a>
+                    </td>
+                    <td style="width:20%">
+                        <a asp-controller="Persons" asp-action="Delete" asp-route-personID="@person.PersonID">Delete</a>
                     </td>
                 </tr>
             }

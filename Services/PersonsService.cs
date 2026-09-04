@@ -19,7 +19,7 @@ public class PersonsService : IPersonsService
         { 
             _people.Add(new Person()
             {
-                PersonID = Guid.Parse("AC7E45A7-FC1C-4F41-B5A4-EE35E4329115"),
+                PersonID = Guid.NewGuid(),
                 PersonName = "Lèi",
                 Email = "rludron0@china.com.cn",
                 Address = "59 Bartillon Circle",
@@ -30,7 +30,7 @@ public class PersonsService : IPersonsService
             });
             _people.Add(new Person()
             {
-                PersonID = Guid.Parse("411A11C5-29DA-4819-A300-03F305F02129"),
+                PersonID = Guid.NewGuid(),
                 PersonName = "Lyséa",
                 Email = "mjaulme1@ehow.com",
                 Address = "1407 Dorton Drive",
@@ -41,7 +41,7 @@ public class PersonsService : IPersonsService
             });
             _people.Add(new Person()
             {
-                PersonID = Guid.Parse("CF3BEC35-1F06-475F-9F52-CE97AE01069A"),
+                PersonID = Guid.NewGuid(),
                 PersonName = "Kallisté",
                 Email = "crippon2@eepurl.com",
                 Address = "5 New Castle Circle",
@@ -52,7 +52,7 @@ public class PersonsService : IPersonsService
             });
             _people.Add(new Person()
             {
-                PersonID = Guid.Parse("AAC8EE9F-9453-4BDF-B31B-952C6D440DE4"),
+                PersonID = Guid.NewGuid(),
                 PersonName = "Pénélope",
                 Email = "cgreenfield3@printfriendly.com",
                 Address = "5 Cambridge Pass",
@@ -63,7 +63,7 @@ public class PersonsService : IPersonsService
             });
             _people.Add(new Person()
             {
-                PersonID = Guid.Parse("AC7E45A7-FC1C-4F41-B5A4-EE35E4329115"),
+                PersonID = Guid.NewGuid(),
                 PersonName = "Andréanne",
                 Email = "joxberry4@fda.gov",
                 Address = "99109 Lyons Avenue",
@@ -74,7 +74,7 @@ public class PersonsService : IPersonsService
             });
             _people.Add(new Person()
             {
-                PersonID = Guid.Parse("AC7E45A7-FC1C-4F41-B5A4-EE35E4329115"),
+                PersonID = Guid.NewGuid(),
                 PersonName = "André",
                 Email = "mfaro9@latimes.com",
                 Address = "439 Lunder Plaza",
@@ -85,7 +85,7 @@ public class PersonsService : IPersonsService
             });
             _people.Add(new Person()
             {
-                PersonID = Guid.Parse("1F665CA6-2E4D-471E-B4D2-44867D0937A8"),
+                PersonID = Guid.NewGuid(),
                 PersonName = "Yáo",
                 Email = "sscoon5@sakura.ne.jp",
                 Address = "3 Acker Plaza",

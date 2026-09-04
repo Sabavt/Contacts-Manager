@@ -98,6 +98,36 @@ namespace ContactsManager.Controllers
                 return RedirectToActionPermanent("Index");
 
             return RedirectToActionPermanent("Index");
+        }    
+        
+        [HttpGet]
+        [Route("[action]/{personID:Guid}")]
+        public IActionResult Delete(Guid? PersonID)
+        {
+            PersonResponse? person_delete_get = _personsService.GetPersonByPersonID(PersonID); 
+            if (person_delete_get == null)
+                return RedirectToActionPermanent("Index");
+
+            ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+            return View(person_delete_get);
+        }
+
+        [HttpPost]
+        [Route("[action]/{personID:guid}")]
+        public IActionResult Delete(PersonResponse personUpdateRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+                ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+                return View();
+            }
+            bool IsDeleted = _personsService.DeletePerson(personUpdateRequest.PersonID);
+
+            if (IsDeleted is true)
+                return RedirectToActionPermanent("Index");
+
+            return RedirectToActionPermanent("Index");
         }
     }
 }
