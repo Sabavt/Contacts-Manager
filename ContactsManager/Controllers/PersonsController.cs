@@ -12,13 +12,13 @@ namespace ContactsManager.Controllers
         private readonly ICountriesService _countriesService;
         private readonly IPersonsService _personsService;
 
-        public PersonsController(ICountriesService countriesService , IPersonsService personsService)
+        public PersonsController(ICountriesService countriesService, IPersonsService personsService)
         {
             _countriesService = countriesService;
             _personsService = personsService;
         }
 
-        [Route("[action]")] 
+        [Route("[action]")]
         [Route("/")]
         public IActionResult Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOptions = SortOrderOptions.ASC)
         {
@@ -45,14 +45,15 @@ namespace ContactsManager.Controllers
         }
 
         [HttpGet]
-        [Route("[action]")] 
+        [Route("[action]")]
         public IActionResult Create()
         {
             ViewBag.Countries = _countriesService.GetAllCountries()
-                .Select(item => new SelectListItem() 
-                { 
-                    Text = item.CountryName, Value = item.CountryID.ToString()
-                }); 
+                .Select(item => new SelectListItem()
+                {
+                    Text = item.CountryName,
+                    Value = item.CountryID.ToString()
+                });
 
             return View();
         }
@@ -64,7 +65,7 @@ namespace ContactsManager.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
-                ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList(); 
+                ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 return View();
             }
             PersonResponse personResponse = _personsService.AddPerson(personAddRequest);
@@ -75,7 +76,7 @@ namespace ContactsManager.Controllers
         [Route("[action]/{personID:Guid}")]
         public IActionResult Edit(Guid? personID)
         {
-            PersonUpdateRequest? person_update_get = _personsService.GetPersonByPersonID(personID)?.ToPersonUpdateRequest(); 
+            PersonUpdateRequest? person_update_get = _personsService.GetPersonByPersonID(personID)?.ToPersonUpdateRequest();
             if (person_update_get == null)
                 return RedirectToActionPermanent("Index");
 
@@ -86,29 +87,28 @@ namespace ContactsManager.Controllers
         [HttpPost]
         [Route("[action]/{personID:guid}")]
         public IActionResult Edit(PersonUpdateRequest personUpdateRequest)
-        {
+        { 
             if (!ModelState.IsValid)
-            {
-                ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+            { 
+                ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() }); 
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                return View();
+                return View(personUpdateRequest);
             }
             PersonResponse? person_response = _personsService.UpdatePerson(personUpdateRequest);
             if (person_response == null)
                 return RedirectToActionPermanent("Index");
 
             return RedirectToActionPermanent("Index");
-        }    
-        
+        }
+
         [HttpGet]
         [Route("[action]/{personID:Guid}")]
-        public IActionResult Delete(Guid? PersonID)
+        public IActionResult Delete(Guid? personID)
         {
-            PersonResponse? person_delete_get = _personsService.GetPersonByPersonID(PersonID); 
+            PersonResponse? person_delete_get = _personsService.GetPersonByPersonID(personID);
             if (person_delete_get == null)
                 return RedirectToActionPermanent("Index");
-
-            ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+             
             return View(person_delete_get);
         }
 
@@ -117,8 +117,7 @@ namespace ContactsManager.Controllers
         public IActionResult Delete(PersonResponse personUpdateRequest)
         {
             if (!ModelState.IsValid)
-            {
-                ViewBag.Countries = _countriesService.GetAllCountries().Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+            { 
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 return View();
             }
