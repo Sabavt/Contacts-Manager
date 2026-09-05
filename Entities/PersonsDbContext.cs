@@ -19,7 +19,10 @@ public class PersonsDbContext : DbContext
         string persons_json = File.ReadAllText("persons.json");
         List<Country>? persons = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(persons_json);
 
-        modelBuilder.Entity<Country>().HasData(countries);
-        modelBuilder.Entity<Person>().HasData(persons);
+        foreach (var country in countries) 
+            modelBuilder.Entity<Country>().HasData(country);
+
+        foreach (var person in persons)
+            modelBuilder.Entity<Person>().HasData(person);
     }
 }
