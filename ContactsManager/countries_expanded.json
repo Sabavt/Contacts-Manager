@@ -1,0 +1,42 @@
+[
+  {
+    "CountryID": "69201c23-589b-45f3-88a7-97ef4de0bc66",
+    "CountryName": "Georgia"
+  },
+  {
+    "CountryID": "ec5fea9a-76d9-4ce6-afa3-8eac27c3caab",
+    "CountryName": "Germany"
+  },
+  {
+    "CountryID": "fa2d98af-fb39-4d22-ba2e-c4f01b3f50da",
+    "CountryName": "France"
+  },
+  {
+    "CountryID": "b55de8fd-9c27-4860-8c43-443bbd0151d1",
+    "CountryName": "Japan"
+  },
+  {
+    "CountryID": "fc08ff13-3464-40ed-862f-d83a9a1063a4",
+    "CountryName": "Canada"
+  },
+  {
+    "CountryID": "44e36eb2-c1d9-42a3-8676-451c04e47f79",
+    "CountryName": "Brazil"
+  },
+  {
+    "CountryID": "d801c7eb-bfa6-46b2-83dd-9a6afdb9028c",
+    "CountryName": "Australia"
+  },
+  {
+    "CountryID": "8fbd2d4a-ef69-41ad-8d99-aa947eae5e85",
+    "CountryName": "Italy"
+  },
+  {
+    "CountryID": "30118c4e-f405-41ed-9634-540ca02c446f",
+    "CountryName": "Spain"
+  },
+  {
+    "CountryID": "268690d6-f1de-4cc8-bc53-5f3d254f7220",
+    "CountryName": "Norway"
+  }
+]
