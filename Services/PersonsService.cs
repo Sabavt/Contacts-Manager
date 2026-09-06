@@ -173,7 +173,7 @@ public class PersonsService : IPersonsService
         matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
         matchingPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
 
-        _dbContext.SaveChanges();
+        _dbContext.usp_UpdatePerson(matchingPerson);
         return ConvertPerson(matchingPerson);
     }
 
@@ -187,8 +187,7 @@ public class PersonsService : IPersonsService
         if (person == null)
             return false;
 
-        _dbContext.Persons.Remove(person);
-        _dbContext.SaveChanges();
+        _dbContext.usp_DeletePerson(personID.Value);
 
         return true;
     }

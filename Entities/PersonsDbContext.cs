@@ -52,4 +52,29 @@ public class PersonsDbContext : DbContext
             $"EXEC usp_InsertPerson @PersonID, @PersonName, @Email, @DateOfBirth, @Gender, @Address, @CountryID, @ReceiveNewsLetters",
             sqlParameters);
     }
+
+    public int usp_UpdatePerson(Person person)
+    {
+        SqlParameter[] sqlParameters = [new SqlParameter("@PersonID", person.PersonID),
+         new SqlParameter("@PersonName", person.PersonName),
+         new SqlParameter("@Email", person.Email),
+         new SqlParameter("@DateOfBirth", person.DateOfBirth),
+         new SqlParameter("@Gender", person.Gender),
+         new SqlParameter("@CountryID", person.CountryID),
+         new SqlParameter("@Address", person.Address),
+         new SqlParameter("@ReceiveNewsLetters", person.ReceiveNewsLetters)
+         ];
+       return Database.ExecuteSqlRaw(
+            $"EXEC usp_UpdatePerson @PersonID, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @Address, @ReceiveNewsLetters",
+            sqlParameters);
+    }
+
+    public int usp_DeletePerson(Guid personID)
+    {
+        SqlParameter sqlParameter = new SqlParameter("@PersonID", personID);
+        return Database.ExecuteSqlRaw(
+            $"EXEC usp_DeletePerson @PersonID",
+            sqlParameter);
+    }
+
 }
