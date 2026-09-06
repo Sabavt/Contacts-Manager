@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities;
 
@@ -22,4 +23,6 @@ public class Person
     public Guid? CountryID { get; set; }
     public string? Address { get; set; }
     public bool? ReceiveNewsLetters { get; set; }
+    [StringLength(20)] 
+    public string? TIN { get; set; }
 }

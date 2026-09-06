@@ -29,5 +29,13 @@ public class PersonsDbContext : DbContext
 
         foreach (Person person in persons)
             modelBuilder.Entity<Person>().HasData(person);
+
+        modelBuilder.Entity<Person>().Property(p => p.TIN)
+            .HasColumnName("TaxIdentificationNumber")
+            .HasColumnType("varchar(8)");
+
+        modelBuilder.Entity<Person>().HasIndex(p => p.TIN).IsUnique();
+
+        modelBuilder.Entity<Person>().ToTable(c => c.HasCheckConstraint("CK_Persons_TIN", "LEN([TaxIdentificationNumber]) = 8"));
     }
 }
