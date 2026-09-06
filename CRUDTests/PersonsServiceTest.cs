@@ -12,11 +12,13 @@ public class PersonsServiceTest
     private readonly IPersonsService _personsService;
     private readonly ICountriesService _countriesService;
     private readonly ITestOutputHelper _outputHelper;
+    private readonly PersonsDbContext _dbContext;
 
-    public PersonsServiceTest(ITestOutputHelper testOutputHelper)
+    public PersonsServiceTest(ITestOutputHelper testOutputHelper, PersonsDbContext db)
     {
-        _personsService = new PersonsService();
-        _countriesService = new CountriesService(false);
+        _dbContext = db;
+        _countriesService = new CountriesService(_dbContext);
+        _personsService = new PersonsService(_dbContext, _countriesService);
         _outputHelper = testOutputHelper;
     }
 
