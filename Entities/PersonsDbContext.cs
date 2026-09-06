@@ -1,28 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore; 
 
 namespace Entities;
 
 public class PersonsDbContext : DbContext
 {
+    public PersonsDbContext(DbContextOptions options) : base(options)
+    { 
+    }
     public DbSet<Person> Persons { get; set; }
     public DbSet<Country> Countries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-         
+
         modelBuilder.Entity<Country>().ToTable("Countries");
         modelBuilder.Entity<Person>().ToTable("Persons");
+         
+        string countriesJson = File.ReadAllText("countries.json");
+        List<Country> countries = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(countriesJson);
 
-        string countries_json = File.ReadAllText("countries.json");
-        List<Country>? countries = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(countries_json);
-        string persons_json = File.ReadAllText("persons.json");
-        List<Country>? persons = System.Text.Json.JsonSerializer.Deserialize<List<Country>>(persons_json);
-
-        foreach (var country in countries) 
+        foreach (Country country in countries)
             modelBuilder.Entity<Country>().HasData(country);
 
-        foreach (var person in persons)
+         
+        string personsJson =File.ReadAllText("persons.json");
+        List<Person> persons = System.Text.Json.JsonSerializer.Deserialize<List<Person>>(personsJson);
+
+        foreach (Person person in persons)
             modelBuilder.Entity<Person>().HasData(person);
     }
 }
