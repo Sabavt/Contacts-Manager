@@ -39,15 +39,13 @@ public class PersonsService : IPersonsService
         Person p = personAddRequest.ToPerson();
 
         p.PersonID = Guid.NewGuid();
-        _dbContext.Persons.Add(p);
-        _dbContext.SaveChanges();
-
+        _dbContext.usp_InsertPerson(p);
         return ConvertPerson(p);
     }
 
     public List<PersonResponse> GetAllPerson()
     {
-        return _dbContext.Persons.ToList().Select((p) => ConvertPerson(p)).ToList();
+        return _dbContext.usp_GetAllPersons().Select((p) => ConvertPerson(p)).ToList();
     }
 
     public PersonResponse? GetPersonByPersonID(Guid? personID)

@@ -20,6 +20,7 @@ public class Person
     [StringLength(8)] 
     public string? Gender { get; set; } = null!; 
     public Guid? CountryID { get; set; }
+    [StringLength(100)]
     public string? Address { get; set; }
     public bool? ReceiveNewsLetters { get; set; }
 }
