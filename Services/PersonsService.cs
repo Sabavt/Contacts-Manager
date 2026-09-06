@@ -40,6 +40,7 @@ public class PersonsService : IPersonsService
 
         p.PersonID = Guid.NewGuid();
         _dbContext.Persons.Add(p);
+        _dbContext.SaveChanges();
 
         return ConvertPerson(p);
     }
@@ -174,6 +175,7 @@ public class PersonsService : IPersonsService
         matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
         matchingPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
 
+        _dbContext.SaveChanges();
         return ConvertPerson(matchingPerson);
     }
 
@@ -188,6 +190,7 @@ public class PersonsService : IPersonsService
             return false;
 
         _dbContext.Persons.Remove(person);
+        _dbContext.SaveChanges();
 
         return true;
     }

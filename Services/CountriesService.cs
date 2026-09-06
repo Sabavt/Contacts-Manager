@@ -27,6 +27,7 @@ public class CountriesService : ICountriesService
         Country country = countryAddRequest.ToCountry();
 
         _dbContext.Countries.Add(country);
+        _dbContext.SaveChanges();
 
         return country.ToCountryResponse();
     }
