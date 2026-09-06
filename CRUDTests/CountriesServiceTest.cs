@@ -6,11 +6,11 @@ namespace CRUDTests;
 
 public class CountriesServiceTest
 {
-    private readonly ICountriesService _countriesService;
+    private readonly ICountriesService _countriesService; 
 
     public CountriesServiceTest()
     {
-        _countriesService = new CountriesService(false);
+        _countriesService = new CountriesService();
     }
 
     [Fact]
