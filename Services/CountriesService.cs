@@ -34,7 +34,7 @@ public class CountriesService : ICountriesService
 
     public List<CountryResponse> GetAllCountries()
     {
-        return _dbContext.Countries.Select(c => c.ToCountryResponse()).ToList();
+        return _dbContext.Countries.ToList().Select(c => c.ToCountryResponse()).ToList();
     }
 
     public CountryResponse? GetCountryByCountryID(Guid? countryID)
