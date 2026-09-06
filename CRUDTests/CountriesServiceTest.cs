@@ -1,4 +1,5 @@
-﻿using ServiceContracts;
+﻿using Entities;
+using ServiceContracts;
 using ServiceContracts.DTO;
 using Services;
 
@@ -6,11 +7,13 @@ namespace CRUDTests;
 
 public class CountriesServiceTest
 {
-    private readonly ICountriesService _countriesService; 
+    private readonly ICountriesService _countriesService;
+    private readonly PersonsDbContext _dbContext;
 
-    public CountriesServiceTest()
+    public CountriesServiceTest(PersonsDbContext db)
     {
-        _countriesService = new CountriesService();
+        _dbContext = db ;
+        _countriesService = new CountriesService(_dbContext);
     }
 
     [Fact]
