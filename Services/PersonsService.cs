@@ -6,6 +6,7 @@ using Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using CsvHelper;
 using CsvHelper.Configuration;
+using OfficeOpenXml;
 
 namespace Services;
 
@@ -229,5 +230,19 @@ public class PersonsService : IPersonsService
          
         stream.Position = 0;
         return stream;
+    }
+
+    public Task<MemoryStream> GetPersonsExcel()
+    {
+        MemoryStream memoryStream = new MemoryStream();
+        StreamWriter stream = new StreamWriter(memoryStream);
+
+        using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
+        {
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Persons");
+            worksheet.Cells["A1"].Value = "";
+
+        }
+               
     }
 }
