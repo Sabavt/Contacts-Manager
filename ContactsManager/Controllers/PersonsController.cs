@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -130,6 +131,18 @@ namespace ContactsManager.Controllers
                 return RedirectToActionPermanent("Index");
 
             return RedirectToActionPermanent("Index");
+        }
+
+        [Route("[action]")]
+        public async Task<IActionResult> PersonsPDF()
+        {
+            List<PersonResponse> personResponses = await  _personsService.GetAllPerson();
+
+            return new ViewAsPdf("PersonsPDF", personResponses, ViewData)
+            {
+                PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape
+            };
         }
     }
 }
