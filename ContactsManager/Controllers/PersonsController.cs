@@ -46,10 +46,12 @@ namespace ContactsManager.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Countries =  _countriesService.GetAllCountries()
-                .Result.Select(item => new SelectListItem()
+            var countries = await _countriesService.GetAllCountries();
+
+            ViewBag.Countries = countries
+                .Select(item => new SelectListItem()
                 {
                     Text = item.CountryName,
                     Value = item.CountryID.ToString()
