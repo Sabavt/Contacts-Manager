@@ -1,5 +1,6 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using ServiceContracts;
 using Services;
 
@@ -19,6 +20,8 @@ if (builder.Environment.IsDevelopment())
 }
 
 Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
+
+ExcelPackage.License.SetNonCommercialPersonal("Saba");
 
 app.UseStaticFiles();
 app.MapControllers();

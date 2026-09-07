@@ -235,41 +235,50 @@ public class PersonsService : IPersonsService
 
     public async Task<MemoryStream> GetPersonsExcel()
     {
-        MemoryStream stream = new MemoryStream();
-        StreamWriter writer = new StreamWriter(stream);
-
-        using (var excelPackage = new ExcelPackage(stream))
+        MemoryStream memoryStream = new MemoryStream();
+        using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
         {
-            int rows = 2;
-            var worksheet = excelPackage.Workbook.Worksheets.Add("Persons");
-            worksheet.Cells[1, 1].Value = nameof(PersonResponse.PersonName);
-            worksheet.Cells[1, 2].Value = nameof(PersonResponse.Age);
-            worksheet.Cells[1, 3].Value = nameof(PersonResponse.Gender);
-            worksheet.Cells[1, 4].Value = nameof(PersonResponse.Email);
-            worksheet.Cells[1, 5].Value = nameof(PersonResponse.DateOfBirth);
-            worksheet.Cells[1, 6].Value = nameof(PersonResponse.Address);
+            ExcelWorksheet workSheet = excelPackage.Workbook.Worksheets.Add("PersonsSheet");
+            workSheet.Cells["A1"].Value = "Person Name";
+            workSheet.Cells["B1"].Value = "Email";
+            workSheet.Cells["C1"].Value = "Date of Birth";
+            workSheet.Cells["D1"].Value = "Age";
+            workSheet.Cells["E1"].Value = "Gender";
+            workSheet.Cells["F1"].Value = "Country";
+            workSheet.Cells["G1"].Value = "Address";
+            workSheet.Cells["H1"].Value = "Receive News Letters";
 
-            var persons = _dbContext.Persons.Include("Country")
-                .Select((temp) => temp.ToPersonResponse()).ToList();
-
-            foreach( var person in persons)
+            using (ExcelRange headerCells = workSheet.Cells["A1:H1"])
             {
-                worksheet.Cells[rows, 1].Value = person.PersonName;
-                worksheet.Cells[rows, 2].Value = person.Age;
-                worksheet.Cells[rows, 3].Value = person.Gender;
-                worksheet.Cells[rows, 4].Value = person.Email;
-                worksheet.Cells[rows, 5].Value = person.DateOfBirth?.ToString("yyyy mm dd");
-                worksheet.Cells[rows, 6].Value = person.Address;
+                headerCells.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                headerCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                headerCells.Style.Font.Bold = true;
+            }
+            int row = 2;
+            List<PersonResponse> persons = _dbContext.Persons
+              .Include("Country").Select(temp => temp.ToPersonResponse())
+              .ToList();
+            foreach (PersonResponse person in persons)
+            {
+                workSheet.Cells[row, 1].Value = person.PersonName;
+                workSheet.Cells[row, 2].Value = person.Email;
+                if (person.DateOfBirth.HasValue)
+                    workSheet.Cells[row, 3].Value = person.DateOfBirth.Value.ToString("yyyy-MM-dd");
+                workSheet.Cells[row, 4].Value = person.Age;
+                workSheet.Cells[row, 5].Value = person.Gender;
+                workSheet.Cells[row, 6].Value = person.Country;
+                workSheet.Cells[row, 7].Value = person.Address;
+                workSheet.Cells[row, 8].Value = person.ReceiveNewsLetters;
 
-                rows++;
-            
-                worksheet.Cells[$"A1:H{rows}"].AutoFitColumns();
-
-                await excelPackage.SaveAsync();
+                row++;
             }
 
-            stream.Position = 0;
-            return stream;
+            workSheet.Cells[$"A1:H{row}"].AutoFitColumns();
+
+            await excelPackage.SaveAsync();
         }
+
+        memoryStream.Position = 0;
+        return memoryStream;
     }
-}
+} 
