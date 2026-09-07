@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using CsvHelper;
 using CsvHelper.Configuration;
 using OfficeOpenXml;
+using System.ComponentModel.DataAnnotations;
 
 namespace Services;
 
@@ -232,17 +233,43 @@ public class PersonsService : IPersonsService
         return stream;
     }
 
-    public Task<MemoryStream> GetPersonsExcel()
+    public async Task<MemoryStream> GetPersonsExcel()
     {
-        MemoryStream memoryStream = new MemoryStream();
-        StreamWriter stream = new StreamWriter(memoryStream);
+        MemoryStream stream = new MemoryStream();
+        StreamWriter writer = new StreamWriter(stream);
 
-        using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
+        using (var excelPackage = new ExcelPackage(stream))
         {
-            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Persons");
-            worksheet.Cells["A1"].Value = "";
+            int rows = 2;
+            var worksheet = excelPackage.Workbook.Worksheets.Add("Persons");
+            worksheet.Cells[1, 1].Value = nameof(PersonResponse.PersonName);
+            worksheet.Cells[1, 2].Value = nameof(PersonResponse.Age);
+            worksheet.Cells[1, 3].Value = nameof(PersonResponse.Gender);
+            worksheet.Cells[1, 4].Value = nameof(PersonResponse.Email);
+            worksheet.Cells[1, 5].Value = nameof(PersonResponse.DateOfBirth);
+            worksheet.Cells[1, 6].Value = nameof(PersonResponse.Address);
 
+            var persons = _dbContext.Persons.Include("Country")
+                .Select((temp) => temp.ToPersonResponse()).ToList();
+
+            foreach( var person in persons)
+            {
+                worksheet.Cells[rows, 1].Value = person.PersonName;
+                worksheet.Cells[rows, 2].Value = person.Age;
+                worksheet.Cells[rows, 3].Value = person.Gender;
+                worksheet.Cells[rows, 4].Value = person.Email;
+                worksheet.Cells[rows, 5].Value = person.DateOfBirth?.ToString("yyyy mm dd");
+                worksheet.Cells[rows, 6].Value = person.Address;
+
+                rows++;
+            
+                worksheet.Cells[$"A1:H{rows}"].AutoFitColumns();
+
+                await excelPackage.SaveAsync();
+            }
+
+            stream.Position = 0;
+            return stream;
         }
-               
     }
 }
