@@ -7,13 +7,11 @@ namespace CRUDTests;
 
 public class CountriesServiceTest
 {
-    private readonly ICountriesService _countriesService;
-    private readonly PersonsDbContext _dbContext;
+    private readonly ICountriesService _countriesService; 
 
     public CountriesServiceTest(PersonsDbContext db)
-    {
-        _dbContext = db ;
-        _countriesService = new CountriesService(_dbContext);
+    { 
+        _countriesService = new CountriesService(db);
     }
 
     [Fact]
@@ -23,7 +21,7 @@ public class CountriesServiceTest
         CountryAddRequest? request = new CountryAddRequest() { CountryName = null };
 
         //Assert
-        await Assert.ThrowsAsync<ArgumentException>(() => _countriesService.AddCountry(request));
+        await Assert.ThrowsAsync<ArgumentException>(async () => await _countriesService.AddCountry(request));
     }
 
     [Fact]
@@ -33,7 +31,7 @@ public class CountriesServiceTest
         CountryAddRequest? request = null;
 
         //Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _countriesService.AddCountry(request));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await _countriesService.AddCountry(request));
     }
 
     [Fact]
