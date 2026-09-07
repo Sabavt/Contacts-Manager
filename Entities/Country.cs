@@ -10,6 +10,6 @@ namespace Entities
         [Key]
         public Guid CountryID {  get; set; } = Guid.NewGuid();
         public string? CountryName { get; set; }
-        public ICollection<Person>? Persons { get; set; }
+        public virtual ICollection<Person>? Persons { get; set; }
     }
 }
