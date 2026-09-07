@@ -3,6 +3,7 @@ using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using Services.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services;
 
@@ -16,16 +17,7 @@ public class PersonsService : IPersonsService
         _countries = countriesService;
         _dbContext = personsDb;
     }
-
-    private PersonResponse ConvertPerson(Person person)
-    {
-        PersonResponse personResponse = person.ToPersonResponse();
-
-        personResponse.Country = _countries.GetCountryByCountryID(person.CountryID)?.CountryName;
-
-        return personResponse;
-    }
-
+     
     public PersonResponse AddPerson(PersonAddRequest? personAddRequest)
     {
         if (personAddRequest == null)
@@ -42,12 +34,15 @@ public class PersonsService : IPersonsService
         _dbContext.Persons.Add(p);
         _dbContext.SaveChanges();
 
-        return ConvertPerson(p);
+        return p.ToPersonResponse();
     }
 
     public List<PersonResponse> GetAllPerson()
     {
-        return _dbContext.Persons.ToList().Select((p) => ConvertPerson(p)).ToList();
+        var persons = _dbContext.Persons
+            .Include("Country").ToList();
+
+        return _dbContext.Persons.ToList().Select((p) => p.ToPersonResponse()).ToList();
     }
 
     public PersonResponse? GetPersonByPersonID(Guid? personID)
@@ -55,7 +50,7 @@ public class PersonsService : IPersonsService
         if (personID == null)
             throw new ArgumentNullException(nameof(personID));
 
-        return _dbContext.Persons.FirstOrDefault((p) => p.PersonID == personID)?.ToPersonResponse();
+        return _dbContext.Persons.Include("Country").FirstOrDefault((p) => p.PersonID == personID)?.ToPersonResponse();
     }
 
     public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
@@ -176,7 +171,7 @@ public class PersonsService : IPersonsService
         matchingPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
 
         _dbContext.SaveChanges();
-        return ConvertPerson(matchingPerson);
+        return matchingPerson.ToPersonResponse();
     }
 
     public bool DeletePerson(Guid? personID)

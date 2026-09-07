@@ -25,4 +25,7 @@ public class Person
     public bool? ReceiveNewsLetters { get; set; }
     [StringLength(20)] 
     public string? TIN { get; set; }
+
+    [ForeignKey("CountryID")]
+    public Country? Country { get; set; }
 }

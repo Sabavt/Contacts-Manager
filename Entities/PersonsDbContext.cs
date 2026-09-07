@@ -37,5 +37,9 @@ public class PersonsDbContext : DbContext
         modelBuilder.Entity<Person>().HasIndex(p => p.TIN).IsUnique();
 
         modelBuilder.Entity<Person>().ToTable(c => c.HasCheckConstraint("CK_Persons_TIN", "LEN([TaxIdentificationNumber]) = 8"));
+
+        modelBuilder.Entity<Person>(entity => { entity
+        .HasOne(c => c.Country).WithMany(p => p.Persons).HasForeignKey(p => p.CountryID);
+        });
     }
 }
