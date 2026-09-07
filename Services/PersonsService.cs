@@ -191,4 +191,10 @@ public class PersonsService : IPersonsService
 
         return true;
     }
+
+    public Task<MemoryStream> GetPersonsCSV()
+    {
+        MemoryStream stream = new MemoryStream();
+        StreamWriter writer = new StreamWriter(stream);
+    }
 }
