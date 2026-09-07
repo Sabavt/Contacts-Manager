@@ -151,5 +151,12 @@ namespace ContactsManager.Controllers
             MemoryStream persons_csv_stream = await _personsService.GetPersonsCSV();
             return File(persons_csv_stream, "text/csv", "Persons.csv");
         }
+
+        [Route("[action]")]
+        public async Task<IActionResult> PersonsExcel()
+        {
+            MemoryStream persons_excel_stream = await _personsService.GetPersonsExcel();
+            return File(persons_excel_stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Persons.xlsx");
+        }
     }
 }
