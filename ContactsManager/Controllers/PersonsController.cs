@@ -33,8 +33,8 @@ namespace ContactsManager.Controllers
             };
             List<PersonResponse> persons = await _personsService.GetFilteredPersons(searchBy, searchString);
 
-            ViewBag.CurrectSearchBy = searchBy;
-            ViewBag.CurrectSearchString = searchString;
+            ViewBag.CurrentSearchBy = searchBy;
+            ViewBag.CurrentSearchString = searchString;
 
             List<PersonResponse> sorted_persons = await _personsService.GetSortedPerson(persons, sortBy, sortOptions);
 

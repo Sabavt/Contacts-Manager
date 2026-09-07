@@ -92,8 +92,8 @@ public class PersonsService : IPersonsService
 
             case nameof(PersonResponse.Country):
                 matchingPersons = allPersons.Where(temp =>
-                (temp.CountryID is not null) ?
-                temp.CountryID.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
+                (temp.Country is not null) ?
+                temp.Country.ToString()!.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true).ToList();
                 break;
 
             case nameof(PersonResponse.Address):

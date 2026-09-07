@@ -303,7 +303,7 @@ public class PersonsServiceTest
     [Fact]
     public async Task DeletePerson_InvalidPersonID()
     { 
-        var person_response_from_get = await _personsService.DeletePerson(Guid.NewGuid());
+        bool person_response_from_get = await _personsService.DeletePerson(Guid.NewGuid());
 
         Assert.False(person_response_from_get);
     }
