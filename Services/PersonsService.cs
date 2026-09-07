@@ -32,7 +32,7 @@ public class PersonsService : IPersonsService
 
         p.PersonID = Guid.NewGuid();
         _dbContext.Persons.Add(p);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         await p.ToPersonResponse();
     }

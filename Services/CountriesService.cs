@@ -33,9 +33,9 @@ public class CountriesService : ICountriesService
         return country.ToCountryResponse();
     }
 
-    public Task<List<CountryResponse>> GetAllCountries()
+    public async Task<List<CountryResponse>> GetAllCountries()
     {
-        return _dbContext.Countries.ToList().Select(c => c.ToCountryResponse()).ToList();
+        return await _dbContext.Countries.Select(c => c.ToCountryResponse()).ToListAsync();
     }
 
     public async Task<CountryResponse?> GetCountryByCountryID(Guid? countryID)
