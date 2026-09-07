@@ -42,7 +42,11 @@ public class CountriesService : ICountriesService
     {
         if (countryID == null)
             return null;
+        Country? country_response_from_countries_table = await _dbContext.Countries.FirstOrDefaultAsync((c) => c.CountryID == countryID);
 
-        return _dbContext.Countries.FirstOrDefault((c) => c.CountryID == countryID)?.ToCountryResponse();
+        if (country_response_from_countries_table == null)
+            return null;
+
+        return country_response_from_countries_table.ToCountryResponse();
     }
 }
