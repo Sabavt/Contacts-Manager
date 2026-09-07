@@ -57,5 +57,5 @@ public interface IPersonsService
     /// </summary>
     /// <param name="personID">PersonID to delete</param>
     /// <returns>Retruns true if deletation is true, otherwise false</returns>
-    bool DeletePerson(Guid? personID);
+    Task<bool> DeletePerson(Guid? personID);
 }
