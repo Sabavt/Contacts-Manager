@@ -18,7 +18,7 @@ public class PersonsService : IPersonsService
         _dbContext = personsDb;
     }
      
-    public PersonResponse AddPerson(PersonAddRequest? personAddRequest)
+    public async Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest)
     {
         if (personAddRequest == null)
             throw new ArgumentNullException(nameof(personAddRequest));
@@ -34,7 +34,7 @@ public class PersonsService : IPersonsService
         _dbContext.Persons.Add(p);
         _dbContext.SaveChanges();
 
-        return p.ToPersonResponse();
+        await p.ToPersonResponse();
     }
 
     public List<PersonResponse> GetAllPerson()

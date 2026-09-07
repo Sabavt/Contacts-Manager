@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 
@@ -13,7 +14,7 @@ public class CountriesService : ICountriesService
         _dbContext = personsDbContext; 
     }
 
-    public CountryResponse AddCountry(CountryAddRequest? countryAddRequest)
+    public async Task<CountryResponse> AddCountry(CountryAddRequest? countryAddRequest)
     { 
         if(countryAddRequest == null) 
             throw new ArgumentNullException(nameof(countryAddRequest)); 
@@ -21,23 +22,23 @@ public class CountriesService : ICountriesService
         if(countryAddRequest.CountryName == null)
             throw new ArgumentException(nameof(countryAddRequest.CountryName));
 
-        if (_dbContext.Countries.Where(c => c.CountryName == countryAddRequest.CountryName).Count() > 0)
+        if (await _dbContext.Countries.CountAsync(c => c.CountryName == countryAddRequest.CountryName) > 0)
             throw new ArgumentException("Given country name alredy exists");
 
         Country country = countryAddRequest.ToCountry();
 
         _dbContext.Countries.Add(country);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         return country.ToCountryResponse();
     }
 
-    public List<CountryResponse> GetAllCountries()
+    public Task<List<CountryResponse>> GetAllCountries()
     {
         return _dbContext.Countries.ToList().Select(c => c.ToCountryResponse()).ToList();
     }
 
-    public CountryResponse? GetCountryByCountryID(Guid? countryID)
+    public async Task<CountryResponse?> GetCountryByCountryID(Guid? countryID)
     {
         if (countryID == null)
             return null;
