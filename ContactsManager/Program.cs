@@ -4,6 +4,7 @@ using OfficeOpenXml;
 using ServiceContracts;
 using Services;
 
+ExcelPackage.License.SetNonCommercialPersonal("Saba-Contacts-Manager");
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(); 
 
@@ -21,7 +22,6 @@ if (builder.Environment.IsDevelopment())
 
 Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 
-ExcelPackage.License.SetNonCommercialPersonal("Saba-Contacts-Manager");
 
 app.UseStaticFiles();
 app.MapControllers();

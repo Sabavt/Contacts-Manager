@@ -54,7 +54,7 @@ public class CountriesService : ICountriesService
      
     public async Task<int> UploadCountriesFromExcel(IFormFile fromFile)
     {
-        MemoryStream memoryStream = new MemoryStream();
+        using MemoryStream memoryStream = new MemoryStream();
         await fromFile.CopyToAsync(memoryStream);
 
         int countriesAddedCount = 0;

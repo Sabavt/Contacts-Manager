@@ -19,6 +19,7 @@ namespace ContactsManager.Controllers
             return View();
         }
 
+        [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> UploadExcel(IFormFile excelFile)
         {
