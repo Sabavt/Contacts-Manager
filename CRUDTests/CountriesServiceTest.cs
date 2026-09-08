@@ -1,4 +1,5 @@
 ﻿using Entities;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -27,8 +28,10 @@ public class CountriesServiceTest
         //Arrange
         CountryAddRequest? request = new CountryAddRequest() { CountryName = null };
 
+        Func<Task> act = async () => await _countriesService.AddCountry(request);
+
         //Assert
-        await Assert.ThrowsAsync<ArgumentException>(async () => await _countriesService.AddCountry(request));
+        await act.Should().ThrowAsync<ArgumentException>();
     }
 
     [Fact]
@@ -37,8 +40,10 @@ public class CountriesServiceTest
         //Arrange
         CountryAddRequest? request = null;
 
+        Func<Task> act = async () => await _countriesService.AddCountry(request);
+
         //Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await _countriesService.AddCountry(request));
+        await act.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -48,14 +53,10 @@ public class CountriesServiceTest
         CountryAddRequest? request1 = new CountryAddRequest() { CountryName = "USA" };
         CountryAddRequest? request2 = new CountryAddRequest() { CountryName = "USA" };
 
-        //Assert
-        await Assert.ThrowsAsync<ArgumentException>(async () =>
-        {
-            //Act
-            await _countriesService.AddCountry(request1);
-            await _countriesService.AddCountry(request2);
+        Func<Task> act = async () => await _countriesService.AddCountry(request1);
+        Func<Task> act2 = async () => await _countriesService.AddCountry(request2);
 
-        });
+        await act2.Should().ThrowAsync<ArgumentException>();
     }
 
     [Fact]
@@ -68,20 +69,18 @@ public class CountriesServiceTest
         CountryResponse response = await _countriesService.AddCountry(request);
         List<CountryResponse> countries_from_GetAllCountries = await _countriesService.GetAllCountries();
 
-        //Assert
-        Assert.True(response.CountryID != Guid.Empty);
-        Assert.Contains(response, countries_from_GetAllCountries);
+        response.CountryID.Should().NotBe(Guid.Empty);
+        countries_from_GetAllCountries.Should().Contain(response); 
     }
 
-    [Fact]
-    //The list of countries should be empty by default (before adding any countries) 
+    [Fact] 
     public async Task GetCountryList_EmptyList()
     {
         //Act
         List<CountryResponse> actualCountry = await _countriesService.GetAllCountries();
 
         //Assert
-        Assert.Empty(actualCountry);
+        actualCountry.Count.Should().Be(0);
     }
 
     [Fact]
@@ -100,10 +99,7 @@ public class CountriesServiceTest
         List<CountryResponse> actualCountryResponseList = await _countriesService.GetAllCountries();
 
         //Assert
-        foreach (var expected_country in countries_list_from_add_country)
-        {
-            Assert.Contains(expected_country, actualCountryResponseList);
-        }
+        actualCountryResponseList.Should().BeEquivalentTo(countries_list_from_add_country);
     }
 
     [Fact]
@@ -113,7 +109,9 @@ public class CountriesServiceTest
         Guid? guid = null;
 
         //Act
-        await _countriesService.GetCountryByCountryID(guid);
+        Func<Task> country_response = async () => await _countriesService.GetCountryByCountryID(guid); 
+
+        await country_response.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -127,6 +125,6 @@ public class CountriesServiceTest
         CountryResponse? county_response_from_get = await _countriesService.GetCountryByCountryID(country_response_from_add.CountryID);
 
         //Assert
-        Assert.Equal(country_response_from_add, county_response_from_get);
+        country_response_from_add.Should().BeEquivalentTo(county_response_from_get);
     }
 }
