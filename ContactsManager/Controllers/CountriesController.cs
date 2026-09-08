@@ -5,7 +5,8 @@ namespace ContactsManager.Controllers
     [Route("[controller]")]
     public class CountriesController : Controller
     {
-        public IActionResult Index()
+        [Route("[action]")]
+        public IActionResult UploadExcel()
         {
             return View();
         }
