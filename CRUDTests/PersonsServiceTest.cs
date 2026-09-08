@@ -294,14 +294,16 @@ public class PersonsServiceTest
 
         PersonAddRequest person_add_request = new() { PersonName = "test", Email = "test@gmail.com", CountryID = country_response_from_add.CountryID };
         PersonResponse? person_response_from_add = await _personsService.AddPerson(person_add_request);
-        var person_response_from_get = await _personsService.GetPersonByPersonID(person_response_from_add.PersonID);
-        Assert.True(person_response_from_get?.PersonID == person_response_from_add.PersonID);
+        bool isDeleted = await _personsService.DeletePerson(person_response_from_add.PersonID);
+
+        isDeleted.Should().BeTrue();
     }
+
     [Fact]
     public async Task DeletePerson_InvalidPersonID()
     { 
         bool person_response_from_get = await _personsService.DeletePerson(Guid.NewGuid());
 
-        Assert.False(person_response_from_get);
+        person_response_from_get.Should().BeFalse();
     }
 }
