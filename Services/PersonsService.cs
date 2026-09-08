@@ -6,8 +6,8 @@ using Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using CsvHelper;
 using CsvHelper.Configuration;
-using OfficeOpenXml;
-using System.ComponentModel.DataAnnotations;
+using OfficeOpenXml; 
+using Microsoft.AspNetCore.Http;
 
 namespace Services;
 
@@ -280,5 +280,11 @@ public class PersonsService : IPersonsService
 
         memoryStream.Position = 0;
         return memoryStream;
+    }
+
+    public async Task<int> UploadCountriesFromExcel(IFormFile fromFile)
+    {
+        MemoryStream memoryStream = new MemoryStream();
+        await fromFile.CopyToAsync(memoryStream);
     }
 } 

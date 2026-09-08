@@ -1,5 +1,6 @@
 ﻿using ServiceContracts.DTO;
 using ServiceContracts.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace ServiceContracts;
 
@@ -70,4 +71,11 @@ public interface IPersonsService
     /// </summary>
     /// <returns>Returns MemoryStream with Excel data</returns>
     Task<MemoryStream> GetPersonsExcel();
+
+    /// <summary>
+    /// Uploads countries from the given excel file
+    /// </summary>
+    /// <param name="formFile">Excel file with list of countries</param>
+    /// <returns>Returns count of countries added into database</returns>
+    Task<int> UploadCountriesFromExcel(IFormFile fromFile);
 }
