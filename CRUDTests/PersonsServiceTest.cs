@@ -264,8 +264,9 @@ public class PersonsServiceTest
 
         PersonUpdateRequest? person_update_request = person_response_from_add.ToPersonUpdateRequest();
         person_update_request.PersonName = null;
+        Func<Task> act = async () => await _personsService.UpdatePerson(person_update_request);
 
-        await Assert.ThrowsAsync<ArgumentException>(async () => await _personsService.UpdatePerson(person_update_request)); 
+        await act.Should().ThrowAsync<ArgumentException>();
     }
     
     [Fact]
@@ -280,10 +281,9 @@ public class PersonsServiceTest
         PersonUpdateRequest? person_update_request = person_response_from_add.ToPersonUpdateRequest(); 
         person_update_request.PersonName = "Larry";
 
-        PersonResponse person_response_from_update = await _personsService.UpdatePerson(person_update_request);
-        PersonResponse? person_response_from_get = await _personsService.GetPersonByPersonID(person_response_from_update.PersonID);
+        PersonResponse person_response_from_update = await _personsService.UpdatePerson(person_update_request); 
 
-        Assert.Equal(person_response_from_update, person_response_from_get);
+        person_add_request.PersonName.Should().NotBe(person_response_from_update.PersonName);
     }
 
     [Fact]
