@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using Services;
@@ -7,11 +8,17 @@ namespace CRUDTests;
 
 public class CountriesServiceTest
 {
-    private readonly ICountriesService _countriesService; 
+    private readonly ICountriesService _countriesService;
 
-    public CountriesServiceTest(PersonsDbContext db)
-    { 
-        _countriesService = new CountriesService(db);
+    public CountriesServiceTest()
+    {
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+        .Options;
+
+        ApplicationDbContext dbContext = new ApplicationDbContext(options);
+
+        _countriesService = new CountriesService(dbContext);
     }
 
     [Fact]
@@ -45,8 +52,8 @@ public class CountriesServiceTest
         await Assert.ThrowsAsync<ArgumentException>(async () =>
         {
             //Act
-             await _countriesService.AddCountry(request1);
-             await _countriesService.AddCountry(request2);
+            await _countriesService.AddCountry(request1);
+            await _countriesService.AddCountry(request2);
 
         });
     }
@@ -69,31 +76,31 @@ public class CountriesServiceTest
     [Fact]
     //The list of countries should be empty by default (before adding any countries) 
     public async Task GetCountryList_EmptyList()
-    {   
+    {
         //Act
         List<CountryResponse> actualCountry = await _countriesService.GetAllCountries();
 
         //Assert
         Assert.Empty(actualCountry);
     }
-    
-    [Fact] 
+
+    [Fact]
     public async Task GetCountryList_AddFewCountries()
-    {   
+    {
         //Arrange
-        List<CountryAddRequest> country_request_list =[ new CountryAddRequest() { CountryName = "USA"},new CountryAddRequest() { CountryName = "Germany"},new CountryAddRequest() { CountryName = "Belgium"}]; 
+        List<CountryAddRequest> country_request_list = [new CountryAddRequest() { CountryName = "USA" }, new CountryAddRequest() { CountryName = "Germany" }, new CountryAddRequest() { CountryName = "Belgium" }];
         List<CountryResponse> countries_list_from_add_country = new List<CountryResponse>();
 
         //Assert
         foreach (var country_request in country_request_list)
         {
             countries_list_from_add_country.Add(await _countriesService.AddCountry(country_request));
-        } 
+        }
 
         List<CountryResponse> actualCountryResponseList = await _countriesService.GetAllCountries();
 
         //Assert
-        foreach(var expected_country in countries_list_from_add_country)
+        foreach (var expected_country in countries_list_from_add_country)
         {
             Assert.Contains(expected_country, actualCountryResponseList);
         }
@@ -107,13 +114,13 @@ public class CountriesServiceTest
 
         //Act
         await _countriesService.GetCountryByCountryID(guid);
-    } 
-      
+    }
+
     [Fact]
     public async Task GetCountryByCountryID_ValidCountyID()
     {
         //Arrange
-        CountryAddRequest? country_add_request = new CountryAddRequest() { CountryName = "Egypt"}; 
+        CountryAddRequest? country_add_request = new CountryAddRequest() { CountryName = "Egypt" };
         CountryResponse country_response_from_add = await _countriesService.AddCountry(country_add_request);
 
         //Act

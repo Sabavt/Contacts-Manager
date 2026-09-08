@@ -9,9 +9,9 @@ namespace Services;
 
 public class CountriesService : ICountriesService
 {
-    private readonly PersonsDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
 
-    public CountriesService(PersonsDbContext personsDbContext)
+    public CountriesService(ApplicationDbContext personsDbContext)
     {
         _dbContext = personsDbContext; 
     }
@@ -20,7 +20,7 @@ public class CountriesService : ICountriesService
     { 
         if(countryAddRequest == null) 
             throw new ArgumentNullException(nameof(countryAddRequest)); 
-
+        
         if(countryAddRequest.CountryName == null)
             throw new ArgumentException(nameof(countryAddRequest.CountryName));
 
@@ -70,8 +70,7 @@ public class CountriesService : ICountriesService
 
                 if (_dbContext.Countries.Any(temp => temp.CountryName == countryName))
                     continue;
-
-
+                
                 _dbContext.Countries.Add(new Entities.Country() { CountryID = Guid.NewGuid(), CountryName = countryName });
                 await _dbContext.SaveChangesAsync();
 
