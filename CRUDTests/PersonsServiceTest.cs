@@ -12,15 +12,13 @@ public class PersonsServiceTest
 {
     private readonly IPersonsService _personsService;
     private readonly ICountriesService _countriesService;
-    private readonly ITestOutputHelper _outputHelper;
-    private readonly ApplicationDbContext _dbContext;
+    private readonly ITestOutputHelper _outputHelper; 
     private readonly IFixture _fixture;
 
-    public PersonsServiceTest(ITestOutputHelper testOutputHelper, ApplicationDbContext db)
-    {
-        _dbContext = db;
-        _countriesService = new CountriesService(_dbContext);
-        _personsService = new PersonsService(_dbContext);
+    public PersonsServiceTest(ITestOutputHelper testOutputHelper)
+    { 
+        _countriesService = new CountriesService(null);
+        _personsService = new PersonsService(null);
         _outputHelper = testOutputHelper;
         _fixture = new Fixture();
     }

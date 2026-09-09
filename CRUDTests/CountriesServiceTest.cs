@@ -12,14 +12,8 @@ public class CountriesServiceTest
     private readonly ICountriesService _countriesService;
 
     public CountriesServiceTest()
-    {
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-        .Options;
-
-        ApplicationDbContext dbContext = new ApplicationDbContext(options);
-
-        _countriesService = new CountriesService(dbContext);
+    {  
+        _countriesService = new CountriesService(null);
     }
 
     [Fact]
