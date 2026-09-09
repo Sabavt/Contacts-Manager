@@ -1,15 +1,17 @@
-﻿using Entities;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using ServiceContracts;
+﻿using ServiceContracts;
 using ServiceContracts.DTO;
 using Services;
+using FluentAssertions;
+using Moq;
+using RepositoryContracts;
 
 namespace CRUDTests;
 
 public class CountriesServiceTest
 {
     private readonly ICountriesService _countriesService;
+    private readonly ICountriesRepository _countriesRepository;
+    private readonly Mock<ICountriesRepository> _countriesRepositoryMock;
 
     public CountriesServiceTest()
     {  

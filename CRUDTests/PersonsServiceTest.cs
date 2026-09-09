@@ -1,6 +1,9 @@
 ﻿using AutoFixture;
 using Entities;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.ObjectModel;
+using Moq;
+using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -12,11 +15,14 @@ public class PersonsServiceTest
 {
     private readonly IPersonsService _personsService;
     private readonly ICountriesService _countriesService;
+    private readonly IPersonsRepository _personsRepository;
+    private readonly Mock<IPersonsRepository> _personsRepositoryMock;
     private readonly ITestOutputHelper _outputHelper; 
     private readonly IFixture _fixture;
 
     public PersonsServiceTest(ITestOutputHelper testOutputHelper)
     { 
+        _personsRepositoryMock = new Mock<IPersonsRepository>();
         _countriesService = new CountriesService(null);
         _personsService = new PersonsService(null);
         _outputHelper = testOutputHelper;
@@ -42,10 +48,15 @@ public class PersonsServiceTest
     }
 
     [Fact]
-    public async Task AddPerson_ProperPersonDetails()
+    public async Task AddPerson_ProperPersonDetails_ToBeAddedIntoDatabase()
     {
         PersonAddRequest request = _fixture.Build<PersonAddRequest>() 
             .With(p => p.Email, "john@gmail.com").Create();
+
+        _personsRepositoryMock.Setup(tmp => 
+        tmp.AddPerson(It.IsAny<Person>()))
+            .ReturnsAsync(new Person()
+            );
 
         PersonResponse person_response_from_add = await _personsService.AddPerson(request);
         List<PersonResponse> allPersons = await _personsService.GetAllPerson();
