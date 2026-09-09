@@ -6,18 +6,18 @@ using Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using CsvHelper;
 using CsvHelper.Configuration;
-using OfficeOpenXml; 
-using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
+using RepositoryContracts;
 
 namespace Services;
 
 public class PersonsService : IPersonsService
 {  
-    private readonly ApplicationDbContext _dbContext;
+    private readonly IPersonsRepository _personsRepository;
 
-    public PersonsService(ApplicationDbContext personsDb)
+    public PersonsService(IPersonsRepository personsDb)
     {  
-        _dbContext = personsDb;
+        _personsRepository = personsDb;
     }
      
     public async Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest)
