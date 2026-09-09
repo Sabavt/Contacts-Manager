@@ -33,7 +33,7 @@ public interface IPersonsRepository
     /// </summary>
     /// <param name="predicate">LINQ expression to check</param>
     /// <returns>All matching persons with given condition</returns>
-    Task<Person?> GetFilteredPersons(Expression<Func<Person, bool>> predicate);
+    Task<List<Person>> GetFilteredPersons(Expression<Func<Person, bool>> predicate);
 
     /// <summary>
     /// Deletes a person from the data source based on the given person ID

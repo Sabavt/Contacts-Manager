@@ -1,0 +1,57 @@
+﻿using Entities;
+using Microsoft.EntityFrameworkCore;
+using RepositoryContracts;
+using System.Linq.Expressions;
+
+namespace Repositories;
+
+public class PersonsRepository : IPersonsRepository
+{
+    private readonly ApplicationDbContext _db;
+
+    public PersonsRepository(ApplicationDbContext db)
+    {
+        _db = db;
+    }
+
+    public async Task<Person> AddPerson(Person person)
+    {
+        await _db.Persons.AddAsync(person);
+        await _db.SaveChangesAsync();
+
+        return person;
+    }
+
+    public async Task<bool> DeletePersonByPersonID(Guid? personID)
+    {
+        await _db.Persons.Where(p => p.PersonID == personID).ExecuteDeleteAsync();
+        return await _db.SaveChangesAsync() > 0; 
+    }
+
+    public async Task<List<Person>> GetAllPersons()
+    {
+        return await _db.Persons.Include(p => p.Country).ToListAsync();
+    }
+
+    public async Task<List<Person>> GetFilteredPersons(Expression<Func<Person, bool>> predicate)
+    {
+        return await _db.Persons.Include(p => p.Country)
+            .Where(predicate)
+            .ToListAsync();
+    }
+
+    public async Task<Person?> GetPersonByPersonID(Guid? personID)
+    {
+        return await _db.Persons.Include(p => p.Country)
+            .Where((p) => p.PersonID == personID)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<Person> UpdatePerson(Person person)
+    {
+        _db.Persons.Update(person);
+        await _db.SaveChangesAsync();
+
+        return person;
+    }
+}
