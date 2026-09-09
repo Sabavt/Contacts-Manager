@@ -15,9 +15,9 @@ public class PersonsService : IPersonsService
 {  
     private readonly IPersonsRepository _personsRepository;
 
-    public PersonsService(IPersonsRepository personsDb)
+    public PersonsService(IPersonsRepository personsRepository)
     {  
-        _personsRepository = personsDb;
+        _personsRepository = personsRepository;
     }
      
     public async Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest)
@@ -30,28 +30,27 @@ public class PersonsService : IPersonsService
         if (string.IsNullOrEmpty(personAddRequest.PersonName))
             throw new ArgumentException(nameof(personAddRequest.PersonName));
 
-        Person p = personAddRequest.ToPerson();
+        Person person_to_add = personAddRequest.ToPerson();
 
-        p.PersonID = Guid.NewGuid();
-        await _dbContext.Persons.AddAsync(p);
-        await _dbContext.SaveChangesAsync();
+        person_to_add.PersonID = Guid.NewGuid();
+        await _personsRepository.AddPerson(person_to_add);
 
-        return p.ToPersonResponse();
+        return person_to_add.ToPersonResponse();
     }
 
     public async Task<List<PersonResponse>> GetAllPerson()
     {
-        var persons = await _dbContext.Persons
-            .Include("Country").ToListAsync();
+        var persons_from_rep = await _personsRepository.GetAllPersons();
 
-        return  persons.Select((p) => p.ToPersonResponse()).ToList();
+        return persons_from_rep.Select(temp =>  temp.ToPersonResponse()).ToList();
     }
 
     public async Task<PersonResponse?> GetPersonByPersonID(Guid? personID)
     {
         if (personID == null)
             throw new ArgumentNullException(nameof(personID));
-        var person = await _dbContext.Persons.Include("Country").FirstOrDefaultAsync((p) => p.PersonID == personID);
+
+        var person = await _personsRepository.GetPersonByPersonID(personID.Value);
 
         if(person == null)
             return null;
@@ -162,36 +161,16 @@ public class PersonsService : IPersonsService
             throw new ArgumentNullException(nameof(personUpdateRequest));
 
         ValidationHelper.ValidateModel(personUpdateRequest);
-
-        Person? matchingPerson = await _dbContext.Persons.FirstOrDefaultAsync((p) => p.PersonID == personUpdateRequest.PersonID);
-
-        if (matchingPerson == null)
-            throw new ArgumentException("Given person id doen't exists");
-
-        matchingPerson.PersonName = personUpdateRequest.PersonName;
-        matchingPerson.Email = personUpdateRequest.Email;
-        matchingPerson.Address = personUpdateRequest.Address;
-        matchingPerson.Gender = personUpdateRequest.Gender.ToString();
-        matchingPerson.CountryID = personUpdateRequest.CountryID;
-        matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
-        matchingPerson.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
-
-        await _dbContext.SaveChangesAsync();
-        return matchingPerson.ToPersonResponse();
+          
+        return (await _personsRepository.UpdatePerson(personUpdateRequest.ToPerson())).ToPersonResponse(); 
     }
 
     public async Task<bool> DeletePerson(Guid? personID)
     {
         if (personID == null)
-            throw new ArgumentNullException(nameof(personID));
-
-        Person? person = await _dbContext.Persons.FirstOrDefaultAsync((p) => p.PersonID == personID);
-
-        if (person == null)
-            return false;
-
-        _dbContext.Persons.Remove(person);
-        _dbContext.SaveChanges();
+            throw new ArgumentNullException(nameof(personID)); 
+         
+        await _personsRepository.DeletePersonByPersonID(personID.Value);
 
         return true;
     }
@@ -211,10 +190,9 @@ public class PersonsService : IPersonsService
         csvWriter.WriteField(nameof(PersonResponse.DateOfBirth));
         csvWriter.WriteField(nameof(PersonResponse.Address));
 
-        csvWriter.NextRecord();  
+        csvWriter.NextRecord();
 
-        var persons = _dbContext.Persons.Include("Country")
-            .Select((temp) => temp.ToPersonResponse()).ToList();
+        var persons = await GetAllPerson();
         
         foreach(PersonResponse person in persons)
         {
@@ -255,9 +233,7 @@ public class PersonsService : IPersonsService
                 headerCells.Style.Font.Bold = true;
             }
             int row = 2;
-            List<PersonResponse> persons = _dbContext.Persons
-              .Include("Country").Select(temp => temp.ToPersonResponse())
-              .ToList();
+            List<PersonResponse> persons = await GetAllPerson();
             foreach (PersonResponse person in persons)
             {
                 workSheet.Cells[row, 1].Value = person.PersonName;
