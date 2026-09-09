@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 
 namespace Repositories;
@@ -20,18 +21,18 @@ public class CountriesRepository : ICountriesRepository
         return country;
     }
 
-    public Task<List<Country>> GetAllCountries()
+    public async Task<List<Country>> GetAllCountries()
     {
-        throw new NotImplementedException();
+        return await _db.Countries.ToListAsync();
     }
 
-    public Task<Country?> GetCountryByCountryID(Guid? countryID)
+    public async Task<Country?> GetCountryByCountryID(Guid? countryID)
     {
-        throw new NotImplementedException();
+       return await _db.Countries.FirstOrDefaultAsync(c => c.CountryID == countryID);
     }
 
-    public Task<Country?> GetCountryByCountryName(string? countryName)
+    public async Task<Country?> GetCountryByCountryName(string? countryName)
     {
-        throw new NotImplementedException();
+        return await _db.Countries.FirstOrDefaultAsync(c => c.CountryName == countryName);
     }
 }
