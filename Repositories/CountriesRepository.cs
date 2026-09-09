@@ -12,9 +12,12 @@ public class CountriesRepository : ICountriesRepository
         _db = db;
     }
 
-    public Task<Country> AddCountry(Country country)
+    public async Task<Country> AddCountry(Country country)
     {
-        throw new NotImplementedException();
+        _db.Countries.Add(country);
+        await _db.SaveChangesAsync();
+
+        return country;
     }
 
     public Task<List<Country>> GetAllCountries()
