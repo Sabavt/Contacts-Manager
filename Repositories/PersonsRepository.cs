@@ -42,16 +42,27 @@ public class PersonsRepository : IPersonsRepository
 
     public async Task<Person?> GetPersonByPersonID(Guid? personID)
     {
-        return await _db.Persons.Include(p => p.Country)
-            .Where((p) => p.PersonID == personID)
-            .FirstOrDefaultAsync();
+        return await _db.Persons.Include(p => p.Country) 
+            .FirstOrDefaultAsync(p => p.PersonID == personID);
     }
 
     public async Task<Person> UpdatePerson(Person person)
     {
-        _db.Persons.Update(person);
+        Person? matchingPerson = await _db.Persons.FirstOrDefaultAsync(temp => temp.PersonID == person.PersonID);
+
+        if (matchingPerson == null)
+            return person;
+
+        matchingPerson.PersonName = person.PersonName;
+        matchingPerson.Gender = person.Gender;
+        matchingPerson.Address = person.Address;
+        matchingPerson.TIN = person.TIN;
+        matchingPerson.Country = person.Country;
+        matchingPerson.DateOfBirth = person.DateOfBirth;
+        matchingPerson.ReceiveNewsLetters = person.ReceiveNewsLetters;
+
         await _db.SaveChangesAsync();
 
-        return person;
+        return matchingPerson;
     }
 }
