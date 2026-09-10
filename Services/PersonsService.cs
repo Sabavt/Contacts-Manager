@@ -149,6 +149,10 @@ public class PersonsService : IPersonsService
             throw new ArgumentNullException(nameof(personUpdateRequest));
 
         ValidationHelper.ValidateModel(personUpdateRequest);
+
+        if (GetPersonByPersonID(personUpdateRequest.PersonID) == null)
+            throw new ArgumentException(nameof(personUpdateRequest));
+
           
         return (await _personsRepository.UpdatePerson(personUpdateRequest.ToPerson())).ToPersonResponse(); 
     }

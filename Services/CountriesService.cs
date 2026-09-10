@@ -1,5 +1,6 @@
 ﻿using Entities;
-using Microsoft.AspNetCore.Http; 
+using Microsoft.AspNetCore.Http;
+using Microsoft.Identity.Client;
 using OfficeOpenXml;
 using RepositoryContracts;
 using ServiceContracts;
@@ -24,7 +25,7 @@ public class CountriesService : ICountriesService
         if(countryAddRequest.CountryName is null)
             throw new ArgumentException(nameof(countryAddRequest.CountryName));
 
-        if (await _countriesRepository.GetCountryByCountryName(countryAddRequest.CountryName) is null)
+        if (await _countriesRepository.GetCountryByCountryName(countryAddRequest.CountryName) is not null)
             throw new ArgumentException("Given country name alredy exists");
 
         Country country = countryAddRequest.ToCountry();
@@ -43,11 +44,12 @@ public class CountriesService : ICountriesService
     public async Task<CountryResponse?> GetCountryByCountryID(Guid? countryID)
     {
         if (countryID == null)
-            return null;
+            throw new ArgumentNullException(nameof(countryID));
+
         Country? country_response_from_countries_table = await _countriesRepository.GetCountryByCountryID(countryID.Value);
 
         if (country_response_from_countries_table == null)
-            return null;
+            throw new ArgumentException(nameof(countryID));
 
         return country_response_from_countries_table.ToCountryResponse();
     }
