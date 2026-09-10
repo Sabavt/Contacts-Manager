@@ -32,8 +32,7 @@ public class PersonsServiceTest
 
     [Fact]
     public async Task AddPerson_NullPerson_ToBeArgumentNullException()
-    { 
-
+    {  
         PersonAddRequest? request = null;
         Func<Task> act = async () => await _personsService.AddPerson(request);
 
