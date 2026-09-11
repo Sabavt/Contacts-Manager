@@ -1,4 +1,7 @@
-﻿using FluentAssertions; 
+﻿using FluentAssertions;
+using Fizzler;
+using Fizzler.Systems.HtmlAgilityPack;
+using HtmlAgilityPack;
 
 namespace CRUDTests;
 
@@ -17,5 +20,13 @@ public class PersonsControllerIntegrationTests : IClassFixture<MyWebApplicationF
        HttpResponseMessage responseMessage = await _client.GetAsync("/Persons/Index", TestContext.Current.CancellationToken);
          
        responseMessage.IsSuccessStatusCode.Should().BeTrue();
+
+       string body = await responseMessage.Content.ReadAsStringAsync(CancellationToken.None);
+
+        HtmlDocument document = new HtmlDocument(); 
+        document.LoadHtml(body);
+
+        var doc = document.DocumentNode;
+        doc.QuerySelectorAll("table.saba-contacts").Should().NotBeNull();
     }
 }
