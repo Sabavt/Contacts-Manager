@@ -118,4 +118,29 @@ public class PersonsControllerTest
         result.ViewData.Model.Should().Be(person_update_mock);
         result.ViewData.Model.Should().BeAssignableTo<PersonUpdateRequest>();
     }
+
+    [Fact]
+    public async Task Delete_ValidModelState_ToBeRedirectedIndexView()
+    {
+        var person_delete_mock = _fixture.Create<PersonUpdateRequest>(); 
+        PersonsController persons = new PersonsController(_countriesService, _personsService);
+        _personsServiceMock.Setup(t => t.DeletePerson(It.IsAny<Guid>()))
+            .ReturnsAsync(true);
+
+        var result = Assert.IsType<RedirectToActionResult>(await persons.Delete(person_delete_mock));
+        result.ActionName.Should().Be("Index");
+    }
+
+    [Fact]
+    public async Task Delete_InvalidModelState_ToBeViewWithErrors()
+    {
+        var person_delete_mock = _fixture.Create<PersonUpdateRequest>(); 
+        PersonsController persons = new PersonsController(_countriesService, _personsService);
+
+        persons.ModelState.AddModelError("Delete", "Invalid Delete Request");
+
+        var result = Assert.IsType<ViewResult>(await persons.Delete(person_delete_mock));
+        result.ViewData.Model.Should().Be(person_delete_mock);
+        result.ViewData.Model.Should().BeAssignableTo<PersonUpdateRequest>();
+    }
 }

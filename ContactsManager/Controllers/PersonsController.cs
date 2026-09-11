@@ -116,12 +116,12 @@ namespace ContactsManager.Controllers
 
         [HttpPost]
         [Route("[action]/{personID:guid}")]
-        public async Task<IActionResult> Delete(PersonResponse personUpdateRequest)
+        public async Task<IActionResult> Delete(PersonUpdateRequest personUpdateRequest)
         {
             if (!ModelState.IsValid)
             { 
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                return View();
+                return View(personUpdateRequest);
             }
             bool IsDeleted = await _personsService.DeletePerson(personUpdateRequest.PersonID);
 
