@@ -13,19 +13,16 @@ namespace CRUDTests;
 
 public class PersonsServiceTest
 {
-    private readonly IPersonsService _personsService; 
-    private readonly IPersonsRepository _personsRepository;
+    private readonly IPersonsService _personsService;  
     private readonly Mock<IPersonsRepository> _personsRepositoryMock;
     private readonly ITestOutputHelper _outputHelper; 
     private readonly IFixture _fixture;
 
     public PersonsServiceTest(ITestOutputHelper testOutputHelper)
     { 
-        _personsRepositoryMock = new Mock<IPersonsRepository>();
+        _personsRepositoryMock = new Mock<IPersonsRepository>(); 
 
-        _personsRepository = _personsRepositoryMock.Object;
-
-        _personsService = new PersonsService(_personsRepository); 
+        _personsService = new PersonsService(_personsRepositoryMock.Object); 
         _outputHelper = testOutputHelper;
         _fixture = new Fixture();
     }

@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Fizzler;
+﻿using FluentAssertions; 
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 
@@ -21,7 +20,7 @@ public class PersonsControllerIntegrationTests : IClassFixture<MyWebApplicationF
          
        responseMessage.IsSuccessStatusCode.Should().BeTrue();
 
-       string body = await responseMessage.Content.ReadAsStringAsync(CancellationToken.None);
+       string body = await responseMessage.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 
         HtmlDocument document = new HtmlDocument(); 
         document.LoadHtml(body);

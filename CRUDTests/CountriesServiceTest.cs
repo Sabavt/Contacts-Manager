@@ -10,15 +10,13 @@ namespace CRUDTests;
 
 public class CountriesServiceTest
 {
-    private readonly ICountriesService _countriesService;
-    private readonly ICountriesRepository _countriesRepository;
+    private readonly ICountriesService _countriesService; 
     private readonly Mock<ICountriesRepository> _countriesRepositoryMock;
 
     public CountriesServiceTest()
     {  
-        _countriesRepositoryMock = new Mock<ICountriesRepository>();
-        _countriesRepository = _countriesRepositoryMock.Object;
-        _countriesService = new CountriesService(_countriesRepository);
+        _countriesRepositoryMock = new Mock<ICountriesRepository>(); 
+        _countriesService = new CountriesService(_countriesRepositoryMock.Object);
     }
 
     [Fact]
