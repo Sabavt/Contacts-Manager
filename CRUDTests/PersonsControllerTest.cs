@@ -12,8 +12,7 @@ namespace CRUDTests;
 public class PersonsControllerTest
 {
     private readonly IPersonsService _personsService;
-    private readonly ICountriesService _countriesService;
-
+    private readonly ICountriesService _countriesService; 
     private readonly Mock<IPersonsService> _personsServiceMock;
     private readonly Mock<ICountriesService> _countriesServiceMock;
     private readonly Fixture _fixture;
