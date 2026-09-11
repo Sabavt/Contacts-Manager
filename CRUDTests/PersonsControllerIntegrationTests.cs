@@ -3,14 +3,20 @@ using Xunit;
 
 namespace CRUDTests;
 
-public class PersonsControllerIntegrationTests
+public class PersonsControllerIntegrationTests : IClassFixture<MyWebApplicationFactory>
 {
-    [Fact]
-    public void Index_ToReturnView()
+    private readonly HttpClient _client;
+
+    public PersonsControllerIntegrationTests(MyWebApplicationFactory myWeb)
     {
-       HttpResponseMessage responseMessage = _client.GetAsync("/Persons/Index");
+       _client = myWeb.CreateClient();
+    }
 
-
-        responseMessage.IsSuccessStatusCode.Should().BeTrue();
+    [Fact]
+    public async Task Index_ToReturnView()
+    {
+       HttpResponseMessage responseMessage = await _client.GetAsync("/Persons/Index");
+         
+       responseMessage.IsSuccessStatusCode.Should().BeTrue();
     }
 }
