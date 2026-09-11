@@ -69,7 +69,7 @@ namespace ContactsManager.Controllers
             {
                 ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                return View();
+                return View(personAddRequest);
             }
             PersonResponse personResponse = await _personsService.AddPerson(personAddRequest);
             return RedirectToActionPermanent("Index");
