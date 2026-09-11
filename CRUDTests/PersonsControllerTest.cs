@@ -102,4 +102,20 @@ public class PersonsControllerTest
         var result = Assert.IsType<RedirectToActionResult>(await persons.Edit(person_update_mock)); 
         result.ActionName.Should().Be("Index");
     }
+
+    [Fact]
+    public async Task Edit_InvalidModelState_ToBeViewWithErrors()
+    {
+        var person_update_mock = _fixture.Create<PersonUpdateRequest>();
+        var country_response_mock = _fixture.Create<List<CountryResponse>>();
+        _countriesServiceMock.Setup(t => t.GetAllCountries())
+            .ReturnsAsync(country_response_mock);
+        PersonsController persons = new PersonsController(_countriesService, _personsService);
+
+        persons.ModelState.AddModelError("UpdateRequest", "Invalid Update Request");
+
+        var result = Assert.IsType<ViewResult>(await persons.Edit(person_update_mock));
+        result.ViewData.Model.Should().Be(person_update_mock);
+        result.ViewData.Model.Should().BeAssignableTo<PersonUpdateRequest>();
+    }
 }
