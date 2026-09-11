@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Xunit;
+﻿using FluentAssertions; 
 
 namespace CRUDTests;
 
@@ -15,7 +14,7 @@ public class PersonsControllerIntegrationTests : IClassFixture<MyWebApplicationF
     [Fact]
     public async Task Index_ToReturnView()
     {
-       HttpResponseMessage responseMessage = await _client.GetAsync("/Persons/Index");
+       HttpResponseMessage responseMessage = await _client.GetAsync("/Persons/Index", TestContext.Current.CancellationToken);
          
        responseMessage.IsSuccessStatusCode.Should().BeTrue();
     }
