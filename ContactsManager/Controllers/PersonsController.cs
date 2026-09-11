@@ -98,10 +98,8 @@ namespace ContactsManager.Controllers
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 return View(personUpdateRequest);
             }
-            PersonResponse? person_response = await _personsService.UpdatePerson(personUpdateRequest);
-            if (person_response == null)
-                return RedirectToActionPermanent("Index");
 
+            PersonResponse person_response = await _personsService.UpdatePerson(personUpdateRequest);  
             return RedirectToActionPermanent("Index");
         }
 

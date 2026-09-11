@@ -89,4 +89,17 @@ public class PersonsControllerTest
         view.ViewData.Model.Should().Be(person_to_add);
         
     }
+
+    [Fact]
+    public async Task Edit_ValidModelState_ToBeRedirectedIndexView()
+    {
+        var person_update_mock = _fixture.Create<PersonUpdateRequest>();
+        var person_response_mock = _fixture.Create<PersonResponse>(); 
+        _personsServiceMock.Setup(t => t.UpdatePerson(It.IsAny<PersonUpdateRequest>()))
+            .ReturnsAsync(person_response_mock); 
+        PersonsController persons = new PersonsController(_countriesService, _personsService);
+
+        var result = Assert.IsType<RedirectToActionResult>(await persons.Edit(person_update_mock)); 
+        result.ActionName.Should().Be("Index");
+    }
 }
