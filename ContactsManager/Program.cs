@@ -40,13 +40,7 @@ app.UseHttpLogging();
 if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-}
-
-app.Logger.LogDebug("Debug");
-app.Logger.LogInformation("Debug");
-app.Logger.LogWarning("Debug");
-app.Logger.LogError("Debug");
-app.Logger.LogCritical("Debug");
+} 
 
 app.UseStaticFiles();
 app.MapControllers();
