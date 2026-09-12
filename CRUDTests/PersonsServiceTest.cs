@@ -3,26 +3,31 @@ using Entities;
 using FluentAssertions; 
 using Moq;
 using RepositoryContracts;
+using Serilog;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
 using Services;
 using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
 
 namespace CRUDTests;
 
 public class PersonsServiceTest
 {
     private readonly IPersonsService _personsService;  
-    private readonly Mock<IPersonsRepository> _personsRepositoryMock;
+    private readonly Mock<IPersonsRepository> _personsRepositoryMock; 
     private readonly ITestOutputHelper _outputHelper; 
     private readonly IFixture _fixture;
 
     public PersonsServiceTest(ITestOutputHelper testOutputHelper)
     { 
-        _personsRepositoryMock = new Mock<IPersonsRepository>(); 
+        _personsRepositoryMock = new Mock<IPersonsRepository>();  
 
-        _personsService = new PersonsService(_personsRepositoryMock.Object); 
+        var diagnosticsMock = new Mock<IDiagnosticContext>();
+        var loggerMock = new Mock<ILogger<PersonsService>>();
+
+        _personsService = new PersonsService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object); 
         _outputHelper = testOutputHelper;
         _fixture = new Fixture();
     }

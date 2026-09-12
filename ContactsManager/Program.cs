@@ -34,7 +34,7 @@ if (!builder.Environment.IsEnvironment("Test"))
 }
 
 var app = builder.Build();
-
+ 
 app.UseSerilogRequestLogging();
 app.UseHttpLogging();
 
