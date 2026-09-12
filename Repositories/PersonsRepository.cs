@@ -33,6 +33,8 @@ public class PersonsRepository : IPersonsRepository
 
     public async Task<List<Person>> GetAllPersons()
     {
+        _logger.LogInformation("GetAllPersons of PersonsRepository");
+
         return await _db.Persons.Include(p => p.Country).ToListAsync();
     }
 

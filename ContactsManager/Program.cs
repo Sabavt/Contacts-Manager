@@ -5,13 +5,17 @@ using Repositories;
 using RepositoryContracts;
 using ServiceContracts;
 using Services;
-
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.ClearProviders(); 
-builder.Logging.AddEventLog();
-
+builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfiguration) =>
+{
+    loggerConfiguration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services);
+});
+builder.Services.AddHttpLogging();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
 builder.Services.AddScoped<ICountriesService, CountriesService>();
@@ -30,6 +34,8 @@ if (!builder.Environment.IsEnvironment("Test"))
 }
 
 var app = builder.Build();
+
+app.UseHttpLogging();
 
 if (builder.Environment.IsDevelopment())
 {
