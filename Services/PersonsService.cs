@@ -64,6 +64,8 @@ public class PersonsService : IPersonsService
 
     public async Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString)
     {
+        _logger.LogInformation("GetFilteredPersons method of PersonsService");
+
         List<Person> persons = searchBy switch
         {
             nameof(PersonResponse.PersonName) => await _personsRepository
@@ -105,6 +107,8 @@ public class PersonsService : IPersonsService
 
     public async Task<List<PersonResponse>> GetSortedPerson(List<PersonResponse> allPersons, string sortBy, SortOrderOptions sortOrder)
     {
+        _logger.LogInformation("GetSortedPersons method of PersonsService");
+
         if (string.IsNullOrEmpty(sortBy))
             return allPersons;
 
