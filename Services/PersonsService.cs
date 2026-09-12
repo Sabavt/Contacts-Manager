@@ -7,15 +7,18 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using OfficeOpenXml;
 using RepositoryContracts;
+using Microsoft.Extensions.Logging;
 
 namespace Services;
 
 public class PersonsService : IPersonsService
 {  
     private readonly IPersonsRepository _personsRepository;
+    private readonly ILogger<PersonsService> _logger;
 
-    public PersonsService(IPersonsRepository personsRepository)
+    public PersonsService(IPersonsRepository personsRepository, ILogger<PersonsService> logger)
     {  
+        _logger = logger;
         _personsRepository = personsRepository;
     }
      
@@ -39,6 +42,8 @@ public class PersonsService : IPersonsService
 
     public async Task<List<PersonResponse>> GetAllPerson()
     {
+        _logger.LogInformation("GetAllPerson method of PersonsService");
+
         var persons_from_rep = await _personsRepository.GetAllPersons();
 
         return persons_from_rep.Select(temp =>  temp.ToPersonResponse()).ToList();

@@ -9,6 +9,9 @@ using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders(); 
+builder.Logging.AddEventLog();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
 builder.Services.AddScoped<ICountriesService, CountriesService>();
@@ -32,6 +35,12 @@ if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+app.Logger.LogDebug("Debug");
+app.Logger.LogInformation("Debug");
+app.Logger.LogWarning("Debug");
+app.Logger.LogError("Debug");
+app.Logger.LogCritical("Debug");
 
 app.UseStaticFiles();
 app.MapControllers();
