@@ -28,4 +28,9 @@ public class Person
 
     [ForeignKey("CountryID")]
     public virtual Country? Country { get; set; }
+
+    public override string ToString()
+    {
+        return PersonName + " " + Email;
+    }
 }
