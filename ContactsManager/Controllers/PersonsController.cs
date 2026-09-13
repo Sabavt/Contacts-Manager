@@ -1,4 +1,5 @@
 ﻿using ContactsManager.Filters.ActionFilters;
+using ContactsManager.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
@@ -25,6 +26,7 @@ namespace ContactsManager.Controllers
         [Route("[action]")]
         [Route("/")]
         [TypeFilter(typeof(PersonsActionFilter))]
+        [TypeFilter(typeof(PersonsResultFilter))]
         public async Task<IActionResult> Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOptions = SortOrderOptions.ASC)
         {
             _logger.LogInformation("Index method of PersonsController");
