@@ -18,6 +18,6 @@ public class PersonsResultFilter : IAsyncResultFilter
         await next();
 
         _logger.LogInformation("{Filter}.{Method} after", nameof(PersonsResultFilter), nameof(OnResultExecutionAsync));
-        context.HttpContext.Response.Headers["Last-Modified"] = DateTime.Now.ToString("yyyy mm dd hh:mm");
+        context.HttpContext.Request.Headers["Last-Modified"] = DateTime.Now.ToString("yyyy mm dd hh:mm");
     }
 }
