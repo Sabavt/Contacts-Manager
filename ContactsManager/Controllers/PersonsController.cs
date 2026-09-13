@@ -29,25 +29,10 @@ namespace ContactsManager.Controllers
         {
             _logger.LogInformation("Index method of PersonsController");
             _logger.LogDebug($"searchBy : {searchBy}, searchString : {searchString}, sortBy : {sortBy}, sortOptions : {sortOptions}");
+             
+            List<PersonResponse> persons = await _personsService.GetFilteredPersons(searchBy, searchString); 
 
-            ViewBag.SearchFields = new Dictionary<string, string>()
-            {
-                { nameof(PersonResponse.PersonName), "Person Name" },
-                { nameof(PersonResponse.Email), "Email" },
-                { nameof(PersonResponse.DateOfBirth), "Date of birth" },
-                { nameof(PersonResponse.Gender), "Gender" },
-                { nameof(PersonResponse.Country), "Country" },
-                { nameof(PersonResponse.Address), "Address" }
-            };
-            List<PersonResponse> persons = await _personsService.GetFilteredPersons(searchBy, searchString);
-
-            ViewBag.CurrentSearchBy = searchBy;
-            ViewBag.CurrentSearchString = searchString;
-
-            List<PersonResponse> sorted_persons = await _personsService.GetSortedPerson(persons, sortBy, sortOptions);
-
-            ViewBag.CurrentSortBy = sortBy;
-            ViewBag.CurrentSortOptions = sortOptions.ToString();
+            List<PersonResponse> sorted_persons = await _personsService.GetSortedPerson(persons, sortBy, sortOptions); 
 
             return View(sorted_persons);
         }
