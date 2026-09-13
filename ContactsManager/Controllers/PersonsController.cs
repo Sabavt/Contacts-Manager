@@ -1,5 +1,6 @@
 ﻿using ContactsManager.Filters.ActionFilters;
 using ContactsManager.Filters.AuthorizationFilters;
+using ContactsManager.Filters.ExceptionFilters;
 using ContactsManager.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,7 +11,8 @@ using ServiceContracts.Enums;
 
 namespace ContactsManager.Controllers
 {
-    [Route("[controller]")] 
+    [Route("[controller]")]
+    [TypeFilter(typeof(HandleExceptionFilter))]
     public class PersonsController : Controller
     {
         private readonly ICountriesService _countriesService;
