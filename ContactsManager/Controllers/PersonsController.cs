@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ContactsManager.Filters.ActionFilters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
 using ServiceContracts;
@@ -23,6 +24,7 @@ namespace ContactsManager.Controllers
 
         [Route("[action]")]
         [Route("/")]
+        [TypeFilter(typeof(PersonsActionFilter))]
         public async Task<IActionResult> Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOptions = SortOrderOptions.ASC)
         {
             _logger.LogInformation("Index method of PersonsController");
@@ -54,6 +56,7 @@ namespace ContactsManager.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Create()
         {
+            _logger.LogInformation("Create method of PersonsController");
             var countries = await _countriesService.GetAllCountries();
 
             ViewBag.Countries = countries
