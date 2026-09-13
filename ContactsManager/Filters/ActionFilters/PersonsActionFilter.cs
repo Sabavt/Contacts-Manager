@@ -40,10 +40,10 @@ public class PersonsActionFilter : IActionFilter
                 {
                     _logger.LogInformation("Action parameter of searchBy is {searchByArgument}", searchByArgument);
                 }
-            } 
             context.ActionArguments["searchBy"] = nameof(PersonResponse.PersonName);
+            } 
 
-            _logger.LogInformation("Updated Action parameter of searchBy is {searchByArgument}", searchByArgument); 
+            _logger.LogInformation($"Updated Action parameter of searchBy is {nameof(PersonResponse.PersonName)}"); 
         }
     }
 }

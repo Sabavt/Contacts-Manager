@@ -16,6 +16,7 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, 
     .ReadFrom.Services(services);
 });  
 
+builder.Services.AddHttpLogging();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPersonsService, PersonsService>();
 builder.Services.AddScoped<ICountriesService, CountriesService>();
