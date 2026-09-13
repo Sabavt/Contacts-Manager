@@ -1,11 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using ContactsManager.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ServiceContracts;
+using ServiceContracts.DTO;
 
 namespace ContactsManager.Filters.ActionFilters;
 
 public class ShortCircuitActionFilter : IAsyncActionFilter
 {
-    public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    private readonly ICountriesService _countriesService;
+
+    public ShortCircuitActionFilter(ICountriesService countriesService)
     {
-        throw new NotImplementedException();
+        _countriesService = countriesService;
+    }
+
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    { 
+        if (context.Controller is PersonsController controller)
+        {
+            if (!context.ModelState.IsValid)
+            {
+                controller.ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+                controller.ViewBag.ErrorMessages = controller.ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+                context.Result = controller.View(context.ActionArguments["personAddRequest"]);
+            } 
+        }
+        await next();
     }
 }

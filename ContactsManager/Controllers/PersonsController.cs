@@ -56,15 +56,15 @@ namespace ContactsManager.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Create(PersonAddRequest personAddRequest)
+        public async Task<IActionResult> Create(PersonAddRequest personRequest)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                return View(personAddRequest);
+                return View(personRequest);
             }
-            PersonResponse personResponse = await _personsService.AddPerson(personAddRequest);
+            PersonResponse personResponse = await _personsService.AddPerson(personRequest);
             return RedirectToActionPermanent("Index");
         }
 
@@ -83,16 +83,16 @@ namespace ContactsManager.Controllers
 
         [HttpPost]
         [Route("[action]/{personID:guid}")]
-        public async Task<IActionResult> Edit(PersonUpdateRequest personUpdateRequest)
+        public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
         { 
             if (!ModelState.IsValid)
             { 
                 ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() }); 
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                return View(personUpdateRequest);
+                return View(personRequest);
             }
 
-            PersonResponse person_response = await _personsService.UpdatePerson(personUpdateRequest);  
+            PersonResponse person_response = await _personsService.UpdatePerson(personRequest);  
             return RedirectToActionPermanent("Index");
         }
 
