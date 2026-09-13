@@ -15,7 +15,7 @@ public class PersonsActionFilter : IActionFilter
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
-        _logger.LogInformation("PersonsActionFilter OnActionExecuted");
+        _logger.LogInformation("{Filter}.{Method}", nameof(PersonsActionFilter), nameof(OnActionExecuted)); 
 
         var controller = (PersonsController)context.Controller;
         var arguments = (IDictionary<string, object?>?)context.HttpContext.Items["Arguments"];
@@ -52,7 +52,7 @@ public class PersonsActionFilter : IActionFilter
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        _logger.LogInformation("PersonsActionFilter OnActionExecuting");
+        _logger.LogInformation("{Filter}.{Method}", nameof(PersonsActionFilter), nameof(OnActionExecuting));
 
         context.HttpContext.Items["Arguments"] = context.ActionArguments;
 
