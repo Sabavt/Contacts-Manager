@@ -56,6 +56,7 @@ namespace ContactsManager.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        [TypeFilter(typeof(ShortCircuitActionFilter))] 
         public async Task<IActionResult> Create(PersonAddRequest personRequest)
         {
             if (!ModelState.IsValid)
@@ -83,6 +84,7 @@ namespace ContactsManager.Controllers
 
         [HttpPost]
         [Route("[action]/{personID:guid}")]
+        [TypeFilter(typeof(ShortCircuitActionFilter))]
         public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
         { 
             if (!ModelState.IsValid)

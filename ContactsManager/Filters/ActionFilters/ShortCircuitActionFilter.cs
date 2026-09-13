@@ -17,16 +17,19 @@ public class ShortCircuitActionFilter : IAsyncActionFilter
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-    { 
+    {
         if (context.Controller is PersonsController controller)
         {
             if (!context.ModelState.IsValid)
             {
                 controller.ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
                 controller.ViewBag.ErrorMessages = controller.ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                context.Result = controller.View(context.ActionArguments["personAddRequest"]);
-            } 
+                context.Result = controller.View(context.ActionArguments["personRequest"]);
+            }
         }
-        await next();
+        else
+        {
+            await next(); 
+        }
     }
 }
