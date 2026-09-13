@@ -4,57 +4,18 @@ using ServiceContracts.DTO;
 
 namespace ContactsManager.Filters.ActionFilters;
 
-public class PersonsActionFilter : IActionFilter
+public class PersonsActionFilter : IAsyncActionFilter
 {
     private readonly ILogger<PersonsActionFilter> _logger;
 
     public PersonsActionFilter(ILogger<PersonsActionFilter> logger)
     {
         _logger = logger;
-    }
+    } 
 
-    public void OnActionExecuted(ActionExecutedContext context)
-    {
-        _logger.LogInformation("{Filter}.{Method}", nameof(PersonsActionFilter), nameof(OnActionExecuted)); 
-
-        var controller = (PersonsController)context.Controller;
-        var arguments = (IDictionary<string, object?>?)context.HttpContext.Items["Arguments"];
-
-        if (arguments != null)
-        {
-            if (arguments.ContainsKey("searchBy"))
-            {
-                controller.ViewBag.CurrentSearchBy = Convert.ToString(arguments["searchBy"]);
-            }
-            if (arguments.ContainsKey("searchString"))
-            {
-                controller.ViewBag.CurrentSearchString = Convert.ToString(arguments["searchString"]);
-            }
-            if (arguments.ContainsKey("sortBy"))
-            {
-                controller.ViewBag.CurrentSortBy = Convert.ToString(arguments["sortBy"]);
-            }
-            if (arguments.ContainsKey("sortOrder"))
-            {
-                controller.ViewBag.CurrentSortOptions = Convert.ToString(arguments["sortOrder"]);
-            }
-        }
-        controller.ViewBag.SearchFields = new Dictionary<string, string>()
-            {
-                { nameof(PersonResponse.PersonName), "Person Name" },
-                { nameof(PersonResponse.Email), "Email" },
-                { nameof(PersonResponse.DateOfBirth), "Date of birth" },
-                { nameof(PersonResponse.Gender), "Gender" },
-                { nameof(PersonResponse.Country), "Country" },
-                { nameof(PersonResponse.Address), "Address" }
-            };
-    }
-
-    public void OnActionExecuting(ActionExecutingContext context)
-    {
-        _logger.LogInformation("{Filter}.{Method}", nameof(PersonsActionFilter), nameof(OnActionExecuting));
-
-        context.HttpContext.Items["Arguments"] = context.ActionArguments;
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    {   
+        _logger.LogInformation("{Filter}.{Method}", nameof(PersonsActionFilter), nameof(OnActionExecutionAsync)); 
 
         var searchBy = new List<string>()
         {
@@ -84,5 +45,41 @@ public class PersonsActionFilter : IActionFilter
             }
 
         }
+
+        await next();
+
+        _logger.LogInformation("{Filter}.{Method}", nameof(PersonsActionFilter), nameof(OnActionExecutionAsync));
+
+        var controller = (PersonsController)context.Controller;
+        var arguments = (IDictionary<string, object?>?)context.ActionArguments;
+
+        if (arguments != null)
+        {
+            if (arguments.ContainsKey("searchBy"))
+            {
+                controller.ViewBag.CurrentSearchBy = Convert.ToString(arguments["searchBy"]);
+            }
+            if (arguments.ContainsKey("searchString"))
+            {
+                controller.ViewBag.CurrentSearchString = Convert.ToString(arguments["searchString"]);
+            }
+            if (arguments.ContainsKey("sortBy"))
+            {
+                controller.ViewBag.CurrentSortBy = Convert.ToString(arguments["sortBy"]);
+            }
+            if (arguments.ContainsKey("sortOrder"))
+            {
+                controller.ViewBag.CurrentSortOptions = Convert.ToString(arguments["sortOrder"]);
+            }
+        }
+        controller.ViewBag.SearchFields = new Dictionary<string, string>()
+            {
+                { nameof(PersonResponse.PersonName), "Person Name" },
+                { nameof(PersonResponse.Email), "Email" },
+                { nameof(PersonResponse.DateOfBirth), "Date of birth" },
+                { nameof(PersonResponse.Gender), "Gender" },
+                { nameof(PersonResponse.Country), "Country" },
+                { nameof(PersonResponse.Address), "Address" }
+            };
     }
 }

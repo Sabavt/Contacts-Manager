@@ -8,7 +8,7 @@ using ServiceContracts.Enums;
 
 namespace ContactsManager.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]")] 
     public class PersonsController : Controller
     {
         private readonly ICountriesService _countriesService;
