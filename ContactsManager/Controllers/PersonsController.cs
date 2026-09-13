@@ -58,13 +58,7 @@ namespace ContactsManager.Controllers
         [Route("[action]")]
         [TypeFilter(typeof(ShortCircuitActionFilter))] 
         public async Task<IActionResult> Create(PersonAddRequest personRequest)
-        {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
-                ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                return View(personRequest);
-            }
+        { 
             PersonResponse personResponse = await _personsService.AddPerson(personRequest);
             return RedirectToActionPermanent("Index");
         }
@@ -86,14 +80,7 @@ namespace ContactsManager.Controllers
         [Route("[action]/{personID:guid}")]
         [TypeFilter(typeof(ShortCircuitActionFilter))]
         public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
-        { 
-            if (!ModelState.IsValid)
-            { 
-                ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() }); 
-                ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
-                return View(personRequest);
-            }
-
+        {  
             PersonResponse person_response = await _personsService.UpdatePerson(personRequest);  
             return RedirectToActionPermanent("Index");
         }
