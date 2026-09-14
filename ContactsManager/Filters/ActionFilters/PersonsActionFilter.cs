@@ -40,7 +40,7 @@ public class PersonsActionFilter : IAsyncActionFilter
             }
             else
             { 
-               context.ActionArguments["searchBy"] = nameof(PersonResponse.PersonName);
+              // context.ActionArguments["searchBy"] = nameof(PersonResponse.PersonName);
                _logger.LogInformation($"Updated Action parameter of searchBy is {nameof(PersonResponse.PersonName)}");
             }
 

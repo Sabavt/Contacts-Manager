@@ -5,8 +5,8 @@ using Repositories;
 using RepositoryContracts;
 using ServiceContracts;
 using Services;
-using Serilog;
-using ContactsManager.Filters.ActionFilters;
+using Serilog; 
+using ContactsManager;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,27 +16,8 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, 
     .ReadFrom.Configuration(context.Configuration)
     .ReadFrom.Services(services);
 });
-
-builder.Services.AddHttpLogging();
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddScoped<IPersonsService, PersonsService>();
-builder.Services.AddScoped<ICountriesService, CountriesService>();
-
-builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
-builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
-
-if (!builder.Environment.IsEnvironment("Test"))
-{
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    });
-    ExcelPackage.License.SetNonCommercialPersonal("Saba-Contacts-Manager");
-    Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
-}
-
+builder.Services.ConfigureServices(builder);
+ 
 var app = builder.Build();
 
 app.UseSerilogRequestLogging();
