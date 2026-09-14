@@ -10,7 +10,7 @@ namespace ContactsManager;
 
 public static class ConfigureServicesExtension
 {
-    public static void ConfigureServices(this IServiceCollection services, WebApplicationBuilder builder)
+    public static IServiceCollection ConfigureServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddHttpLogging();
 
@@ -31,5 +31,7 @@ public static class ConfigureServicesExtension
             ExcelPackage.License.SetNonCommercialPersonal("Saba-Contacts-Manager");
             Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
         }
+
+        return services;
     }
 }
