@@ -9,8 +9,7 @@ public class TokenAuthorizationFilter : IAsyncAuthorizationFilter
     {
         if(context.HttpContext.Request.Cookies["Auth-Key"] != "CookieForContactsManager")
         {
-            context.Result = new StatusCodeResult(StatusCodes.Status401Unauthorized); 
-            
+            context.Result = new StatusCodeResult(StatusCodes.Status401Unauthorized);  
         }
         if(!context.HttpContext.Request.Cookies.ContainsKey("Auth-Key"))
         {

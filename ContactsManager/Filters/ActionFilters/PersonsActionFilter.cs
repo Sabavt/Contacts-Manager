@@ -16,7 +16,7 @@ public class PersonsActionFilter : IAsyncActionFilter
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {   
         _logger.LogInformation("{Filter}.{Method}", nameof(PersonsActionFilter), nameof(OnActionExecutionAsync)); 
-
+        
         var searchBy = new List<string>()
         {
              nameof(PersonResponse.PersonName),
