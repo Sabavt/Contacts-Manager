@@ -67,9 +67,9 @@ public class PersonsActionFilter : IAsyncActionFilter
             {
                 controller.ViewBag.CurrentSortBy = Convert.ToString(arguments["sortBy"]);
             }
-            if (arguments.ContainsKey("sortOrder"))
+            if (arguments.ContainsKey("sortOptions"))
             {
-                controller.ViewBag.CurrentSortOptions = Convert.ToString(arguments["sortOrder"]);
+                controller.ViewBag.CurrentSortOptions = Convert.ToString(arguments["sortOptions"]);
             }
         }
         controller.ViewBag.SearchFields = new Dictionary<string, string>()
