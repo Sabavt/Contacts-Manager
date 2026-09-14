@@ -14,10 +14,10 @@ public class PersonsResultFilter : IAsyncResultFilter
     public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
     {
         _logger.LogInformation("{Filter}.{Method}", nameof(PersonsResultFilter), nameof(OnResultExecutionAsync));
+        context.HttpContext.Request.Headers["Last-Modified"] = DateTime.Now.ToString("yyyy mm dd hh:mm");
 
         await next();
 
         _logger.LogInformation("{Filter}.{Method} after", nameof(PersonsResultFilter), nameof(OnResultExecutionAsync));
-        context.HttpContext.Request.Headers["Last-Modified"] = DateTime.Now.ToString("yyyy mm dd hh:mm");
     }
 }
