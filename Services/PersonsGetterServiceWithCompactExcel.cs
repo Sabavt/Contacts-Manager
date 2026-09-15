@@ -13,13 +13,13 @@ public class PersonsGetterServiceWithCompactExcel : IPersonsGetterService
         _personsGetterService = personsGetterService;
     }
 
-    public Task<List<PersonResponse>> GetAllPerson() => _personsGetterService.GetAllPerson();
+    public async Task<List<PersonResponse>> GetAllPerson() => await _personsGetterService.GetAllPerson();
 
-    public Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString) => _personsGetterService.GetFilteredPersons(searchBy, searchString);
+    public async Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString) => await _personsGetterService.GetFilteredPersons(searchBy, searchString);
 
-    public Task<PersonResponse?> GetPersonByPersonID(Guid? personID) => _personsGetterService.GetPersonByPersonID(personID);
+    public async Task<PersonResponse?> GetPersonByPersonID(Guid? personID) => await _personsGetterService.GetPersonByPersonID(personID);
 
-    public Task<MemoryStream> GetPersonsCSV() => _personsGetterService.GetPersonsCSV();
+    public async Task<MemoryStream> GetPersonsCSV() => await _personsGetterService.GetPersonsCSV();
 
     public async Task<MemoryStream> GetPersonsExcel()
     {
