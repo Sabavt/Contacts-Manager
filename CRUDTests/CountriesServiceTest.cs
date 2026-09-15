@@ -10,7 +10,7 @@ namespace CRUDTests;
 
 public class CountriesServiceTest
 {
-    private readonly ICountriesService _countriesService; 
+    private readonly ICountriesAdderService _countriesService; 
     private readonly Mock<ICountriesRepository> _countriesRepositoryMock;
 
     public CountriesServiceTest()

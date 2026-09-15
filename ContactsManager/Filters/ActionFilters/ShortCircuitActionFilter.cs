@@ -9,9 +9,9 @@ namespace ContactsManager.Filters.ActionFilters;
 
 public class ShortCircuitActionFilter : IAsyncActionFilter
 {
-    private readonly ICountriesService _countriesService;
+    private readonly ICountriesAdderService _countriesService;
 
-    public ShortCircuitActionFilter(ICountriesService countriesService)
+    public ShortCircuitActionFilter(ICountriesAdderService countriesService)
     {
         _countriesService = countriesService;
     }

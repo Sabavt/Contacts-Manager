@@ -22,9 +22,9 @@ public class PersonsControllerTest
     private readonly Mock<IPersonsSorterService> _personsSorterServiceMock;
     private readonly Mock<IPersonsUpdaterService> _personsUpdaterServiceMock;
     private readonly Mock<IPersonsDeleterService> _personsDeleterServiceMock;
-    private readonly ICountriesService _countriesService; 
+    private readonly ICountriesAdderService _countriesService; 
     private readonly ILogger<PersonsController> _logger;
-    private readonly Mock<ICountriesService> _countriesServiceMock;
+    private readonly Mock<ICountriesAdderService> _countriesServiceMock;
     private readonly Mock<ILogger<PersonsController>> _loggerMock;
     private readonly Fixture _fixture;
 
@@ -37,7 +37,7 @@ public class PersonsControllerTest
         _personsSorterServiceMock = new Mock<IPersonsSorterService>();
         _personsUpdaterServiceMock = new Mock<IPersonsUpdaterService>();
         _personsDeleterServiceMock = new Mock<IPersonsDeleterService>();
-        _countriesServiceMock = new Mock<ICountriesService>();
+        _countriesServiceMock = new Mock<ICountriesAdderService>();
         _loggerMock = new Mock<ILogger<PersonsController>>();
 
         _personsAdderService = _personsAdderServiceMock.Object;

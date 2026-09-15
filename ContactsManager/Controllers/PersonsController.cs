@@ -14,7 +14,7 @@ namespace ContactsManager.Controllers
     [Route("[controller]")] 
     public class PersonsController : Controller
     {
-        private readonly ICountriesService _countriesService;
+        private readonly ICountriesAdderService _countriesService;
         private readonly IPersonsGetterService _personsGetterService;
         private readonly IPersonsAdderService _personsAdderService;
         private readonly IPersonsDeleterService _personsDeleterService;
@@ -22,7 +22,7 @@ namespace ContactsManager.Controllers
         private readonly IPersonsUpdaterService _personsUpdaterService; 
         private readonly ILogger<PersonsController> _logger;
 
-        public PersonsController(IPersonsGetterService personsGetterService, IPersonsSorterService personsSorterService, IPersonsUpdaterService personsUpdaterService, IPersonsDeleterService personsDeleterService, IPersonsAdderService personsAdderService,ICountriesService countriesService, ILogger<PersonsController> logger)
+        public PersonsController(IPersonsGetterService personsGetterService, IPersonsSorterService personsSorterService, IPersonsUpdaterService personsUpdaterService, IPersonsDeleterService personsDeleterService, IPersonsAdderService personsAdderService,ICountriesAdderService countriesService, ILogger<PersonsController> logger)
         {
             _personsGetterService = personsGetterService;
             _personsSorterService = personsSorterService;

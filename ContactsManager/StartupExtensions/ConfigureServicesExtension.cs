@@ -16,8 +16,12 @@ public static class ConfigureServicesExtension
 
         services.AddControllersWithViews();
 
-        services.AddScoped<IPersonsSetterService, PersonsGetterService>();
-        services.AddScoped<ICountriesService, CountriesService>();
+        services.AddScoped<IPersonsGetterService, PersonsGetterService>();
+        services.AddScoped<IPersonsDeleterService, PersonsDeleterService>();
+        services.AddScoped<IPersonsSorterService, PersonsSorterService>();
+        services.AddScoped<IPersonsUpdaterService, PersonsUpdaterService>();
+        services.AddScoped<IPersonsAdderService, PersonsAdderService>();
+        services.AddScoped<ICountriesAdderService, CountriesAdderService>();
 
         services.AddScoped<ICountriesRepository, CountriesRepository>();
         services.AddScoped<IPersonsRepository, PersonsRepository>();

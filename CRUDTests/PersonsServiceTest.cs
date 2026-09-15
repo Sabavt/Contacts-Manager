@@ -10,6 +10,7 @@ using ServiceContracts.Enums;
 using Services;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
+using Exceptions;
 
 namespace CRUDTests;
 
@@ -90,7 +91,7 @@ public class PersonsServiceTest
         Guid? guid = null;
         Func<Task> act = async () => await _personsGetterService.GetPersonByPersonID(guid);
 
-        await act.Should().ThrowAsync<ArgumentNullException>();
+        await act.Should().ThrowAsync<InvalidPersonIdException>();
     }
 
     [Fact]

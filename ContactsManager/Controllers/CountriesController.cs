@@ -6,9 +6,9 @@ namespace ContactsManager.Controllers
     [Route("[controller]")]
     public class CountriesController : Controller
     { 
-        private readonly ICountriesService _countriesService;
+        private readonly ICountriesAdderService _countriesService;
 
-        public CountriesController(ICountriesService countriesService)
+        public CountriesController(ICountriesAdderService countriesService)
         {
             _countriesService = countriesService;
         }
