@@ -29,8 +29,9 @@ namespace ContactsManager.Middleware
             {
                 _logger.LogError("During execution error occured - {Exception}", ex);
                 _diagnosticContext.SetException(ex);
+                httpContext.Response.StatusCode = 500;
+                throw;
             }
-            httpContext.Response.StatusCode = 500;
         }
     }
 

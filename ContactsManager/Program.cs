@@ -28,6 +28,7 @@ if (builder.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandlingMiddleware();
+    app.UseExceptionHandler("/Error");
 }
 app.UseSerilogRequestLogging();
 app.UseHttpLogging();
