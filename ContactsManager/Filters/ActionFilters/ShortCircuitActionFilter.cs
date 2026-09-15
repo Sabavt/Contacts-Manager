@@ -9,11 +9,11 @@ namespace ContactsManager.Filters.ActionFilters;
 
 public class ShortCircuitActionFilter : IAsyncActionFilter
 {
-    private readonly ICountriesAdderService _countriesService;
+    private readonly ICountriesGetterService _countriesGetterService;
 
-    public ShortCircuitActionFilter(ICountriesAdderService countriesService)
+    public ShortCircuitActionFilter(ICountriesGetterService countriesGetterService)
     {
-        _countriesService = countriesService;
+        _countriesGetterService = countriesGetterService;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -22,7 +22,7 @@ public class ShortCircuitActionFilter : IAsyncActionFilter
         {
             if (!context.ModelState.IsValid)
             {
-                controller.ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+                controller.ViewBag.Countries = _countriesGetterService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
                 controller.ViewBag.ErrorMessages = controller.ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 context.Result = controller.View(context.ActionArguments["personRequest"]);
             }
