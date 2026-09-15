@@ -70,6 +70,12 @@ public class PersonsService : IPersonsService
     public async Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString)
     {
         _logger.LogInformation("GetFilteredPersons method of PersonsService");
+
+        if(string.IsNullOrEmpty(searchString))
+        {
+            throw new ArgumentNullException(nameof(searchString));
+        }
+
         List<Person>? persons = null;
         using (Operation.Time ("Time for filtering persons"))
         { 
@@ -77,34 +83,34 @@ public class PersonsService : IPersonsService
             {
                 nameof(PersonResponse.PersonName) => await _personsRepository
                 .GetFilteredPersons(temp =>
-                   temp.PersonName.Contains(searchString)
+                   temp.PersonName!.Contains(searchString)
                      ),
 
                 nameof(PersonResponse.Email) => await _personsRepository
                 .GetFilteredPersons(temp =>
-                   temp.Email.Contains(searchString)
+                   temp.Email!.Contains(searchString)
                      ),
 
                 nameof(PersonResponse.DateOfBirth) => await _personsRepository
                 .GetFilteredPersons(temp =>
-                   temp.DateOfBirth.Value.ToString("dd MMMM yyyy")
+                   temp.DateOfBirth!.Value.ToString("dd MMMM yyyy")
                    .Contains(searchString)
                    ),
 
                 nameof(PersonResponse.Gender) => await _personsRepository
                 .GetFilteredPersons(temp =>
-                    temp.Gender.Equals(searchString)
+                    temp.Gender!.Equals(searchString)
                     ),
 
                 nameof(PersonResponse.Country) => await _personsRepository
                 .GetFilteredPersons(temp =>
-                     temp.Country.ToString()!
+                     temp.Country!.ToString()!
                      .Contains(searchString)
                      ),
 
                 nameof(PersonResponse.Address) => await _personsRepository
                 .GetFilteredPersons(temp =>
-                     temp.Address.Contains(searchString)
+                     temp.Address!.Contains(searchString)
                      ),
 
                 _ => await _personsRepository.GetAllPersons()
