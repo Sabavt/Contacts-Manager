@@ -16,10 +16,10 @@ namespace ContactsManager.Controllers
     public class PersonsController : Controller
     {
         private readonly ICountriesService _countriesService;
-        private readonly IPersonsService _personsService;
+        private readonly IPersonsSetterService _personsService;
         private readonly ILogger<PersonsController> _logger;
 
-        public PersonsController(ICountriesService countriesService, IPersonsService personsService, ILogger<PersonsController> logger)
+        public PersonsController(ICountriesService countriesService, IPersonsSetterService personsService, ILogger<PersonsController> logger)
         {
             _countriesService = countriesService;
             _personsService = personsService;

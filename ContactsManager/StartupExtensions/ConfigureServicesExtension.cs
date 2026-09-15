@@ -16,7 +16,7 @@ public static class ConfigureServicesExtension
 
         services.AddControllersWithViews();
 
-        services.AddScoped<IPersonsService, PersonsService>();
+        services.AddScoped<IPersonsSetterService, PersonsGetterService>();
         services.AddScoped<ICountriesService, CountriesService>();
 
         services.AddScoped<ICountriesRepository, CountriesRepository>();

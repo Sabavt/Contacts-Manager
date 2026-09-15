@@ -15,7 +15,7 @@ namespace CRUDTests;
 
 public class PersonsServiceTest
 {
-    private readonly IPersonsService _personsService;  
+    private readonly IPersonsSetterService _personsService;  
     private readonly Mock<IPersonsRepository> _personsRepositoryMock; 
     private readonly ITestOutputHelper _outputHelper; 
     private readonly IFixture _fixture;
@@ -25,7 +25,7 @@ public class PersonsServiceTest
         _personsRepositoryMock = new Mock<IPersonsRepository>();  
 
         var diagnosticsMock = new Mock<IDiagnosticContext>();
-        var loggerMock = new Mock<ILogger<PersonsService>>();
+        var loggerMock = new Mock<ILogger<PersonsGetterService>>();
 
         _personsService = new PersonsService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object); 
         _outputHelper = testOutputHelper;
