@@ -16,13 +16,22 @@ namespace ContactsManager.Controllers
     public class PersonsController : Controller
     {
         private readonly ICountriesService _countriesService;
-        private readonly IPersonsSetterService _personsService;
+        private readonly IPersonsGetterService _personsGetterService;
+        private readonly IPersonsAdderService _personsAdderService;
+        private readonly IPersonsDeleterService _personsDeleterService;
+        private readonly IPersonsSorterService _personsSorterService;
+        private readonly IPersonsUpdaterService _personsUpdaterService; 
         private readonly ILogger<PersonsController> _logger;
 
-        public PersonsController(ICountriesService countriesService, IPersonsSetterService personsService, ILogger<PersonsController> logger)
+        public PersonsController(IPersonsGetterService personsGetterService, IPersonsSorterService personsSorterService, IPersonsUpdaterService personsUpdaterService, IPersonsDeleterService personsDeleterService, IPersonsAdderService personsAdderService,ICountriesService countriesService, ILogger<PersonsController> logger)
         {
-            _countriesService = countriesService;
-            _personsService = personsService;
+            _personsGetterService = personsGetterService;
+            _personsSorterService = personsSorterService;
+            _personsUpdaterService = personsUpdaterService;
+            _personsDeleterService = personsDeleterService;
+            _personsAdderService = personsAdderService;
+
+            _countriesService = countriesService; 
             _logger = logger;
         }
 
@@ -35,9 +44,9 @@ namespace ContactsManager.Controllers
             _logger.LogInformation("Index method of PersonsController");
             _logger.LogDebug($"searchBy : {searchBy}, searchString : {searchString}, sortBy : {sortBy}, sortOptions : {sortOptions}");
              
-            List<PersonResponse> persons = await _personsService.GetFilteredPersons(searchBy, searchString); 
+            List<PersonResponse> persons = await _personsGetterService.GetFilteredPersons(searchBy, searchString); 
 
-            List<PersonResponse> sorted_persons = await _personsService.GetSortedPerson(persons, sortBy, sortOptions); 
+            List<PersonResponse> sorted_persons = await _personsSorterService.GetSortedPerson(persons, sortBy, sortOptions); 
 
             return View(sorted_persons);
         }
@@ -64,7 +73,7 @@ namespace ContactsManager.Controllers
         [TypeFilter(typeof(ShortCircuitActionFilter))] 
         public async Task<IActionResult> Create(PersonAddRequest personRequest)
         { 
-            PersonResponse personResponse = await _personsService.AddPerson(personRequest);
+            PersonResponse personResponse = await _personsAdderService.AddPerson(personRequest);
             return RedirectToActionPermanent("Index");
         }
 
@@ -73,7 +82,7 @@ namespace ContactsManager.Controllers
         [TypeFilter(typeof(TokenResultFilter))]
         public async Task<IActionResult> Edit(Guid? personID)
         {
-            var person = await _personsService.GetPersonByPersonID(personID);
+            var person = await _personsGetterService.GetPersonByPersonID(personID);
             PersonUpdateRequest? person_update_get = person?.ToPersonUpdateRequest();
             if (person_update_get == null)
                 return RedirectToActionPermanent("Index");
@@ -88,7 +97,7 @@ namespace ContactsManager.Controllers
         [TypeFilter(typeof(TokenAuthorizationFilter))]
         public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
         {  
-            PersonResponse person_response = await _personsService.UpdatePerson(personRequest);  
+            PersonResponse person_response = await _personsUpdaterService.UpdatePerson(personRequest);  
             return RedirectToActionPermanent("Index");
         }
 
@@ -96,7 +105,7 @@ namespace ContactsManager.Controllers
         [Route("[action]/{personID:Guid}")]
         public async Task<IActionResult> Delete(Guid? personID)
         {
-            PersonResponse? person_delete_get = await _personsService.GetPersonByPersonID(personID);
+            PersonResponse? person_delete_get = await _personsGetterService.GetPersonByPersonID(personID);
             if (person_delete_get == null)
                 return RedirectToActionPermanent("Index");
              
@@ -112,7 +121,7 @@ namespace ContactsManager.Controllers
                 ViewBag.ErrorMessages = ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 return View(personUpdateRequest);
             }
-            bool IsDeleted = await _personsService.DeletePerson(personUpdateRequest.PersonID);
+            bool IsDeleted = await _personsDeleterService.DeletePerson(personUpdateRequest.PersonID);
 
             if (IsDeleted is true)
                 return RedirectToActionPermanent("Index");
@@ -123,7 +132,7 @@ namespace ContactsManager.Controllers
         [Route("[action]")]
         public async Task<IActionResult> PersonsPDF()
         {
-            List<PersonResponse> personResponses = await  _personsService.GetAllPerson();
+            List<PersonResponse> personResponses = await  _personsGetterService.GetAllPerson();
 
             return new ViewAsPdf("PersonsPDF", personResponses, ViewData)
             {
@@ -135,14 +144,14 @@ namespace ContactsManager.Controllers
         [Route("[action]")]
         public async Task<IActionResult> PersonsCSV()
         {
-            MemoryStream persons_csv_stream = await _personsService.GetPersonsCSV();
+            MemoryStream persons_csv_stream = await _personsGetterService.GetPersonsCSV();
             return File(persons_csv_stream, "text/csv", "Persons.csv");
         }
 
         [Route("[action]")]
         public async Task<IActionResult> PersonsExcel()
         {
-            MemoryStream persons_excel_stream = await _personsService.GetPersonsExcel();
+            MemoryStream persons_excel_stream = await _personsGetterService.GetPersonsExcel();
             return File(persons_excel_stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Persons.xlsx");
         }
     }
