@@ -1,6 +1,5 @@
 ﻿using ContactsManager.Filters.ActionFilters;
-using ContactsManager.Filters.AuthorizationFilters;
-using ContactsManager.Filters.ExceptionFilters;
+using ContactsManager.Filters.AuthorizationFilters; 
 using ContactsManager.Filters.ResultFilters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,21 +7,23 @@ using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
+using Services;
 
 namespace ContactsManager.Controllers
 {
     [Route("[controller]")] 
     public class PersonsController : Controller
     {
-        private readonly ICountriesAdderService _countriesService;
         private readonly IPersonsGetterService _personsGetterService;
         private readonly IPersonsAdderService _personsAdderService;
         private readonly IPersonsDeleterService _personsDeleterService;
         private readonly IPersonsSorterService _personsSorterService;
-        private readonly IPersonsUpdaterService _personsUpdaterService; 
+        private readonly IPersonsUpdaterService _personsUpdaterService;  
+        private readonly ICountriesAdderService _countriesAdderService;
+        private readonly ICountriesGetterService _countriesGetterService;
         private readonly ILogger<PersonsController> _logger;
 
-        public PersonsController(IPersonsGetterService personsGetterService, IPersonsSorterService personsSorterService, IPersonsUpdaterService personsUpdaterService, IPersonsDeleterService personsDeleterService, IPersonsAdderService personsAdderService,ICountriesAdderService countriesService, ILogger<PersonsController> logger)
+        public PersonsController(IPersonsGetterService personsGetterService, IPersonsSorterService personsSorterService, IPersonsUpdaterService personsUpdaterService, IPersonsDeleterService personsDeleterService, IPersonsAdderService personsAdderService,ICountriesAdderService countriesAdderService, CountriesGetterService countriesGetterService, ILogger<PersonsController> logger)
         {
             _personsGetterService = personsGetterService;
             _personsSorterService = personsSorterService;
@@ -30,7 +31,9 @@ namespace ContactsManager.Controllers
             _personsDeleterService = personsDeleterService;
             _personsAdderService = personsAdderService;
 
-            _countriesService = countriesService; 
+            _countriesAdderService = countriesAdderService;
+            _countriesGetterService = countriesGetterService;
+
             _logger = logger;
         }
 
@@ -55,7 +58,7 @@ namespace ContactsManager.Controllers
         public async Task<IActionResult> Create()
         {
             _logger.LogInformation("Create method of PersonsController");
-            var countries = await _countriesService.GetAllCountries();
+            var countries = await _countriesGetterService.GetAllCountries();
 
             ViewBag.Countries = countries
                 .Select(item => new SelectListItem()
@@ -86,7 +89,7 @@ namespace ContactsManager.Controllers
             if (person_update_get == null)
                 return RedirectToActionPermanent("Index");
 
-            ViewBag.Countries = _countriesService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
+            ViewBag.Countries = _countriesGetterService.GetAllCountries().Result.Select(item => new SelectListItem() { Text = item.CountryName, Value = item.CountryID.ToString() });
             return View(person_update_get);
         }
 

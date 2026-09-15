@@ -5,12 +5,12 @@ namespace ContactsManager.Controllers
 {
     [Route("[controller]")]
     public class CountriesController : Controller
-    { 
-        private readonly ICountriesAdderService _countriesService;
+    {  
+        private readonly ICountriesUploaderFromExcelService _countriesUploaderFromExcelService;
 
-        public CountriesController(ICountriesAdderService countriesService)
-        {
-            _countriesService = countriesService;
+        public CountriesController(ICountriesUploaderFromExcelService countriesUploaderFromExcelService)
+        { 
+            _countriesUploaderFromExcelService = countriesUploaderFromExcelService;
         }
 
         [Route("[action]")]
@@ -35,7 +35,7 @@ namespace ContactsManager.Controllers
                 return View();
             }
 
-            int uploaded_countries = await _countriesService.UploadCountriesFromExcel(excelFile);
+            int uploaded_countries = await _countriesUploaderFromExcelService.UploadCountriesFromExcel(excelFile);
             ViewBag.Message = $"{uploaded_countries} countries have been successfully uploaded from the Excel file.";
             return View();
         }
