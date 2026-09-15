@@ -15,8 +15,12 @@ namespace CRUDTests;
 
 public class PersonsServiceTest
 {
-    private readonly IPersonsSetterService _personsService;  
-    private readonly Mock<IPersonsRepository> _personsRepositoryMock; 
+    private readonly IPersonsGetterService _personsGetterService;  
+    private readonly IPersonsAdderService _personsAdderService;  
+    private readonly IPersonsSorterService _personsSorterService;  
+    private readonly IPersonsDeleterService _personsDeleterService;  
+    private readonly IPersonsUpdaterService _personsUpdaterService;
+    private readonly Mock<IPersonsRepository> _personsRepositoryMock;  
     private readonly ITestOutputHelper _outputHelper; 
     private readonly IFixture _fixture;
 
@@ -27,7 +31,12 @@ public class PersonsServiceTest
         var diagnosticsMock = new Mock<IDiagnosticContext>();
         var loggerMock = new Mock<ILogger<PersonsGetterService>>();
 
-        _personsService = new PersonsService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object); 
+        _personsGetterService = new PersonsGetterService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object);
+        _personsAdderService = new PersonsAdderService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object);
+        _personsSorterService = new PersonsSorterService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object);
+        _personsDeleterService = new PersonsDeleterService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object);
+        _personsUpdaterService = new PersonsUpdaterService(_personsRepositoryMock.Object, loggerMock.Object, diagnosticsMock.Object);
+
         _outputHelper = testOutputHelper;
         _fixture = new Fixture();
     }
@@ -36,7 +45,7 @@ public class PersonsServiceTest
     public async Task AddPerson_NullPerson_ToBeArgumentNullException()
     {  
         PersonAddRequest? request = null;
-        Func<Task> act = async () => await _personsService.AddPerson(request);
+        Func<Task> act = async () => await _personsAdderService.AddPerson(request);
 
         await act.Should().ThrowAsync<ArgumentNullException>();
     }
@@ -50,7 +59,7 @@ public class PersonsServiceTest
         _personsRepositoryMock.Setup(t => t.AddPerson(It.IsAny<Person>()))
             .ReturnsAsync(person);
 
-        Func<Task> act = async () => await _personsService.AddPerson(request);
+        Func<Task> act = async () => await _personsAdderService.AddPerson(request);
 
         await act.Should().ThrowAsync<ArgumentException>();
     }
@@ -68,7 +77,7 @@ public class PersonsServiceTest
         tmp.AddPerson(It.IsAny<Person>()))
             .ReturnsAsync(person);
 
-        PersonResponse person_response_from_add = await _personsService.AddPerson(request);
+        PersonResponse person_response_from_add = await _personsAdderService.AddPerson(request);
         person_response_expected.PersonID = person_response_from_add.PersonID;
 
         person_response_from_add.PersonID.Should().NotBe(Guid.Empty);
@@ -79,7 +88,7 @@ public class PersonsServiceTest
     public async Task GetPersonByPersonID_NullPersonID_ToBeArgumentNullException()
     {
         Guid? guid = null;
-        Func<Task> act = async () => await _personsService.GetPersonByPersonID(guid);
+        Func<Task> act = async () => await _personsGetterService.GetPersonByPersonID(guid);
 
         await act.Should().ThrowAsync<ArgumentNullException>();
     }
@@ -95,7 +104,7 @@ public class PersonsServiceTest
             .ReturnsAsync(person
             );
          
-        PersonResponse? person_response_from_get = await _personsService.GetPersonByPersonID(person.PersonID);
+        PersonResponse? person_response_from_get = await _personsGetterService.GetPersonByPersonID(person.PersonID);
 
         person.ToPersonResponse().Should().BeEquivalentTo(person_response_from_get);
     }
@@ -105,7 +114,7 @@ public class PersonsServiceTest
     public async Task GetAllPerson_EmptyList_ToBeEmpty()
     { 
         _personsRepositoryMock.Setup(t => t.GetAllPersons()).ReturnsAsync(new List<Person>());
-        List<PersonResponse> persons = await _personsService.GetAllPerson();
+        List<PersonResponse> persons = await _personsGetterService.GetAllPerson();
 
         persons.Should().BeEmpty();
     }
@@ -120,7 +129,7 @@ public class PersonsServiceTest
 
         _outputHelper.WriteLine(add_request.ToPerson().ToString() ?? "null");
 
-        var allPersons = await _personsService.GetAllPerson();
+        var allPersons = await _personsGetterService.GetAllPerson();
         allPersons.ForEach(person => { _outputHelper.WriteLine(person.ToString()); } );
 
         allPersons.Should().Contain(add_request.ToPerson().ToPersonResponse());
@@ -140,7 +149,7 @@ public class PersonsServiceTest
 
         _personsRepositoryMock.Setup(t => t.GetFilteredPersons(It.IsAny<Expression<Func<Person, bool>>>())).ReturnsAsync(persons);
           
-        List<PersonResponse> persons_list_from_search = await _personsService.GetFilteredPersons(nameof(Person.PersonName), "");
+        List<PersonResponse> persons_list_from_search = await _personsGetterService.GetFilteredPersons(nameof(Person.PersonName), "");
          
         _outputHelper.WriteLine("Actual:");
         foreach (PersonResponse person_response_from_search in persons_list_from_search)
@@ -166,7 +175,7 @@ public class PersonsServiceTest
 
         _personsRepositoryMock.Setup(t => t.GetFilteredPersons(It.IsAny<Expression<Func<Person, bool>>>())).ReturnsAsync(persons);
 
-        List<PersonResponse> persons_list_from_search = await _personsService.GetFilteredPersons(nameof(Person.PersonName), "ma");
+        List<PersonResponse> persons_list_from_search = await _personsGetterService.GetFilteredPersons(nameof(Person.PersonName), "ma");
 
         _outputHelper.WriteLine("Actual:");
         foreach (PersonResponse person_response_from_search in persons_list_from_search)
@@ -188,9 +197,9 @@ public class PersonsServiceTest
             .ReturnsAsync(persons);
          
           
-        List<PersonResponse> allPersons = await _personsService.GetAllPerson();
+        List<PersonResponse> allPersons = await _personsGetterService.GetAllPerson();
 
-        List<PersonResponse> persons_list_from_sort = await _personsService.GetSortedPerson(allPersons, nameof(Person.PersonName), SortOrderOptions.DESC);
+        List<PersonResponse> persons_list_from_sort = await _personsSorterService.GetSortedPerson(allPersons, nameof(Person.PersonName), SortOrderOptions.DESC);
 
         _outputHelper.WriteLine("Actual:");
         foreach (PersonResponse person_response_from_get in persons_list_from_sort)
@@ -205,7 +214,7 @@ public class PersonsServiceTest
     public async Task UpdatePerson_NullPerson_ToBeArgumentNullException()
     {
         PersonUpdateRequest? person_update_request = null;
-        Func<Task> act = async () => await _personsService.UpdatePerson(person_update_request);
+        Func<Task> act = async () => await _personsUpdaterService.UpdatePerson(person_update_request);
         
         await act.Should().ThrowAsync<ArgumentNullException>();
     }
@@ -215,7 +224,7 @@ public class PersonsServiceTest
     {
         PersonUpdateRequest? person_update_request = new() { PersonID = Guid.NewGuid() };
          
-        Func<Task> act = async () => await _personsService.UpdatePerson(person_update_request);
+        Func<Task> act = async () => await _personsUpdaterService.UpdatePerson(person_update_request);
 
         await act.Should().ThrowAsync<ArgumentException>();
     }
@@ -228,7 +237,7 @@ public class PersonsServiceTest
             .With(t => t.Country, null as Country)
             .Create();
 
-        Func<Task> act = async () => await _personsService.UpdatePerson(person.ToPersonResponse().ToPersonUpdateRequest());
+        Func<Task> act = async () => await _personsUpdaterService.UpdatePerson(person.ToPersonResponse().ToPersonUpdateRequest());
 
         await act.Should().ThrowAsync<ArgumentException>();
     }
@@ -244,7 +253,7 @@ public class PersonsServiceTest
         _personsRepositoryMock.Setup(t => t.UpdatePerson(It.IsAny<Person>())).ReturnsAsync(person);
         _personsRepositoryMock.Setup(t => t.GetPersonByPersonID(It.IsAny<Guid>())).ReturnsAsync(person);
           
-       var person_updated = await _personsService.UpdatePerson(person.ToPersonResponse().ToPersonUpdateRequest()); 
+       var person_updated = await _personsUpdaterService.UpdatePerson(person.ToPersonResponse().ToPersonUpdateRequest()); 
 
         person.PersonName.Should().Be(person_updated.PersonName);
     }
@@ -260,7 +269,7 @@ public class PersonsServiceTest
         _personsRepositoryMock.Setup(t => t.DeletePersonByPersonID(It.IsAny<Guid>()))
             .ReturnsAsync(true);
 
-        bool isDeleted = await _personsService.DeletePerson(person.PersonID);
+        bool isDeleted = await _personsDeleterService.DeletePerson(person.PersonID);
 
         isDeleted.Should().BeTrue();
     }
@@ -268,7 +277,7 @@ public class PersonsServiceTest
     [Fact]
     public async Task DeletePerson_InvalidPersonID()
     { 
-        bool person_response_from_get = await _personsService.DeletePerson(Guid.NewGuid());
+        bool person_response_from_get = await _personsDeleterService.DeletePerson(Guid.NewGuid());
 
         person_response_from_get.Should().BeFalse();
     }

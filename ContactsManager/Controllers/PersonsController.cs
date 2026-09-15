@@ -11,8 +11,7 @@ using ServiceContracts.Enums;
 
 namespace ContactsManager.Controllers
 {
-    [Route("[controller]")]
-    [TypeFilter(typeof(HandleExceptionFilter))]
+    [Route("[controller]")] 
     public class PersonsController : Controller
     {
         private readonly ICountriesService _countriesService;
