@@ -2,6 +2,7 @@
   <Project Path="ContactsManager/ContactsManager.csproj" />
   <Project Path="CRUDTests/CRUDTests.csproj" />
   <Project Path="Entities/Entities.csproj" />
+  <Project Path="Exceptions/Exceptions.csproj" Id="07e23ea9-3275-4806-bc86-15230b1d72fa" />
   <Project Path="Repositories/Repositories.csproj" Id="f434ac31-b507-4c27-859e-02ba6a5ed069" />
   <Project Path="RepositoryContracts/RepositoryContracts.csproj" Id="26dfb8b6-bc3a-489d-a96f-e4d20c5a095d" />
   <Project Path="ServiceContracts/ServiceContracts.csproj" />

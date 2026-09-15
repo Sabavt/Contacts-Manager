@@ -10,6 +10,7 @@ using RepositoryContracts;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using SerilogTimings;
+using Exceptions;
 
 namespace Services;
 
@@ -56,7 +57,7 @@ public class PersonsService : IPersonsService
     public async Task<PersonResponse?> GetPersonByPersonID(Guid? personID)
     {
         if (personID == null)
-            throw new ArgumentNullException(nameof(personID));
+            throw new InvalidPersonIdException(nameof(personID));
 
         var person = await _personsRepository.GetPersonByPersonID(personID.Value);
 
@@ -168,7 +169,7 @@ public class PersonsService : IPersonsService
         ValidationHelper.ValidateModel(personUpdateRequest);
 
         if (GetPersonByPersonID(personUpdateRequest.PersonID) == null)
-            throw new ArgumentException(nameof(personUpdateRequest));
+            throw new InvalidPersonIdException(nameof(personUpdateRequest));
 
           
         return (await _personsRepository.UpdatePerson(personUpdateRequest.ToPerson())).ToPersonResponse(); 
@@ -177,7 +178,7 @@ public class PersonsService : IPersonsService
     public async Task<bool> DeletePerson(Guid? personID)
     {
         if (personID == null)
-            throw new ArgumentNullException(nameof(personID));  
+            throw new InvalidPersonIdException(nameof(personID));  
 
         return await _personsRepository.DeletePersonByPersonID(personID.Value);
     }
