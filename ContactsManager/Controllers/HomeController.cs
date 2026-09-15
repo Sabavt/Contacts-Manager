@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc; 
 
 namespace ContactsManager.Controllers
 {

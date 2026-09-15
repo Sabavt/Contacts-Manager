@@ -16,8 +16,9 @@ builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider services, 
     loggerConfiguration
     .ReadFrom.Configuration(context.Configuration)
     .ReadFrom.Services(services);
-});
-builder.Services.ConfigureServices(builder);
+}); 
+    
+builder.Services.ConfigureServices(builder);  
  
 var app = builder.Build();
 

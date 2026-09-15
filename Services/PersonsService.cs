@@ -73,7 +73,7 @@ public class PersonsService : IPersonsService
 
         if(string.IsNullOrEmpty(searchString))
         {
-            throw new ArgumentNullException(nameof(searchString));
+            searchString = "a";
         }
 
         List<Person>? persons = null;
