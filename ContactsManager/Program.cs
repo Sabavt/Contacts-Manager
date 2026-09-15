@@ -7,6 +7,7 @@ using ServiceContracts;
 using Services;
 using Serilog; 
 using ContactsManager;
+using ContactsManager.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,13 +21,17 @@ builder.Services.ConfigureServices(builder);
  
 var app = builder.Build();
 
-app.UseSerilogRequestLogging();
-app.UseHttpLogging();
-
 if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandlingMiddleware();
+}
+app.UseSerilogRequestLogging();
+app.UseHttpLogging();
+
 
 app.UseStaticFiles();
 app.MapControllers();
