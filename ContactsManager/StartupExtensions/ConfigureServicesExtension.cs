@@ -16,7 +16,8 @@ public static class ConfigureServicesExtension
 
         services.AddControllersWithViews();
 
-        services.AddScoped<IPersonsGetterService, PersonsGetterService>();
+        services.AddScoped<IPersonsGetterService, PersonsGetterServiceWithCompactExcel>();
+        services.AddScoped<PersonsGetterService, PersonsGetterService>();
         services.AddScoped<IPersonsDeleterService, PersonsDeleterService>();
         services.AddScoped<IPersonsSorterService, PersonsSorterService>();
         services.AddScoped<IPersonsUpdaterService, PersonsUpdaterService>();
