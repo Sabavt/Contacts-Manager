@@ -9,7 +9,7 @@ public class CountriesAdderService : ICountriesAdderService
 {
     private readonly ICountriesRepository _countriesRepository;
 
-    public CountrieAdderService(ICountriesRepository countriesRepository)
+    public CountriesAdderService(ICountriesRepository countriesRepository)
     {
         _countriesRepository = countriesRepository; 
     }

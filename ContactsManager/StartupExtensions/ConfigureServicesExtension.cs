@@ -21,7 +21,10 @@ public static class ConfigureServicesExtension
         services.AddScoped<IPersonsSorterService, PersonsSorterService>();
         services.AddScoped<IPersonsUpdaterService, PersonsUpdaterService>();
         services.AddScoped<IPersonsAdderService, PersonsAdderService>();
+
         services.AddScoped<ICountriesAdderService, CountriesAdderService>();
+        services.AddScoped<ICountriesGetterService, CountriesGetterService>();
+        services.AddScoped<ICountriesUploaderFromExcelService, CountriesUploaderFromExcelService>();
 
         services.AddScoped<ICountriesRepository, CountriesRepository>();
         services.AddScoped<IPersonsRepository, PersonsRepository>();
