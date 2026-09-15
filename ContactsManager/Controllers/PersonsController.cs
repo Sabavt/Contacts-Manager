@@ -23,7 +23,7 @@ namespace ContactsManager.Controllers
         private readonly ICountriesGetterService _countriesGetterService;
         private readonly ILogger<PersonsController> _logger;
 
-        public PersonsController(IPersonsGetterService personsGetterService, IPersonsSorterService personsSorterService, IPersonsUpdaterService personsUpdaterService, IPersonsDeleterService personsDeleterService, IPersonsAdderService personsAdderService,ICountriesAdderService countriesAdderService, CountriesGetterService countriesGetterService, ILogger<PersonsController> logger)
+        public PersonsController(IPersonsGetterService personsGetterService, IPersonsSorterService personsSorterService, IPersonsUpdaterService personsUpdaterService, IPersonsDeleterService personsDeleterService, IPersonsAdderService personsAdderService, ICountriesAdderService countriesAdderService, ICountriesGetterService countriesGetterService, ILogger<PersonsController> logger)
         {
             _personsGetterService = personsGetterService;
             _personsSorterService = personsSorterService;

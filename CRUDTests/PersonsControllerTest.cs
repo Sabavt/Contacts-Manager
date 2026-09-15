@@ -17,14 +17,20 @@ public class PersonsControllerTest
     private readonly IPersonsSorterService _personsSorterService;
     private readonly IPersonsUpdaterService _personsUpdaterService;
     private readonly IPersonsDeleterService _personsDeleterService; 
+
     private readonly Mock<IPersonsAdderService> _personsAdderServiceMock;
     private readonly Mock<IPersonsGetterService> _personsGetterServiceMock;
     private readonly Mock<IPersonsSorterService> _personsSorterServiceMock;
     private readonly Mock<IPersonsUpdaterService> _personsUpdaterServiceMock;
     private readonly Mock<IPersonsDeleterService> _personsDeleterServiceMock;
-    private readonly ICountriesAdderService _countriesService; 
+
+    private readonly ICountriesAdderService _countriesAdderService; 
+    private readonly ICountriesGetterService _countriesGetterService;
+
+    private readonly Mock<ICountriesGetterService> _countriesGetterServiceMock;
+    private readonly Mock<ICountriesAdderService> _countriesAdderServiceMock;
+
     private readonly ILogger<PersonsController> _logger;
-    private readonly Mock<ICountriesAdderService> _countriesServiceMock;
     private readonly Mock<ILogger<PersonsController>> _loggerMock;
     private readonly Fixture _fixture;
 
@@ -32,12 +38,16 @@ public class PersonsControllerTest
     public PersonsControllerTest()
     {
         _fixture = new Fixture();
+
         _personsAdderServiceMock = new Mock<IPersonsAdderService>();
         _personsGetterServiceMock = new Mock<IPersonsGetterService>();
         _personsSorterServiceMock = new Mock<IPersonsSorterService>();
         _personsUpdaterServiceMock = new Mock<IPersonsUpdaterService>();
         _personsDeleterServiceMock = new Mock<IPersonsDeleterService>();
-        _countriesServiceMock = new Mock<ICountriesAdderService>();
+
+        _countriesAdderServiceMock = new Mock<ICountriesAdderService>();
+        _countriesGetterServiceMock = new Mock<ICountriesGetterService>();
+
         _loggerMock = new Mock<ILogger<PersonsController>>();
 
         _personsAdderService = _personsAdderServiceMock.Object;
@@ -45,7 +55,10 @@ public class PersonsControllerTest
         _personsGetterService = _personsGetterServiceMock.Object;
         _personsSorterService = _personsSorterServiceMock.Object;
         _personsUpdaterService = _personsUpdaterServiceMock.Object;
-        _countriesService = _countriesServiceMock.Object;
+
+        _countriesAdderService = _countriesAdderServiceMock.Object;
+        _countriesGetterService = _countriesGetterServiceMock.Object;
+
         _logger = _loggerMock.Object;
     }
 
@@ -54,7 +67,7 @@ public class PersonsControllerTest
     {
         List<PersonResponse> persons_response_list = _fixture.Create<List<PersonResponse>>();
 
-        PersonsController personsController = new PersonsController(_personsGetterService, _personsSorterService, _personsUpdaterService, _personsDeleterService, _personsAdderService, _countriesService, _logger);
+        PersonsController personsController = new PersonsController(_personsGetterService, _personsSorterService, _personsUpdaterService, _personsDeleterService, _personsAdderService, _countriesAdderService, _countriesGetterService, _logger);
 
         _personsGetterServiceMock.Setup(t => t.GetFilteredPersons(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(persons_response_list);
         _personsSorterServiceMock.Setup(t => t.GetSortedPerson(It.IsAny<List<PersonResponse>>(), It.IsAny<string>(), It.IsAny<SortOrderOptions>())).ReturnsAsync(persons_response_list);
@@ -73,7 +86,8 @@ public class PersonsControllerTest
     [Fact]
     public async Task Create_NoValidationErrors_ToRedirectToIndex()
     {
-        PersonsController personsController = new PersonsController(_personsGetterService, _personsSorterService, _personsUpdaterService, _personsDeleterService, _personsAdderService, _countriesService, _logger);
+        PersonsController personsController = new PersonsController(_personsGetterService, _personsSorterService, _personsUpdaterService, _personsDeleterService, _personsAdderService, _countriesAdderService, _countriesGetterService, _logger);
+
         PersonAddRequest person_to_add = _fixture.Create<PersonAddRequest>();
          
         _personsAdderServiceMock.Setup(t => t.AddPerson(It.IsAny<PersonAddRequest>()))
