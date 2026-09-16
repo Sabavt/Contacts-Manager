@@ -2,72 +2,77 @@
 @{
     ViewBag.Title = "Persons";
     var persons = Model.ToList();
-} 
+}
 
-<form asp-controller="Persons" asp-action="PersonsPdf" method="post">
-    @for (int i = 0; i < persons.Count; i++)
-    {
-        <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
-        <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
-        <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
-        <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
-        <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
-        <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
-        <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
-        <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
-    }
+<h1>Persons</h1>
 
-    <button type="submit" class="button ml">
-        Download as PDF
-    </button>
-</form>
+<div class="download-buttons">
 
+    <form asp-controller="Persons" asp-action="Create" method="get"> 
+        <button type="submit" class="button">
+            Create Person
+        </button>
+    </form>
 
-<form asp-controller="Persons" asp-action="PersonsCSV" method="post">
-    @for (int i = 0; i < persons.Count; i++)
-    {
-        <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
-        <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
-        <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
-        <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
-        <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
-        <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
-        <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
-        <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
-    }
+    <form asp-controller="Persons" asp-action="PersonsPdf" method="post">
+        @for (int i = 0; i < persons.Count; i++)
+        {
+            <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
+            <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
+            <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
+            <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
+            <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
+            <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
+            <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
+            <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
+        }
 
-    <button type="submit" class="button ml">
-        Download as CSV
-    </button>
-</form>
+        <button type="submit" class="button">
+            Download as PDF
+        </button>
+    </form>
 
+    <form asp-controller="Persons" asp-action="PersonsCSV" method="post">
+        @for (int i = 0; i < persons.Count; i++)
+        {
+            <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
+            <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
+            <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
+            <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
+            <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
+            <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
+            <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
+            <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
+        }
 
-<form asp-controller="Persons" asp-action="PersonsExcel" method="post">
+        <button type="submit" class="button">
+            Download as CSV
+        </button>
+    </form>
 
-    @for (int i = 0; i < persons.Count; i++)
-    {
-        <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
-        <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
-        <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
-        <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
-        <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
-        <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
-        <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
-        <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
-    }
+    <form asp-controller="Persons" asp-action="PersonsExcel" method="post">
+        @for (int i = 0; i < persons.Count; i++)
+        {
+            <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
+            <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
+            <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
+            <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
+            <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
+            <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
+            <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
+            <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
+        }
 
-    <button type="submit" class="button ml">
-        Download as Excel
-    </button>
-</form>
+        <button type="submit" class="button">
+            Download as Excel
+        </button>
+    </form>
+
+</div>
 
 
 <form asp-controller="Persons" asp-action="Index" method="get">
-
-    <h1>Persons</h1>
-
-    <a asp-controller="persons" asp-action="create" class="button ml"> Create Person </a>
-       
+     
     <div class="box flex">
         <div class="flex-1">
             <select class="form-input" name="searchBy">
@@ -97,8 +102,8 @@
 
     <table class="table w-100 mt saba-contacts">
         <thead>
-            <tr> 
-                    @await Html.PartialAsync("_ColumnHeader", new ViewDataDictionary(ViewData){
+            <tr>
+                @await Html.PartialAsync("_ColumnHeader", new ViewDataDictionary(ViewData){
                                 {"ColumnName", nameof(PersonResponse.PersonName)},
                                 {"DisplayName", "Person Name"},
                     })
@@ -110,7 +115,7 @@
                                 {"ColumnName", nameof(PersonResponse.DateOfBirth)},
                                 {"DisplayName", "Date of Birth"},
                     })
-                     @await Html.PartialAsync("_ColumnHeader", new ViewDataDictionary(ViewData){
+                @await Html.PartialAsync("_ColumnHeader", new ViewDataDictionary(ViewData){
                                 {"ColumnName", nameof(PersonResponse.Age)},
                                 {"DisplayName", "Age"},
                     })
@@ -130,8 +135,8 @@
                                 {"ColumnName", nameof(PersonResponse.ReceiveNewsLetters)},
                                 {"DisplayName", "Receive News Letters"},
                     })
-                   <th>Options</th>
-                   <th></th>
+                <th>Options</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -139,7 +144,7 @@
             {
                 <tr>
                     <td style="width:10%">@person.PersonName</td>
-                    <td style ="width:16%">@person.Email</td>
+                    <td style="width:16%">@person.Email</td>
                     <td style="width:14%">@person.DateOfBirth?.ToString("dd MMM yyyy")</td>
                     <td style="width:6%">@person.Age</td>
                     <td style="width:9%">@person.Gender</td>
