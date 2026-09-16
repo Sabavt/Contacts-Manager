@@ -32,11 +32,11 @@ public interface IPersonsGetterService
     /// Returns persons as CSV
     /// </summary>
     /// <returns>Returns MemoryStream with CSV data</returns>
-    Task<MemoryStream> GetPersonsCSV();
+    Task<MemoryStream> GetPersonsCSV(List<PersonResponse> persons);
 
     /// <summary>
     /// Returns persons as Excel
     /// </summary>
     /// <returns>Returns MemoryStream with Excel data</returns>
-    Task<MemoryStream> GetPersonsExcel();
+    Task<MemoryStream> GetPersonsExcel(List<PersonResponse> persons);
 }

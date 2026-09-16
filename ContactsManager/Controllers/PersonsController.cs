@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Rotativa.AspNetCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
-using ServiceContracts.Enums;
-using Services;
+using ServiceContracts.Enums; 
 
 namespace ContactsManager.Controllers
 {
@@ -131,29 +130,30 @@ namespace ContactsManager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
+        [HttpPost] 
         [Route("[action]")]
-        public async Task<IActionResult> PersonsPDF()
-        {
-            List<PersonResponse> personResponses = await  _personsGetterService.GetAllPerson();
-
-            return new ViewAsPdf("PersonsPDF", personResponses, ViewData)
+        public async Task<IActionResult> PersonsPDF(List<PersonResponse> persons)
+        { 
+            return new ViewAsPdf("PersonsPDF", persons, ViewData)
             {
                 PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
                 PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape
             };
         }
 
+        [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> PersonsCSV()
+        public async Task<IActionResult> PersonsCSV(List<PersonResponse> persons)
         {
-            MemoryStream persons_csv_stream = await _personsGetterService.GetPersonsCSV();
+            MemoryStream persons_csv_stream = await _personsGetterService.GetPersonsCSV(persons);
             return File(persons_csv_stream, "text/csv", "Persons.csv");
         }
 
+        [HttpPost] 
         [Route("[action]")]
-        public async Task<IActionResult> PersonsExcel()
+        public async Task<IActionResult> PersonsExcel(List<PersonResponse> persons)
         {
-            MemoryStream persons_excel_stream = await _personsGetterService.GetPersonsExcel();
+            MemoryStream persons_excel_stream = await _personsGetterService.GetPersonsExcel(persons);
             return File(persons_excel_stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Persons.xlsx");
         }
     }

@@ -19,9 +19,9 @@ public class PersonsGetterServiceWithCompactExcel : IPersonsGetterService
 
     public async Task<PersonResponse?> GetPersonByPersonID(Guid? personID) => await _personsGetterService.GetPersonByPersonID(personID);
 
-    public async Task<MemoryStream> GetPersonsCSV() => await _personsGetterService.GetPersonsCSV();
+    public async Task<MemoryStream> GetPersonsCSV(List<PersonResponse> persons) => await _personsGetterService.GetPersonsCSV(persons);
 
-    public async Task<MemoryStream> GetPersonsExcel()
+    public async Task<MemoryStream> GetPersonsExcel(List<PersonResponse> persons)
     {
         MemoryStream memoryStream = new MemoryStream();
         using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
@@ -36,8 +36,8 @@ public class PersonsGetterServiceWithCompactExcel : IPersonsGetterService
                 headerCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
                 headerCells.Style.Font.Bold = true;
             }
-            int row = 3;
-            List<PersonResponse> persons = await GetAllPerson();
+            int row = 3; 
+
             foreach (PersonResponse person in persons)
             {
                 workSheet.Cells[row, 1].Value = person.PersonName;

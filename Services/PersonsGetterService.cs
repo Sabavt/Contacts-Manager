@@ -100,13 +100,13 @@ public class PersonsGetterService : IPersonsGetterService
         return persons.Select(temp => temp.ToPersonResponse()).ToList();
     } 
 
-    public async Task<MemoryStream> GetPersonsCSV()
+    public async Task<MemoryStream> GetPersonsCSV(List<PersonResponse> persons)
     {
-        using MemoryStream stream = new MemoryStream();
-        using StreamWriter writer = new StreamWriter(stream);
+        MemoryStream stream = new MemoryStream();
+        StreamWriter writer = new StreamWriter(stream);
 
         CsvConfiguration config = new CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture);
-        using CsvWriter csvWriter = new CsvWriter(writer,config, leaveOpen: true);
+        CsvWriter csvWriter = new CsvWriter(writer,config, leaveOpen: true);
 
         csvWriter.WriteField(nameof(PersonResponse.PersonName));
         csvWriter.WriteField(nameof(PersonResponse.Age));
@@ -115,9 +115,7 @@ public class PersonsGetterService : IPersonsGetterService
         csvWriter.WriteField(nameof(PersonResponse.DateOfBirth));
         csvWriter.WriteField(nameof(PersonResponse.Address));
 
-        csvWriter.NextRecord();
-
-        var persons = await GetAllPerson();
+        csvWriter.NextRecord(); 
         
         foreach(PersonResponse person in persons)
         {
@@ -125,7 +123,7 @@ public class PersonsGetterService : IPersonsGetterService
             csvWriter.WriteField(person.Age);
             csvWriter.WriteField(person.Gender);
             csvWriter.WriteField(person.Email);
-            csvWriter.WriteField(person.DateOfBirth?.ToString("yyyy mm dd"));
+            csvWriter.WriteField(person.DateOfBirth?.ToString("yyyy-MM-dd"));
             csvWriter.WriteField(person.Address);
 
             csvWriter.NextRecord();
@@ -136,7 +134,7 @@ public class PersonsGetterService : IPersonsGetterService
         return stream;
     }
 
-    public async Task<MemoryStream> GetPersonsExcel()
+    public async Task<MemoryStream> GetPersonsExcel(List<PersonResponse> persons)
     {
         MemoryStream memoryStream = new MemoryStream();
         using (ExcelPackage excelPackage = new ExcelPackage(memoryStream))
@@ -157,8 +155,8 @@ public class PersonsGetterService : IPersonsGetterService
                 headerCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
                 headerCells.Style.Font.Bold = true;
             }
-            int row = 2;
-            List<PersonResponse> persons = await GetAllPerson();
+            int row = 2; 
+
             foreach (PersonResponse person in persons)
             {
                 workSheet.Cells[row, 1].Value = person.PersonName;

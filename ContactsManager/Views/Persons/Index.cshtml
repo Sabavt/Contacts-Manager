@@ -1,20 +1,73 @@
 ﻿@model IEnumerable<PersonResponse>
 @{
     ViewBag.Title = "Persons";
-}
+    var persons = Model.ToList();
+} 
+
+<form asp-controller="Persons" asp-action="PersonsPdf" method="post">
+    @for (int i = 0; i < persons.Count; i++)
+    {
+        <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
+        <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
+        <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
+        <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
+        <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
+        <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
+        <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
+        <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
+    }
+
+    <button type="submit" class="button ml">
+        Download as PDF
+    </button>
+</form>
+
+
+<form asp-controller="Persons" asp-action="PersonsCSV" method="post">
+    @for (int i = 0; i < persons.Count; i++)
+    {
+        <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
+        <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
+        <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
+        <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
+        <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
+        <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
+        <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
+        <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
+    }
+
+    <button type="submit" class="button ml">
+        Download as CSV
+    </button>
+</form>
+
+
+<form asp-controller="Persons" asp-action="PersonsExcel" method="post">
+
+    @for (int i = 0; i < persons.Count; i++)
+    {
+        <input type="hidden" name="persons[@i].PersonName" value="@persons[i].PersonName" />
+        <input type="hidden" name="persons[@i].Email" value="@persons[i].Email" />
+        <input type="hidden" name="persons[@i].DateOfBirth" value="@persons[i].DateOfBirth" />
+        <input type="hidden" name="persons[@i].Age" value="@persons[i].Age" />
+        <input type="hidden" name="persons[@i].Gender" value="@persons[i].Gender" />
+        <input type="hidden" name="persons[@i].Country" value="@persons[i].Country" />
+        <input type="hidden" name="persons[@i].Address" value="@persons[i].Address" />
+        <input type="hidden" name="persons[@i].ReceiveNewsLetters" value="@persons[i].ReceiveNewsLetters" />
+    }
+
+    <button type="submit" class="button ml">
+        Download as Excel
+    </button>
+</form>
+
+
 <form asp-controller="Persons" asp-action="Index" method="get">
 
     <h1>Persons</h1>
 
-<a href="~/persons/create" class="button ml"> Create Person </a>
-
-    <a href="~/persons/personspdf" class="button ml"> Download as PDF </a>
-
-    <a href="~/persons/personscsv" class="button ml"> Download as CSV </a>
-
-    <a href="~/persons/personsexcel" class="button ml"> Download as Excel </a>
-
-
+    <a asp-controller="persons" asp-action="create" class="button ml"> Create Person </a>
+       
     <div class="box flex">
         <div class="flex-1">
             <select class="form-input" name="searchBy">
