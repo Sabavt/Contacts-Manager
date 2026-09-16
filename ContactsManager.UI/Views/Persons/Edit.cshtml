@@ -3,6 +3,18 @@
     ViewBag.Title = "Edit Person";
 }
 
+<div class="flex">
+ <div class="flex-1">
+  <div class="text-grey">
+   <span>Contacts</span>
+   <i class="fa-solid fa-caret-right"></i>
+   <span class="text-grey">Persons</span>
+   <i class="fa-solid fa-caret-right"></i>
+   <span class="text-grey">Edit</span>
+  </div>
+ </div>
+</div>
+
 <a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons List</a>
 <h2>Edit Person</h2>
 
@@ -97,7 +109,7 @@
                 <button class="button button-green-back">Update</button>
                 <div asp-validation-summary="All" class="text-red"></div>
 
-                @if (ViewBag.ErrorMessage != null)
+                @if (ViewBag.ErrorMessages != null)
                 {
                     <div class="text-red ml">
                         <ul>

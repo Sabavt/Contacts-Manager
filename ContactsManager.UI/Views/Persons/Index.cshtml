@@ -8,7 +8,17 @@
 
 <div class="download-buttons">
 
-    <form asp-controller="Persons" asp-action="Create" method="get"> 
+    <div class="flex">
+        <div class="flex-1">
+            <div class="text-grey">
+                <span>Contacts</span>
+                <i class="fa-solid fa-caret-right"></i>
+                <span class="text-grey">Persons</span>
+            </div>
+        </div>
+        </div>
+        
+        <form asp-controller="Persons" asp-action="Create" method="get"> 
         <button type="submit" class="button">
             Create Person
         </button>

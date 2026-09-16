@@ -1,7 +1,19 @@
-﻿@model PersonResponse
+﻿@model PersonUpdateRequest
 @{
     ViewBag.Title = "Delete Person";
 }
+
+<div class="flex">
+ <div class="flex-1">
+  <div class="text-grey">
+   <span>Contacts</span>
+   <i class="fa-solid fa-caret-right"></i>
+   <span class="text-grey">Persons</span>
+   <i class="fa-solid fa-caret-right"></i>
+   <span class="text-grey">Delete</span>
+  </div>
+ </div>
+</div>
 
 <a asp-controller="Persons" asp-action="Index" class="link-hover">Back to Persons List</a>
 <h2>Delete Person</h2>
@@ -10,6 +22,8 @@
     <form asp-controller="Persons" asp-action="Delete" method="post">
 
         <input type="hidden" asp-for="PersonID" />
+        <input type="hidden" asp-for="PersonName" />
+        <input type="hidden" asp-for="Email" />
 
         <div class="form-field flex">
             <div class="w-25">
@@ -34,10 +48,10 @@
             <div class="w-25">
             </div>
             <div class="flex-1">
-                <button class="button button-red-back">Delete</button>
+                <button class="button button-red-back" type="submit">Delete</button>
                  
 
-                @if (ViewBag.ErrorMessage != null)
+                @if (ViewBag.ErrorMessages != null)
                 {
                     <div class="text-red ml">
                         <ul>

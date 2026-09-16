@@ -26,10 +26,11 @@ public class ShortCircuitActionFilter : IAsyncActionFilter
                 controller.ViewBag.ErrorMessages = controller.ModelState.Values.Select(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
                 context.Result = controller.View(context.ActionArguments["personRequest"]);
             }
+            else
+            {
+                await next();
+            }
         }
-        else
-        {
-            await next(); 
-        }
+
     }
 }

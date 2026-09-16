@@ -30,8 +30,7 @@ public class PersonsUpdaterService : IPersonsUpdaterService
 
         if (personUpdateRequest.PersonID == Guid.Empty)
             throw new InvalidPersonIdException(nameof(personUpdateRequest));
-
-          
+         
         return (await _personsRepository.UpdatePerson(personUpdateRequest.ToPerson())).ToPersonResponse(); 
     } 
 } 

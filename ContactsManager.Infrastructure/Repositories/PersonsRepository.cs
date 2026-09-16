@@ -60,11 +60,12 @@ public class PersonsRepository : IPersonsRepository
         if (matchingPerson == null)
             return person;
 
+        matchingPerson.Email = person.Email; 
         matchingPerson.PersonName = person.PersonName;
         matchingPerson.Gender = person.Gender;
         matchingPerson.Address = person.Address;
         matchingPerson.TIN = person.TIN;
-        matchingPerson.Country = person.Country;
+        matchingPerson.CountryID = person.CountryID;
         matchingPerson.DateOfBirth = person.DateOfBirth;
         matchingPerson.ReceiveNewsLetters = person.ReceiveNewsLetters;
 

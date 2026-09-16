@@ -110,7 +110,7 @@ namespace ContactsManager.Controllers
             if (person_delete_get == null)
                 return RedirectToActionPermanent("Index");
              
-            return View(person_delete_get);
+            return View(person_delete_get.ToPersonUpdateRequest());
         }
 
         [HttpPost]
