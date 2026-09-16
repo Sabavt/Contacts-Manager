@@ -12,9 +12,6 @@ public static class ConfigureServicesExtension
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        services.AddHttpLogging();
-
-        services.AddControllersWithViews();
 
         services.AddScoped<IPersonsGetterService, PersonsGetterServiceWithCompactExcel>();
         services.AddScoped<PersonsGetterService, PersonsGetterService>();
@@ -30,7 +27,12 @@ public static class ConfigureServicesExtension
         services.AddScoped<ICountriesRepository, CountriesRepository>();
         services.AddScoped<IPersonsRepository, PersonsRepository>();
 
-        if (!builder.Environment.IsEnvironment("Test"))
+        services.AddHttpLogging();
+
+        services.AddControllersWithViews();
+
+        if (!builder.Environment.IsEnvironment
+            ("Test"))
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {

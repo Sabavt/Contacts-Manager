@@ -6,9 +6,9 @@ namespace Services;
 
 public class PersonsGetterServiceWithCompactExcel : IPersonsGetterService
 {
-    private readonly IPersonsGetterService _personsGetterService;
+    private readonly PersonsGetterService _personsGetterService;
 
-    public PersonsGetterServiceWithCompactExcel(IPersonsGetterService personsGetterService)
+    public PersonsGetterServiceWithCompactExcel(PersonsGetterService personsGetterService)
     {
         _personsGetterService = personsGetterService;
     }

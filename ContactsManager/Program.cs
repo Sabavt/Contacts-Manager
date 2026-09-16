@@ -32,9 +32,7 @@ else
     app.UseExceptionHandler("/Error");
 }
 app.UseSerilogRequestLogging();
-app.UseHttpLogging();
-
-
+app.UseHttpLogging(); 
 app.UseStaticFiles();
 app.MapControllers();
 
