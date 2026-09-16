@@ -21,8 +21,8 @@ public class PersonAddRequest
     public DateTime? DateOfBirth { get; set; } 
     public GenderOptions Gender { get; set; }
     public Guid? CountryID { get; set; } 
-    public string? Address { get; set; } 
-    public bool ReceiveNewsLetters { get; set; }
+    public string? Address { get; set; }
+    public bool ReceiveNewsLetters { get; set; } = false;
 
     /// <summary>
     /// Coverts the current object of PersonAddRequest into new object of Person type

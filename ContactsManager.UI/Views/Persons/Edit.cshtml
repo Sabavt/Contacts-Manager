@@ -96,10 +96,12 @@
             <div class="w-25">
             </div>
             <div class="flex-1">
-                <input type="checkbox" name="ReceiveNewsLetters" id="ReceiveNewsLetters" value="true" />
-                <label asp-for="ReceiveNewsLetters" class="form-label">Receive News Letters</label>
-                <span asp-validation-for="ReceiveNewsLetters" class="text-red"></span>
-            </div>
+               
+               <label asp-for="ReceiveNewsLetters" class="form-label">
+    <input asp-for="ReceiveNewsLetters" type="checkbox" /> Receive News Letters
+</label>
+<span asp-validation-for="ReceiveNewsLetters" class="text-red"></span>
+            </div> 
         </div>
 
         <div class="form-field flex">
