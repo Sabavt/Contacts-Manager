@@ -34,6 +34,7 @@ else
 app.UseSerilogRequestLogging();
 app.UseHttpLogging(); 
 app.UseStaticFiles();
+app.UseAuthentication();
 app.MapControllers();
 
 app.Run();
