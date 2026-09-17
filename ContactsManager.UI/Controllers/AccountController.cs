@@ -26,7 +26,7 @@ public class AccountController : Controller
     [Route("[action]")]
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             ViewBag.Errors = ModelState.Values.SelectMany(e => e.Errors).Select(v => v.ErrorMessage).ToList();
             return View(registerRequest);
@@ -34,28 +34,28 @@ public class AccountController : Controller
 
         ApplicationUser user = new()
         {
-            Email = registerRequest.Email ,
+            Email = registerRequest.Email,
             UserName = registerRequest.Email,
             PersonName = registerRequest.PersonName,
-            PhoneNumber = registerRequest.Phone 
+            PhoneNumber = registerRequest.Phone
         };
 
-        
-        var result = await _userManager.CreateAsync(user);
 
-        if(result.Succeeded)
+        var result = await _userManager.CreateAsync(user, registerRequest.Password);
+
+        if (result.Succeeded)
         {
-            return RedirectToActionPermanent("Index", "Persons");  
+            return RedirectToActionPermanent("Index", "Persons");
         }
         else
-        {
+        { 
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("Account Register", error.Description);
+            }
+            ViewBag.Errors = ModelState.Values.SelectMany(e => e.Errors).Select(v => v.ErrorMessage).ToList();
 
-         foreach(var error in result.Errors)
-         {
-            ModelState.AddModelError("Account Register" ,error.Description);
-         }
-
-             return View(registerRequest);
+            return View(registerRequest);
         }
     }
 }

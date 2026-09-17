@@ -14,8 +14,7 @@ namespace ContactsManager;
 public static class ConfigureServicesExtension
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services, WebApplicationBuilder builder)
-    {
-
+    { 
         services.AddScoped<IPersonsGetterService, PersonsGetterServiceWithCompactExcel>();
         services.AddScoped<PersonsGetterService, PersonsGetterService>();
         services.AddScoped<IPersonsDeleterService, PersonsDeleterService>();
