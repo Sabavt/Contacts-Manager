@@ -1,4 +1,5 @@
-﻿using ContactsManager.Core.DTO;
+﻿using ContactsManager.Core.Domain.IdentityEntities;
+using ContactsManager.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactsManager.UI.Controllers;
@@ -17,6 +18,11 @@ public class AccountController : Controller
     [Route("[action]")]
     public IActionResult Register(RegisterRequest registerRequest)
     {
+        ApplicationUser user = new()
+        {
+            Email = registerRequest.Email
+
+        };
         return RedirectToActionPermanent("Index", "Persons"); 
     }
 }

@@ -1,4 +1,7 @@
-﻿using Entities;
+﻿using ContactsManager.Core.Domain.IdentityEntities;
+using Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Repositories;
@@ -41,6 +44,15 @@ public static class ConfigureServicesExtension
             ExcelPackage.License.SetNonCommercialPersonal("Saba-Contacts-Manager");
             Rotativa.AspNetCore.RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
         }
+
+        services.AddIdentity<ApplicationUser,
+            ApplicationRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders()
+            .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
+
+            .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
+
 
         return services;
     }
