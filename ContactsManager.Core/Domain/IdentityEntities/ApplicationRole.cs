@@ -2,7 +2,7 @@
 
 namespace ContactsManager.Core.Domain.IdentityEntities;
 
-public class ApplicationUser : IdentityUser<Guid>
+public class ApplicationRole : IdentityRole<Guid>
 {
-    public string? PersonName { get; set; }
+
 }
