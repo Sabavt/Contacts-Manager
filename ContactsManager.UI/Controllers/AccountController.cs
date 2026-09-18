@@ -85,7 +85,7 @@ public class AccountController : Controller
 
         if(result.Succeeded)
         {
-            return RedirectToActionPermanent($"persons/{nameof(PersonsController.Index)}"); 
+            return RedirectToActionPermanent(nameof(PersonsController.Index),"Persons"); 
         }
         else
         {
@@ -94,10 +94,10 @@ public class AccountController : Controller
         }
     }
 
+    [Route("[action]")]
     public async Task<IActionResult> LogOut()
     {
-        return View(); 
-    }
-
-
+        await _signInManager.SignOutAsync();
+        return RedirectToActionPermanent("index", "persons");
+    } 
 }
