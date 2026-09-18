@@ -16,7 +16,8 @@ public class RegisterRequest
     [Remote("EmailAlredyExists", "Account", ErrorMessage = "Email alredy exists, please try a different one")]
     public string Email { get; set; } = null!;
 
-    [Required(ErrorMessage = "Phone can't be blank")] 
+    [Required(ErrorMessage = "Phone can't be blank")]
+    [Remote("PhoneAlredyExists", "Account", ErrorMessage = "Phone number is alredy in use, please try a different one")]
     public string Phone { get; set; } = null!;
 
     [Required(ErrorMessage = "Password can't be blank")]

@@ -5,6 +5,7 @@ using ContactsManager.Core.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContactsManager.UI.Controllers;
 
@@ -55,9 +56,9 @@ public class AccountController : Controller
         {
             if(registerRequest.UserType == UserTypeOptions.Admin)
             {
-                if (await _roleManager.FindByNameAsync("Admin") is null)
+                if (await _roleManager.FindByNameAsync(nameof(UserTypeOptions.Admin)) is null)
                 {
-                    ApplicationRole applicationRole = new ApplicationRole() { Name = "Admin"};
+                    ApplicationRole applicationRole = new ApplicationRole() { Name = nameof(UserTypeOptions.Admin) };
                     await _roleManager.CreateAsync(applicationRole);
                 }
                 await _userManager.AddToRoleAsync(user, nameof(UserTypeOptions.Admin));
@@ -125,7 +126,8 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToActionPermanent(nameof(PersonsController.Index), "persons");
     }
- 
+
+    [Route("[action]")]
     public async Task<IActionResult> EmailAlredyExists(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
@@ -137,5 +139,20 @@ public class AccountController : Controller
         {
             return Json(false);
         }
-    } 
+    }
+
+    [Route("[action]")] 
+    public async Task<IActionResult> PhoneAlredyExists(string phone)
+    {
+        bool exists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == phone);
+
+        if(exists)
+        {
+            return Json(false);
+        }
+        else
+        {
+            return Json(true);
+        }
+    }
 }
