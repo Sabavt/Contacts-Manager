@@ -85,9 +85,18 @@ body {
             transform: translateY(-1px);
         }
 
+.nav-active:before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    bottom: -2px;
+    height: 1px;
+    width: 50%;
+    border-bottom: 2px solid #626262;
+}
+
 .nav-active {
-    background-color: #ecfdf5;
-    color: var(--primary-hover) !important;
+    position: relative;
 }
 
 /* Layout */
