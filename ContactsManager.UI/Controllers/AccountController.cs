@@ -73,7 +73,7 @@ public class AccountController : Controller
 
     [HttpPost]
     [Route("[action]")]
-    public async Task<IActionResult> Login(LoginRequest loginRequest)
+    public async Task<IActionResult> Login(LoginRequest loginRequest, string? returnUrl)
     {
         if(!ModelState.IsValid)
         {
@@ -87,7 +87,14 @@ public class AccountController : Controller
 
         if(result.Succeeded)
         {
-            return RedirectToActionPermanent(nameof(PersonsController.Index),"Persons"); 
+            if(string.IsNullOrEmpty(returnUrl))
+            {
+              return RedirectToActionPermanent(nameof(PersonsController.Index),"Persons"); 
+            }
+            else
+            {
+                return LocalRedirectPermanent(returnUrl); 
+            }
         }
         else
         {
