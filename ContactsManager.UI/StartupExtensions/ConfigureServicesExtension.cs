@@ -53,8 +53,17 @@ public static class ConfigureServicesExtension
 
             .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
 
-        services.AddAuthorization(opt => opt.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser().Build()
+        services.AddAuthorization(opt => {
+            opt.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser().Build();
+
+            opt.AddPolicy("NotAuthorized", policy => policy
+            .RequireAssertion(context =>
+            {
+                return !context.User.Identity!.IsAuthenticated;
+            }
+            ));
+        }  
         );
         services.ConfigureApplicationCookie(opt => opt.LoginPath = "/Account/Login");
 

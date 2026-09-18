@@ -9,8 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ContactsManager.UI.Controllers;
 
-[Route("[controller]")]
-[AllowAnonymous]
+[Route("[controller]")] 
 public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -26,6 +25,7 @@ public class AccountController : Controller
 
     [HttpGet]
     [Route("[action]")]
+    [Authorize("NotAuthorized")]
     public IActionResult Register()
     {
         return View();
@@ -33,6 +33,7 @@ public class AccountController : Controller
 
     [HttpPost]
     [Route("[action]")]
+    [Authorize("NotAuthorized")] 
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
         if (!ModelState.IsValid)
@@ -83,6 +84,7 @@ public class AccountController : Controller
 
     [HttpGet]
     [Route("[action]")]
+    [Authorize("NotAuthorized")] 
     public async Task<IActionResult> Login()
     {
         return View();
@@ -90,6 +92,7 @@ public class AccountController : Controller
 
     [HttpPost]
     [Route("[action]")]
+    [Authorize("NotAuthorized")]
     public async Task<IActionResult> Login(LoginRequest loginRequest, string? returnUrl)
     {
         if(!ModelState.IsValid)
@@ -121,6 +124,7 @@ public class AccountController : Controller
     }
 
     [Route("[action]")]
+    [Authorize]
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
