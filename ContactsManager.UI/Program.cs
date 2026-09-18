@@ -31,6 +31,10 @@ else
     app.UseExceptionHandlingMiddleware();
     app.UseExceptionHandler("/Error");
 }
+
+app.UseHsts();
+app.UseHttpsRedirection();
+
 app.UseSerilogRequestLogging();
 app.UseHttpLogging(); 
 app.UseStaticFiles();

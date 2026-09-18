@@ -69,4 +69,4 @@ public static class ConfigureServicesExtension
 
         return services;
     }
-}
+} 
