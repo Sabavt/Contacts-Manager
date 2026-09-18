@@ -1,8 +1,10 @@
 ﻿using ContactsManager.Core.Domain.IdentityEntities;
 using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Repositories;
@@ -32,7 +34,7 @@ public static class ConfigureServicesExtension
 
         services.AddHttpLogging();
 
-        services.AddControllersWithViews();
+        services.AddControllersWithViews(pt => pt.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
         if (!builder.Environment.IsEnvironment
             ("Test"))

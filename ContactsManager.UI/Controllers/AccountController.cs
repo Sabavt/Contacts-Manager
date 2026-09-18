@@ -65,7 +65,9 @@ public class AccountController : Controller
                 await _userManager.AddToRoleAsync(user, nameof(UserTypeOptions.Admin));
             }
             else
-            { 
+            {
+                var role = new ApplicationRole() { Name = nameof(UserTypeOptions.User) };
+                await _roleManager.CreateAsync(role);
                 await _userManager.AddToRoleAsync(user, nameof(UserTypeOptions.User));
             }
             await _signInManager.SignInAsync(user, true);
@@ -92,7 +94,7 @@ public class AccountController : Controller
 
     [HttpPost]
     [Route("[action]")]
-    [Authorize("NotAuthorized")]
+    [Authorize("NotAuthorized")] 
     public async Task<IActionResult> Login(LoginRequest loginRequest, string? returnUrl)
     {
         if(!ModelState.IsValid)
@@ -132,6 +134,7 @@ public class AccountController : Controller
     }
 
     [Route("[action]")]
+    [AllowAnonymous]
     public async Task<IActionResult> EmailAlredyExists(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
@@ -145,7 +148,8 @@ public class AccountController : Controller
         }
     }
 
-    [Route("[action]")] 
+    [Route("[action]")]
+    [AllowAnonymous]
     public async Task<IActionResult> PhoneAlredyExists(string phone)
     {
         bool exists = await _userManager.Users.AnyAsync(u => u.PhoneNumber == phone);
