@@ -35,7 +35,7 @@
                                 }
                                 else
                                 {
-                                    @if (ViewBag.CurrentUrl == "~Account/Register")
+                                    @if (ViewBag.CurrentUrl == "~/Account/Register")
                                     {
                                         <li>
                                             <a asp-controller="Account" asp-action="Register" class="nav-active">Register</a>
@@ -47,7 +47,7 @@
                                             <a asp-controller="Account" asp-action="Register">Register</a>
                                         </li>
                                     }
-                                    @if (ViewBag.CurrentUrl == "~Account/Login")
+                                    @if (ViewBag.CurrentUrl == "~/Account/Login")
                                     {
                                         <li>
                                             <a asp-controller="Account" asp-action="Login" class="nav-active">Login</a>
@@ -74,7 +74,7 @@
 
                 <ul>
 
-                    @if (ViewBag.CurrentUrl == "~Index/Persons")
+                    @if (ViewBag.CurrentUrl == "~/Persons/Index")
                     {
                         <li>
                             <a asp-controller="Persons" asp-action="Index" class="nav-active">Persons</a>
@@ -86,16 +86,16 @@
                             <a asp-controller="Persons" asp-action="Index">Persons</a>
                         </li>
                     }
-                    @if (ViewBag.CurrentUrl == "~Countries/Excel")
+                    @if (ViewBag.CurrentUrl == "~/Countries/UploadExcel")
                     {
                         <li>
-                            <a asp-controller="Countries" asp-action="UploadFromExcel" class="nav-active">Upload Countries</a>
+                            <a asp-controller="Countries" asp-action="UploadExcel" class="nav-active">Upload Countries</a>
                         </li>
                     }
                     else
                     {
                         <li>
-                            <a asp-controller="Countries" asp-action="UploadFromExcel">Upload Countries</a>
+                            <a asp-controller="Countries" asp-action="UploadExcel">Upload Countries</a>
                         </li>
                     }
                    

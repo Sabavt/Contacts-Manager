@@ -61,6 +61,11 @@ public class AccountController : Controller
             return View(registerRequest);
         }
     }
+     
+    public async Task<IActionResult> LogOut()
+    {
+
+    }
 
 
 }
