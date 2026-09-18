@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<PersonResponse>
 @{
     ViewBag.Title = "Persons";
-    var persons = Model.ToList();
+    var persons = Model.ToList(); 
+    ViewBag.CurrentUrl = "~/Persons/Index";
 }
 
 <h1>Persons</h1>
