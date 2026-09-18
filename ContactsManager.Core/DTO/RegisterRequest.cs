@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ContactsManager.Core.Enums;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations; 
 
 namespace ContactsManager.Core.DTO;
@@ -25,5 +26,7 @@ public class RegisterRequest
     [Required(ErrorMessage = "Confirm Password can't be blank")]
     [Compare(nameof(Password), ErrorMessage = "Confirm Password must match with Password")] 
     [DataType(DataType.Password)] 
-    public string ConfirmPassword { get; set; } = null!; 
+    public string ConfirmPassword { get; set; } = null!;
+
+    public UserTypeOptions UserType { get; set; } = UserTypeOptions.User;
 }

@@ -1,6 +1,7 @@
 ﻿using ContactsManager.Controllers;
 using ContactsManager.Core.Domain.IdentityEntities;
 using ContactsManager.Core.DTO;
+using ContactsManager.Core.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,13 @@ public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;  
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _roleManager = roleManager;
     }
 
     [HttpGet]
@@ -42,7 +45,7 @@ public class AccountController : Controller
             Email = registerRequest.Email,
             UserName = registerRequest.Email,
             PersonName = registerRequest.PersonName,
-            PhoneNumber = registerRequest.Phone
+            PhoneNumber = registerRequest.Phone  
         };
 
 
@@ -50,6 +53,19 @@ public class AccountController : Controller
 
         if (result.Succeeded)
         {
+            if(registerRequest.UserType == UserTypeOptions.Admin)
+            {
+                if (await _roleManager.FindByNameAsync("Admin") is null)
+                {
+                    ApplicationRole applicationRole = new ApplicationRole() { Name = "Admin"};
+                    await _roleManager.CreateAsync(applicationRole);
+                }
+                await _userManager.AddToRoleAsync(user, nameof(UserTypeOptions.Admin));
+            }
+            else
+            { 
+                await _userManager.AddToRoleAsync(user, nameof(UserTypeOptions.User));
+            }
             await _signInManager.SignInAsync(user, true);
             return RedirectToActionPermanent("Index", "Persons");
         }
