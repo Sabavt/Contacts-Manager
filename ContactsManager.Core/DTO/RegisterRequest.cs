@@ -12,7 +12,7 @@ public class RegisterRequest
     [EmailAddress]
     [DataType(DataType.EmailAddress)]
     [StringLength(100)]
-    [Remote("EmailAlredyExists", "Account", ErrorMessage = "Email alredy exists, please try different one")]
+    [Remote("EmailAlredyExists", "Account", ErrorMessage = "Email alredy exists, please try a different one")]
     public string Email { get; set; } = null!;
 
     [Required(ErrorMessage = "Phone can't be blank")] 
