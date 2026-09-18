@@ -35,6 +35,7 @@ app.UseSerilogRequestLogging();
 app.UseHttpLogging(); 
 app.UseStaticFiles();
 app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

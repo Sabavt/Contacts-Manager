@@ -1,5 +1,6 @@
 ﻿using ContactsManager.Core.Domain.IdentityEntities;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,10 @@ public static class ConfigureServicesExtension
 
             .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
 
+        services.AddAuthorization(opt => opt.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser().Build()
+        );
+        services.ConfigureApplicationCookie(opt => opt.LoginPath = "/Account/Login");
 
         return services;
     }
