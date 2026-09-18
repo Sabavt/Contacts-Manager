@@ -108,5 +108,18 @@ public class AccountController : Controller
     {
         await _signInManager.SignOutAsync();
         return RedirectToActionPermanent(nameof(PersonsController.Index), "persons");
+    }
+
+    public async Task<IActionResult> EmailAlredyExists(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if(user != null)
+        {
+            return Json(true);
+        }
+        else
+        {
+            return Json(false);
+        }
     } 
 }

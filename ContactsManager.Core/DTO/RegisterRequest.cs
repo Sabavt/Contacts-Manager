@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations; 
 
 namespace ContactsManager.Core.DTO;
 
@@ -11,6 +12,7 @@ public class RegisterRequest
     [EmailAddress]
     [DataType(DataType.EmailAddress)]
     [StringLength(100)]
+    [Remote("EmailAlredyExists", "Account", ErrorMessage = "Email alredy exists, please try different one")]
     public string Email { get; set; } = null!;
 
     [Required(ErrorMessage = "Phone can't be blank")] 
