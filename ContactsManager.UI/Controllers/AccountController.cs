@@ -1,4 +1,5 @@
-﻿using ContactsManager.Core.Domain.IdentityEntities;
+﻿using ContactsManager.Controllers;
+using ContactsManager.Core.Domain.IdentityEntities;
 using ContactsManager.Core.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -55,16 +56,47 @@ public class AccountController : Controller
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("Account Register", error.Description);
-            }
-            ViewBag.Errors = ModelState.Values.SelectMany(e => e.Errors).Select(v => v.ErrorMessage).ToList();
+            } 
 
             return View(registerRequest);
         }
     }
-     
+
+    [HttpGet]
+    [Route("[action]")]
+    public async Task<IActionResult> Login()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [Route("[action]")]
+    public async Task<IActionResult> Login(LoginRequest loginRequest)
+    {
+        if(!ModelState.IsValid)
+        {
+            ViewBag.Errors = ModelState.Values
+                .SelectMany(e => e.Errors)
+                .Select(v => v.ErrorMessage).ToList();
+            return View(loginRequest);
+        }
+
+        var result = await _signInManager.PasswordSignInAsync(loginRequest.Email!, loginRequest.Password!, isPersistent:true, lockoutOnFailure:false);
+
+        if(result.Succeeded)
+        {
+            return RedirectToActionPermanent($"persons/{nameof(PersonsController.Index)}"); 
+        }
+        else
+        {
+            ModelState.AddModelError("Login", "Invalid email or password");
+            return View(loginRequest);
+        }
+    }
+
     public async Task<IActionResult> LogOut()
     {
-
+        return View(); 
     }
 
 
