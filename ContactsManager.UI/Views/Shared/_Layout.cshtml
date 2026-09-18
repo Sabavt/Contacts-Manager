@@ -86,9 +86,19 @@
                             <a asp-controller="Persons" asp-action="Index">Persons</a>
                         </li>
                     }
-                    <li>
-                        <a asp-controller="Countries" asp-action="UploadFromExcel">Upload Countries</a>
-                    </li>
+                    @if (ViewBag.CurrentUrl == "~Countries/Excel")
+                    {
+                        <li>
+                            <a asp-controller="Countries" asp-action="UploadFromExcel" class="nav-active">Upload Countries</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Countries" asp-action="UploadFromExcel">Upload Countries</a>
+                        </li>
+                    }
+                   
                 </ul>
             </div>
 
