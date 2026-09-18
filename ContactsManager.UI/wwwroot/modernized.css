@@ -33,8 +33,14 @@ body {
     color: var(--text);
     background: var(--bg);
     -webkit-font-smoothing: antialiased;
-}
+    user-select: none;
+} 
 
+input,
+textarea,
+select {
+    user-select: text;
+}
 .container {
     min-width: 500px;
 }
