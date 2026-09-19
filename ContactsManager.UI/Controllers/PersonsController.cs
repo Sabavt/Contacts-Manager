@@ -52,8 +52,7 @@ namespace ContactsManager.Controllers
             return View(sorted_persons);
         }
 
-        [HttpGet]
-        [Route("[action]")]
+        [HttpGet("[action]")] 
         public async Task<IActionResult> Create()
         {
             _logger.LogInformation("Create method of PersonsController");
@@ -69,8 +68,7 @@ namespace ContactsManager.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Route("[action]")]
+        [HttpPost("[action]")] 
         [TypeFilter(typeof(ShortCircuitActionFilter))] 
         public async Task<IActionResult> Create(PersonAddRequest personRequest)
         { 
@@ -78,8 +76,7 @@ namespace ContactsManager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        [HttpGet]
-        [Route("[action]/{personID:Guid}")]
+        [HttpGet("[action]/{personID:Guid}")] 
         [TypeFilter(typeof(TokenResultFilter))]
         public async Task<IActionResult> Edit(Guid? personID)
         {
@@ -92,8 +89,7 @@ namespace ContactsManager.Controllers
             return View(person_update_get);
         }
 
-        [HttpPost]
-        [Route("[action]/{personID:guid}")]
+        [HttpPost("[action]/{personID:guid}")] 
         [TypeFilter(typeof(ShortCircuitActionFilter))]
         [TypeFilter(typeof(TokenAuthorizationFilter))]
         public async Task<IActionResult> Edit(PersonUpdateRequest personRequest)
@@ -102,8 +98,7 @@ namespace ContactsManager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        [HttpGet]
-        [Route("[action]/{personID:Guid}")]
+        [HttpGet("[action]/{personID:Guid}")] 
         public async Task<IActionResult> Delete(Guid? personID)
         {
             PersonResponse? person_delete_get = await _personsGetterService.GetPersonByPersonID(personID);
@@ -113,8 +108,7 @@ namespace ContactsManager.Controllers
             return View(person_delete_get.ToPersonUpdateRequest());
         }
 
-        [HttpPost]
-        [Route("[action]/{personID:guid}")]
+        [HttpPost("[action]/{personID:guid}")] 
         public async Task<IActionResult> Delete(PersonUpdateRequest personUpdateRequest)
         {
             if (!ModelState.IsValid)
@@ -130,8 +124,7 @@ namespace ContactsManager.Controllers
             return RedirectToActionPermanent("Index");
         }
 
-        [HttpPost] 
-        [Route("[action]")]
+        [HttpPost("action")]  
         public async Task<IActionResult> PersonsPDF(List<PersonResponse> persons)
         { 
             return new ViewAsPdf("PersonsPDF", persons, ViewData)
@@ -141,16 +134,14 @@ namespace ContactsManager.Controllers
             };
         }
 
-        [HttpPost]
-        [Route("[action]")]
+        [HttpPost("[action]")] 
         public async Task<IActionResult> PersonsCSV(List<PersonResponse> persons)
         {
             MemoryStream persons_csv_stream = await _personsGetterService.GetPersonsCSV(persons);
             return File(persons_csv_stream, "text/csv", "Persons.csv");
         }
 
-        [HttpPost] 
-        [Route("[action]")]
+        [HttpPost("[action]")]  
         public async Task<IActionResult> PersonsExcel(List<PersonResponse> persons)
         {
             MemoryStream persons_excel_stream = await _personsGetterService.GetPersonsExcel(persons);

@@ -13,14 +13,13 @@ namespace ContactsManager.Controllers
             _countriesUploaderFromExcelService = countriesUploaderFromExcelService;
         }
 
-        [Route("[action]")]
+        [HttpGet("[action]")] 
         public IActionResult UploadExcel()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("[action]")]
+        [HttpPost("[action]")] 
         public async Task<IActionResult> UploadExcel(IFormFile excelFile)
         {
             if(excelFile == null || excelFile.Length == 0)

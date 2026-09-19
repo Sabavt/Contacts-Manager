@@ -23,16 +23,14 @@ public class AccountController : Controller
         _roleManager = roleManager;
     }
 
-    [HttpGet]
-    [Route("[action]")]
+    [HttpGet("[action]")] 
     [Authorize("NotAuthorized")]
     public IActionResult Register()
     {
         return View();
     }
 
-    [HttpPost]
-    [Route("[action]")]
+    [HttpPost("[action]")] 
     [Authorize("NotAuthorized")] 
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
@@ -84,16 +82,14 @@ public class AccountController : Controller
         }
     }
 
-    [HttpGet]
-    [Route("[action]")]
+    [HttpGet("[action]")] 
     [Authorize("NotAuthorized")] 
     public async Task<IActionResult> Login()
     {
         return View();
     }
 
-    [HttpPost]
-    [Route("[action]")]
+    [HttpPost("[action]")] 
     [Authorize("NotAuthorized")] 
     public async Task<IActionResult> Login(LoginRequest loginRequest, string? returnUrl)
     {
@@ -125,7 +121,7 @@ public class AccountController : Controller
         }
     }
 
-    [Route("[action]")]
+    [HttpGet("[action]")]
     [Authorize]
     public async Task<IActionResult> LogOut()
     {
@@ -133,7 +129,7 @@ public class AccountController : Controller
         return RedirectToActionPermanent(nameof(PersonsController.Index), "persons");
     }
 
-    [Route("[action]")]
+    [HttpGet("[action]")]
     [AllowAnonymous]
     public async Task<IActionResult> EmailAlredyExists(string email)
     {
@@ -148,7 +144,7 @@ public class AccountController : Controller
         }
     }
 
-    [Route("[action]")]
+    [HttpGet("[action]")]
     [AllowAnonymous]
     public async Task<IActionResult> PhoneAlredyExists(string phone)
     {

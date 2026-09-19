@@ -6,8 +6,8 @@ namespace ContactsManager.Controllers
 {
     [AllowAnonymous]
     public class HomeController : Controller
-    {
-        [Route("~/Error")]
+    { 
+        [HttpGet("~/Error")]
         public IActionResult Error()
         {
             IExceptionHandlerFeature? feature = HttpContext.Features.Get<IExceptionHandlerFeature>();
