@@ -64,8 +64,11 @@ public class AccountController : Controller
             }
             else
             {
-                var role = new ApplicationRole() { Name = nameof(UserTypeOptions.User) };
-                await _roleManager.CreateAsync(role);
+                if(await _roleManager.FindByNameAsync(nameof(UserTypeOptions.User)) is null)
+                {
+                    ApplicationRole applicationRole = new() { Name = nameof(UserTypeOptions.User) };
+                    await _roleManager.CreateAsync(applicationRole);
+                }
                 await _userManager.AddToRoleAsync(user, nameof(UserTypeOptions.User));
             }
             await _signInManager.SignInAsync(user, true);
