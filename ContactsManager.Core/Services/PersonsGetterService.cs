@@ -84,7 +84,7 @@ public class PersonsGetterService : IPersonsGetterService
 
                 nameof(PersonResponse.Country) => await _personsRepository
                 .GetFilteredPersons(temp =>
-                     temp.Country!.ToString()!
+                     temp.Country!.CountryName!
                      .Contains(searchString)
                      ),
 
