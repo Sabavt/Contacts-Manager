@@ -60,11 +60,7 @@ public static class ConfigureServicesExtension
         .RequireAuthenticatedUser().Build();
 
             opt.AddPolicy("NotAuthorized", policy => policy
-            .RequireAssertion(context =>
-            {
-                return !context.User.Identity!.IsAuthenticated;
-            }
-            ));
+            .RequireAssertion(context => context.User.Identity?.IsAuthenticated == false));
         }  
         );
         services.ConfigureApplicationCookie(opt => opt.LoginPath = "/Account/Login");
